@@ -1,0 +1,56 @@
+
+- cal_id: nn6e60380l60v4pps28h1hbej8@group.calendar.google.com
+  entities:
+  - device_id: naries
+    ignore_availability: true
+    name: NARIES
+    track: true
+
+- cal_id: vlebourl@gmail.com
+  entities:
+  - device_id: ti_ar_kaerell
+    ignore_availability: true
+    name: Ti ar Kaerell
+    track: true
+
+- cal_id: idlq472slf0gjuv9oa6tvd0i94@group.calendar.google.com
+  entities:
+  - device_id: tajum_s
+    ignore_availability: true
+    name: TAJum's
+    track: true
+
+- cal_id: eooqmehhl1hhcj49u7lfoc8v5o@group.calendar.google.com
+  entities:
+  - device_id: vincent
+    ignore_availability: true
+    name: Vincent
+    track: true
+
+- cal_id: h2bhg7i7iko3emaf75qfnegqegmct3vv@import.calendar.google.com
+  entities:
+  - device_id: swingin_leman
+    ignore_availability: true
+    name: Swing&#039;in Leman
+    track: true
+
+- cal_id: pgg9p2h73v4ki1o0rvnttra730@group.calendar.google.com
+  entities:
+  - device_id: virginia
+    ignore_availability: true
+    name: Virginia
+    track: true
+
+- cal_id: fr.ch#holiday@group.v.calendar.google.com
+  entities:
+  - device_id: jours_feries_en_suisse
+    ignore_availability: true
+    name: "Jours f\xE9ri\xE9s en Suisse"
+    track: true
+
+- cal_id: fr.french#holiday@group.v.calendar.google.com
+  entities:
+  - device_id: jours_feries_en_france
+    ignore_availability: true
+    name: "Jours f\xE9ri\xE9s en France"
+    track: true

@@ -1,0 +1,30 @@
+person.vincent:
+  icon: mdi:camera-iris
+sensor.tdeg_parents:
+  friendly_name: Temperature Parents
+zwave.sensative_strips_comfort:
+  node_name: Capteur Chambre Lenaic
+zwave.sensative_strips_comfort_2:
+  node_name: Capteur Bureau
+device_tracker.virginia_home_2:
+  friendly_name: Virginia router
+device_tracker.myllas_phone_home:
+  friendly_name: Emilie router
+device_tracker.pixel2_home:
+  friendly_name: Vincent router
+device_tracker.192_168_0_33_40_4e_36_a1_76_61:
+  friendly_name: Vincent bt salon
+device_tracker.192_168_0_33_64_a2_f9_be_d5_eb:
+  friendly_name: Virginia bt salon
+device_tracker.192_168_0_33_e5_4c_49_c4_30_7c:
+  friendly_name: Vincent bt montre salon
+device_tracker.192_168_0_33_c3_37_4e_90_d5_e3:
+  friendly_name: Vincent bt tile salon
+device_tracker.192_168_0_33_e3_e7_4b_02_8a_62:
+  friendly_name: Virginia bt montre salon
+device_tracker.tile_p_b8fde3013527a05cb536cdfcf28b27bd:
+  friendly_name: Vincent gps tile pixel 2
+device_tracker.tile_dd661ca6aff34ef1:
+  friendly_name: Vincent gps tile clés
+sensor.netatmo_pluie_jardin_rain:
+  unit_of_measurement: mm/h

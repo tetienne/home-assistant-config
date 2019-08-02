@@ -1,0 +1,201 @@
+- id: Movement Detected
+  alias: mouvement détecté
+  trigger:
+  - platform: event
+    event_type: netatmo_movement
+  action:
+  - data:
+      message: mouvement détecté
+    service: notify.google_push_pixel_2
+- id: Nettoie les appareils connus
+  alias: Nettoie les appareils connus
+  trigger:
+  - platform: homeassistant
+    event: start
+  - platform: homeassistant
+    event: shutdown
+  condition: []
+  action:
+  - service: shell_command.clean_knowndevices
+- id: Ferme les volets de velux la nuit
+  alias: Ferme les volets de velux la nuit
+  trigger:
+  - event: sunset
+    offset: +00:00:00
+    platform: sun
+  action:
+  - data:
+      entity_id: script.secure_close_volet_lenaic
+    service: script.turn_on
+  - data:
+      entity_id: script.secure_close_volet_palier
+    service: script.turn_on
+  - data:
+      message: Le soleil est couché, je ferme les volets
+    service: notify.google_push_pixel_2
+- id: Ferme les velux en cas de pluie
+  alias: Ferme les velux en cas de pluie
+  trigger:
+  - above: '0.1'
+    entity_id: sensor.netatmo_pluie_jardin_rain
+    platform: numeric_state
+  - entity_id: weather.ti_ar_kaerell
+    platform: state
+    to: rainy
+  condition:
+    condition: or
+    conditions:
+    - condition: state
+      entity_id: cover.velux_palier
+      state: open
+    - condition: state
+      entity_id: cover.velux_lenaic
+      state: open
+  action:
+  - data_template:
+      entity.id: "{% if is_state('cover.velux_palier','open') %}\n  cover.velux_palier\n\
+        {% endif %}  \n"
+    service: cover.close_cover
+  - data_template:
+      entity.id: "{% if is_state('cover.velux_lenaic','open') %}\n  cover.velux_palier\n\
+        {% endif %}  \n"
+    service: cover.close_cover
+  - data:
+      message: il pleut, je ferme les velux
+    service: notify.google_push_pixel_2
+- id: Ferme tout sur le palier s il fait trop chaud dehors
+  alias: Ferme tout sur le palier s'il fait trop chaud dehors
+  trigger:
+  - platform: template
+    value_template: '{{ (states.sensor.tdeg_parents.state | float) < (states.sensor.netatmo_terrasse_temperature.state
+      | float) }}'
+  condition:
+  - above: '22'
+    condition: numeric_state
+    entity_id: sensor.tdeg_parents
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: cover.volet_palier
+      state: open
+    - condition: state
+      entity_id: cover.velux_palier
+      state: open
+  action:
+  - data:
+      entity_id: script.close_both_palier
+    service: script.turn_on
+  - data:
+      message: il fait trop chaud dehors, je ferme le palier !
+    service: notify.google_push_pixel_2
+- id: Ferme tout chez Lenaïc s il fait trop chaud dehors
+  alias: Ferme tout chez Lenaïc s'il fait trop chaud dehors
+  trigger:
+  - platform: template
+    value_template: '{{ (states.sensor.sensative_strips_comfort_temperature.state
+      | float) < (states.sensor.netatmo_terrasse_temperature.state | float) }}'
+  condition:
+  - above: '22'
+    condition: numeric_state
+    entity_id: sensor.sensative_strips_comfort_temperature
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: cover.volet_lenaic
+      state: open
+    - condition: state
+      entity_id: cover.velux_lenaic
+      state: open
+  action:
+  - data:
+      entity_id: script.close_both_lenaic
+    service: script.turn_on
+  - data:
+      message: il fait trop chaud dehors, je ferme chez Lenaïc !
+    service: notify.google_push_pixel_2
+- id: Ouvre le vélux du palier s il fait assez frais dehors
+  alias: Ouvre le vélux du palier s'il fait assez frais dehors
+  trigger:
+  - platform: template
+    value_template: '{{ (states.sensor.tdeg_parents.state | float) > (states.sensor.netatmo_terrasse_temperature.state
+      | float) }}'
+  condition:
+  - above: '22'
+    condition: numeric_state
+    entity_id: sensor.tdeg_parents
+  - condition: state
+    entity_id: cover.velux_palier
+    state: closed
+  - below: '0.1'
+    condition: numeric_state
+    entity_id: sensor.netatmo_pluie_jardin_rain
+  action:
+  - data:
+      message: Il fait assez frais dehors, j'ouvre le vélux du palier
+    service: notify.google_push
+  - data:
+      entity_id: script.open_velux_palier
+    service: script.turn_on
+- id: Ouvre le vélux de Lenaïc s il fait assez frais dehors
+  alias: Ouvre le vélux de Lenaïc s'il fait assez frais dehors
+  trigger:
+  - platform: template
+    value_template: '{{ (states.sensor.sensative_strips_comfort_temperature.state
+      | float) > (states.sensor.netatmo_terrasse_temperature.state | float) }}'
+  condition:
+  - above: '22'
+    condition: numeric_state
+    entity_id: sensor.sensative_strips_comfort_temperature
+  - condition: state
+    entity_id: cover.velux_lenaic
+    state: closed
+  - below: '0.1'
+    condition: numeric_state
+    entity_id: sensor.netatmo_pluie_jardin_rain
+  action:
+  - data:
+      message: Il fait assez frais dehors, j'ouvre le vélux de Lenaïc
+    service: notify.google_push
+  - data:
+      entity_id: script.open_velux_lenaic
+    service: script.turn_on
+- id: Ferme le vélux du palier s il fait trop froid dehors
+  alias: Ferme le vélux du palier  s'il fait trop froid dehors
+  trigger:
+  - platform: template
+    value_template: '{{ (states.sensor.tdeg_parents.state | float) > (states.sensor.netatmo_terrasse_temperature.state
+      | float) }}'
+  condition:
+  - below: '20'
+    condition: numeric_state
+    entity_id: sensor.tdeg_parents
+  - condition: state
+    entity_id: cover.velux_palier
+    state: open
+  action:
+  - data:
+      message: Il fait trop froid dehors, je ferme le vélux du palier
+    service: notify.google_push
+  - data:
+      entity.id: script.close_velux_palier
+    service: script.turn_on
+- id: Ferme le vélux de Lenaïc s il fait trop froid dehors
+  alias: Ferme le vélux de Lenaïc s'il fait trop froid dehors
+  trigger:
+  - platform: template
+    value_template: '{{ (states.sensor.sensative_strips_comfort_temperature.state
+      | float) > (states.sensor.netatmo_terrasse_temperature.state | float) }}'
+  condition:
+  - below: '20'
+    condition: numeric_state
+    entity_id: sensor.sensative_strips_comfort_temperature
+  - condition: state
+    entity_id: cover.velux_lenaic
+    state: open
+  action:
+  - data:
+      message: Il fait trop froid dehors, je ferme le vélux de Lenaïc
+    service: notify.google_push
+  - data:
+      entity.id: script.close_velux_lenaic
+    service: script.turn_on

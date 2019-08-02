@@ -1,0 +1,21 @@
+sensor.sensative_strips_comfort_moisture:
+  ignored: true
+  polling_intensity: 0
+sensor.sensative_strips_comfort_flood:
+  ignored: true
+  polling_intensity: 0
+sensor.sensative_strips_comfort_burglar:
+  ignored: true
+  polling_intensity: 0
+sensor.sensative_strips_comfort_heat:
+  ignored: true
+  polling_intensity: 0
+sensor.sensative_strips_comfort_sourcenodeid:
+  ignored: true
+  polling_intensity: 0
+sensor.sensative_strips_comfort_alarm_level:
+  ignored: true
+  polling_intensity: 0
+sensor.sensative_strips_comfort_alarm_type:
+  ignored: true
+  polling_intensity: 0
