@@ -43,6 +43,11 @@ climate:
     initial_hvac_mode: "off"
     target_temp: 21
 
+folder_watcher:
+  - folder: /config
+    patterns:
+      - '*.yaml'
+          
 googlehome:
   devices:
     - host: 192.168.0.33
@@ -123,7 +128,9 @@ homeassistant:
         - 172.30.32.1
       allow_bypass_login: true
     - type: homeassistant  
-    
+  whitelist_external_dirs:
+    - /config
+  
 http:
   server_port: 8124
   base_url: https://tiarkaerell.duckdns.org:8124
@@ -169,11 +176,10 @@ media_player:
     client_secret: !secret spotify-client-secret
 
 mqtt:
-  broker: core-mosquitto
-  port: 1883
-  username: mqtt
-  password: !secret mqtt
-  client_id: home-assistant
+  broker: 192.168.0.52
+  username: ha
+  password: !secret mqtt-ha
+  discovery: true
 
 notify:
   - platform: html5
@@ -181,6 +187,8 @@ notify:
     vapid_pub_key: !secret google-push-pubkey
     vapid_prv_key: !secret google-push-prvkey 
     vapid_email: !secret email
+
+
 
 person:
 
@@ -203,6 +211,7 @@ sensor:
       
 shell_command:
   clean_knowndevices: /bin/bash /config/clean_knowndevices.sh
+  gitupdate: /bin/bash /config/gitupdate.sh "automatic commit"
   
 somfy:
   client_id: !secret somfy-id

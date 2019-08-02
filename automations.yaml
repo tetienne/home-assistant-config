@@ -1,12 +1,61 @@
-- id: Movement Detected
-  alias: mouvement détecté
+########################################################################################    
+
+- id: Folder as changed
+  alias: Folder as changed
   trigger:
-  - platform: event
-    event_type: netatmo_movement
+    platform: event
+    event_type: folder_watcher
+    event_data:
+      event_type: modified
   action:
-  - data:
-      message: mouvement détecté
+  - service: shell_command.gitupdate
+
+########################################################################################    
+
+- id: Movement Detected Outside
+  alias: mouvement détecté dehors
+  trigger:
+  - event_data: {}
+    event_type: netatmo_movement
+    platform: event
+  - event_data: {}
+    event_type: netatmo_person
+    platform: event
+  - event_data: {}
+    event_type: netatmo_other
+    platform: event
+  action:
+  - data_template:
+      message: mouvement détecté {{ trigger.event.data.event.message }}
     service: notify.google_push_pixel_2
+    
+########################################################################################    
+
+- id: Movement Detected Inside
+  alias: mouvement détecté dedans
+  trigger:
+  - event_data: {}
+    event_type: netatmo_movement
+    platform: event
+  - event_data: {}
+    event_type: netatmo_human
+    platform: event
+  - event_data: {}
+    event_type: netatmo_animal
+    platform: event
+  - event_data: {}
+    event_type: netatmo_vehicle
+    platform: event
+  - event_data: {}
+    event_type: netatmo_other
+    platform: event
+  action:
+  - service: notify.google_push_pixel_2
+    data_template:
+      message: mouvement détecté {{ trigger.event.data.event.message }}
+    
+########################################################################################    
+    
 - id: Nettoie les appareils connus
   alias: Nettoie les appareils connus
   trigger:
@@ -17,6 +66,9 @@
   condition: []
   action:
   - service: shell_command.clean_knowndevices
+
+########################################################################################    
+
 - id: Ferme les volets de velux la nuit
   alias: Ferme les volets de velux la nuit
   trigger:
@@ -33,6 +85,9 @@
   - data:
       message: Le soleil est couché, je ferme les volets
     service: notify.google_push_pixel_2
+
+########################################################################################    
+
 - id: Ferme les velux en cas de pluie
   alias: Ferme les velux en cas de pluie
   trigger:
@@ -53,16 +108,23 @@
       state: open
   action:
   - data_template:
-      entity.id: "{% if is_state('cover.velux_palier','open') %}\n  cover.velux_palier\n\
-        {% endif %}  \n"
+      entity.id: >
+        {% if is_state('cover.velux_palier','open') %}
+          cover.velux_palier
+        {% endif %}
     service: cover.close_cover
   - data_template:
-      entity.id: "{% if is_state('cover.velux_lenaic','open') %}\n  cover.velux_palier\n\
-        {% endif %}  \n"
+      entity.id: >
+        {% if is_state('cover.velux_lenaic','open') %}
+          cover.velux_palier
+        {% endif %}
     service: cover.close_cover
   - data:
       message: il pleut, je ferme les velux
     service: notify.google_push_pixel_2
+
+########################################################################################    
+
 - id: Ferme tout sur le palier s il fait trop chaud dehors
   alias: Ferme tout sur le palier s'il fait trop chaud dehors
   trigger:
@@ -88,6 +150,9 @@
   - data:
       message: il fait trop chaud dehors, je ferme le palier !
     service: notify.google_push_pixel_2
+
+########################################################################################    
+
 - id: Ferme tout chez Lenaïc s il fait trop chaud dehors
   alias: Ferme tout chez Lenaïc s'il fait trop chaud dehors
   trigger:
@@ -113,6 +178,9 @@
   - data:
       message: il fait trop chaud dehors, je ferme chez Lenaïc !
     service: notify.google_push_pixel_2
+
+########################################################################################    
+
 - id: Ouvre le vélux du palier s il fait assez frais dehors
   alias: Ouvre le vélux du palier s'il fait assez frais dehors
   trigger:
@@ -123,9 +191,6 @@
   - above: '22'
     condition: numeric_state
     entity_id: sensor.tdeg_parents
-  - condition: state
-    entity_id: cover.velux_palier
-    state: closed
   - below: '0.1'
     condition: numeric_state
     entity_id: sensor.netatmo_pluie_jardin_rain
@@ -136,6 +201,9 @@
   - data:
       entity_id: script.open_velux_palier
     service: script.turn_on
+
+########################################################################################    
+
 - id: Ouvre le vélux de Lenaïc s il fait assez frais dehors
   alias: Ouvre le vélux de Lenaïc s'il fait assez frais dehors
   trigger:
@@ -146,9 +214,6 @@
   - above: '22'
     condition: numeric_state
     entity_id: sensor.sensative_strips_comfort_temperature
-  - condition: state
-    entity_id: cover.velux_lenaic
-    state: closed
   - below: '0.1'
     condition: numeric_state
     entity_id: sensor.netatmo_pluie_jardin_rain
@@ -159,6 +224,9 @@
   - data:
       entity_id: script.open_velux_lenaic
     service: script.turn_on
+
+########################################################################################    
+
 - id: Ferme le vélux du palier s il fait trop froid dehors
   alias: Ferme le vélux du palier  s'il fait trop froid dehors
   trigger:
@@ -179,6 +247,9 @@
   - data:
       entity.id: script.close_velux_palier
     service: script.turn_on
+
+########################################################################################    
+
 - id: Ferme le vélux de Lenaïc s il fait trop froid dehors
   alias: Ferme le vélux de Lenaïc s'il fait trop froid dehors
   trigger:
