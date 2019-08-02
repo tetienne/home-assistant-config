@@ -1,17 +1,5 @@
 ########################################################################################    
 
-- id: Folder as changed
-  alias: Folder as changed
-  trigger:
-    platform: event
-    event_type: folder_watcher
-    event_data:
-      event_type: modified
-  action:
-  - service: shell_command.gitupdate
-
-########################################################################################    
-
 - id: Movement Detected Outside
   alias: mouvement détecté dehors
   trigger:
