@@ -26,3 +26,8 @@
   latitude: 46.192304
   longitude: 6.204623
   radius: 35
+
+- name: Carrefour
+  latitude: 46.1961081
+  longitude: 6.2430267
+  radius: 35

@@ -1,26 +1,31 @@
 ########################################################################################    
 
-- id: Movement Detected Outside
-  alias: mouvement détecté dehors
+- id: Movement Detected Inside
+  alias: mouvement détecté dedans
   trigger:
-  - event_data: {}
+  - platform: event
     event_type: netatmo_movement
-    platform: event
-  - event_data: {}
+  - platform: event
     event_type: netatmo_person
-    platform: event
-  - event_data: {}
+  - platform: event
     event_type: netatmo_other
-    platform: event
   action:
   - data_template:
       message: mouvement détecté {{ trigger.event.data.event.message }}
     service: notify.google_push_pixel_2
+  - service: camera.snapshot
+    data:
+      entity_id: camera.camsalon
+      filename: 'www/camera/salon-{{ now().strftime("%Y-%m-%d-%H%M%S") }}.jpg'
+  - service: camera.snapshot
+    data:
+      entity_id: camera.camsalon
+      filename: 'www/camera/salon-latest.jpg'
     
 ########################################################################################    
 
 - id: Movement Detected Inside
-  alias: mouvement détecté dedans
+  alias: mouvement détecté dehors
   trigger:
   - event_data: {}
     event_type: netatmo_movement
@@ -41,6 +46,14 @@
   - service: notify.google_push_pixel_2
     data_template:
       message: mouvement détecté {{ trigger.event.data.event.message }}
+  - service: camera.snapshot
+    data:
+      entity_id: camera.camterrasse
+      filename: 'www/camera/terrasse-{{ now().strftime("%Y-%m-%d-%H%M%S") }}.jpg'
+  - service: camera.snapshot
+    data:
+      entity_id: camera.camterrasse
+      filename: 'www/camera/terrasse-latest.jpg'
     
 ########################################################################################    
     

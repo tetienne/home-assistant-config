@@ -27,28 +27,25 @@ views:
               icon: mdi:camera
             - entity: device_tracker.virginia_presence
               icon: mdi:pine-tree-box
-      - type: horizontal-stack
+      - type: conditional
+        conditions:
+        - entity: sensor.home
+          state_not: both
+        card:
+          type: map
+          entities:
+          - device_tracker.vincent_presence
+          - device_tracker.virginia_presence
+      - type: vertical-stack
         cards:
         - type: picture-entity
           entity: camera.camterrasse
           camera_view: live
-          name: Terrasse
-          tap_action:
-            action: call-service
-            service: camera.snapshot
-            service_data:
-              entity_id: camera.camterrasse
-              filename: 'www/camera/terrasse-{{ now().strftime("%Y-%m-%d-%H%M%S") }}.jpg'
+          name: Terrasse live
         - type: picture-entity
           entity: camera.camsalon
           camera_view: live
-          name: Salon
-          tap_action:
-            action: call-service
-            service: camera.snapshot
-            service_data:
-              entity_id: camera.camsalon
-              filename: 'www/camera/salon-{{ now().strftime("%Y-%m-%d-%H%M%S") }}.jpg'
+          name: Salon live
       - type: vertical-stack
         cards:
         - type: custom:mini-graph-card
@@ -106,26 +103,28 @@ views:
               green: 30
               yellow: 50
               red: 70
-      - type: horizontal-stack
+      - type: vertical-stack
         cards:
-        - type: gauge
-          entity: sensor.netatmo_pluie_jardin_rain
-          name: Précipitations
-          min: 0
-          max: 4
-#        - type: gauge
-#          entity: sensor.dark_sky_precip_probability_0h
-#          name: 0h
-        - type: gauge
-          entity: sensor.dark_sky_precip_probability_1h
-          name: 1h
-        - type: gauge
-          entity: sensor.dark_sky_precip_probability_2h
-          name: 2h
-      - type: custom:weather-card-chart
-        title: Météo
-        weather: weather.dark_sky
-        mode: hourly
+        - type: horizontal-stack
+          cards:
+          - type: gauge
+            entity: sensor.netatmo_pluie_jardin_rain
+            name: Précipitations
+            min: 0
+            max: 4
+#          - type: gauge
+#            entity: sensor.dark_sky_precip_probability_0h
+#            name: 0h
+          - type: gauge
+            entity: sensor.dark_sky_precip_probability_1h
+            name: 1h
+          - type: gauge
+            entity: sensor.dark_sky_precip_probability_2h
+            name: 2h
+        - type: custom:weather-card-chart
+          title: Météo
+          weather: weather.dark_sky
+          mode: hourly
       - type: "custom:atomic-calendar"
         title: "Calendrier"
         maxDaysToShow: 14
@@ -396,7 +395,7 @@ views:
               color: "#FF1500"
           entities:
             - entity: sensor.tdeg_parents
-              name: "Chambre Parentale"
+              name: "Parents"
         - type: custom:mini-graph-card
           hours_to_show: 48
           color_thresholds:
@@ -418,7 +417,7 @@ views:
               color: "#FF1500"
           entities:
             - entity: sensor.sensative_strips_comfort_temperature
-              name: "Chambre Lenaïc"
+              name: "Lenaïc"
       - type: vertical-stack
         cards:
         - type: custom:vertical-stack-in-card
@@ -465,6 +464,10 @@ views:
   - path: conf
     title: Configuration
     cards:
+      - type: glance
+        entities:
+          - group.vincent
+          - group.virginia
       - type: custom:vertical-stack-in-card
         title: Automatismes (on/off)
         cards:
