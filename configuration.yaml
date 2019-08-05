@@ -157,6 +157,7 @@ image_processing:
     ip_address: 192.168.0.13
     port: 5000
     scan_interval: 86400
+    save_file_folder: www/deepstack/terrasse
     source:
       - entity_id: camera.camterrasse
         name: face_counter_terrasse
@@ -164,6 +165,7 @@ image_processing:
     ip_address: 192.168.0.13
     port: 5000
     scan_interval: 86400
+    save_file_folder: www/deepstack/salon
     source:
       - entity_id: camera.camsalon
         name: face_counter_salon
