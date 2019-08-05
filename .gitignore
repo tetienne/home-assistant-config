@@ -9,7 +9,7 @@
 !*.md
 !.travis.yml
 !custom_components
-!custom_components/*
+!custom_components/**
 
 # Ignore folders.
 .storage
