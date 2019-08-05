@@ -18,6 +18,7 @@
 .storage
 .cloud
 .google.token
+**/__pycache_
 
 # Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
 ip_bans.yaml
