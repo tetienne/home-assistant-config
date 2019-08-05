@@ -8,6 +8,7 @@
 !.gitignore
 !*.md
 !.travis.yml
+!custom_*
 
 # Ignore folders.
 .storage
