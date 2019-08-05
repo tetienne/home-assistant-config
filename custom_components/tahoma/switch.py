@@ -44,6 +44,9 @@ class TahomaSwitch(TahomaDevice, SwitchDevice):
                 self._state = STATE_ON
             else:
                 self._state = STATE_OFF
+        if self.tahoma_device.type == 'rts:LightRTSComponent':
+            for key in self.tahoma_device.active_states.keys():
+                _LOGGER.error("tahoma rts:Light key: %s", key)
 
         self._available = bool(self.tahoma_device.active_states.get(
             'core:StatusState') == 'available')

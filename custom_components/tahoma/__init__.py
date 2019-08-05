@@ -52,6 +52,7 @@ TAHOMA_TYPES = {
     'rts:GarageDoor4TRTSComponent': 'switch',
     'rts:RollerShutterRTSComponent': 'cover',
     'rts:VenetianBlindRTSComponent': 'cover',
+    'rts:LightRTSComponent': 'switch',
     'io:TemperatureIOSystemSensor': 'sensor',
     'somfythermostat:SomfyThermostatTemperatureSensor': 'sensor',
     'somfythermostat:SomfyThermostatHumiditySensor': 'sensor'
