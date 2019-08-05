@@ -38,15 +38,13 @@ class TahomaSwitch(TahomaDevice, SwitchDevice):
             return
 
         self.controller.get_states([self.tahoma_device])
-
-        if self.tahoma_device.type == 'io:OnOffLightIOComponent' or self.tahoma_device.type == 'rts:LightRTSComponent':
+        if self.tahoma_device.type == 'io:OnOffLightIOComponent' \
+                or self.tahoma_device.type == 'rts:LightRTSComponent':
             if self.tahoma_device.active_states.get('core:OnOffState') == 'on':
                 self._state = STATE_ON
             else:
                 self._state = STATE_OFF
-
-        self._available = bool(self.tahoma_device.active_states.get(
-            'core:StatusState') == 'available')
+        self._available = True
 
         _LOGGER.debug("Update %s, state: %s", self._name, self._state)
 
