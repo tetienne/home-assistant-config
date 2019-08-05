@@ -1,0 +1,12 @@
+[submodule "custom_components/deepstack_face"]
+	path = custom_components/deepstack_face
+	url = https://github.com/vlebourl/HASS-Deepstack-face
+[submodule "custom_components/HASS-Deepstack-face"]
+	path = custom_components/HASS-Deepstack-face
+	url = https://github.com/vlebourl/HASS-Deepstack-face
+[submodule "custom_components/ha-composite-tracker"]
+	path = custom_components/ha-composite-tracker
+	url = https://github.com/pnbruckner/ha-composite-tracker
+[submodule "custom_components/HASS-Deepstack-object"]
+	path = custom_components/HASS-Deepstack-object
+	url = https://github.com/vlebourl/HASS-Deepstack-object

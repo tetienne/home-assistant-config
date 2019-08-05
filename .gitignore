@@ -6,6 +6,7 @@
 !*.sh
 !*.yaml
 !.gitignore
+!.gitmodules
 !*.md
 !.travis.yml
 !custom_components
