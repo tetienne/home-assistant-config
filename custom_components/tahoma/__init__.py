@@ -53,7 +53,8 @@ TAHOMA_TYPES = {
     'rts:RollerShutterRTSComponent': 'cover',
     'rts:VenetianBlindRTSComponent': 'cover',
     'io:TemperatureIOSystemSensor': 'sensor',
-    'somfythermostat:SomfyThermostatTemperatureSensor': 'sensor'
+    'somfythermostat:SomfyThermostatTemperatureSensor': 'sensor',
+    'somfythermostat:SomfyThermostatHumiditySensor': 'sensor'
 }
 
 
