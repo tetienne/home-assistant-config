@@ -86,7 +86,7 @@ class TahomaSensor(TahomaDevice, Entity):
             self._available = True
         if self.tahoma_device.type == 'somfythermostat:SomfyThermostatHumiditySensor':
             self.current_value = float("{:.2f}".format(
-                self.tahoma_device.active_states['core:HumidityState']))
+                self.tahoma_device.active_states['core:RelativeHumidityState']))
             self._available = True
         _LOGGER.debug("Update %s, value: %d", self._name, self.current_value)
 
