@@ -1,3 +1,25 @@
+- alias: Scan for faces when motion detected outside
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.camterrasse_outdoor_human
+      to: 'on'
+  action:
+    - service: image_processing.scan
+      data:
+        entity_id: image_processing.face_counter_terrasse
+
+########################################################################################    
+
+- alias: Scan for faces when motion detected inside
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.camsalon_motion
+      to: 'on'
+  action:
+    - service: image_processing.scan
+      data:
+        entity_id: image_processing.face_counter_salon
+
 ########################################################################################    
 
 - id: Movement Detected Inside

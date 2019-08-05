@@ -77,7 +77,6 @@ device_tracker:
     entity_id:
       - device_tracker.ariela_vincent
       - device_tracker.life360_vincent
-      - device_tracker.tile_p_b8fde3013527a05cb536cdfcf28b27bd
       - device_tracker.tile_84ff3b083add401d
   - platform: composite
     name: Virginia
@@ -85,7 +84,6 @@ device_tracker:
     entity_id:
       - device_tracker.ariela_virginia
       - device_tracker.life360_virginia
-      - device_tracker.tile_p_f161b3906a87b725b6ba8d23a2d8e58c
       - device_tracker.tile_dd661ca6aff34ef1
     
 #  - platform: googlehome
@@ -154,6 +152,22 @@ http:
   ssl_certificate: /ssl/fullchain.pem
   ssl_key: /ssl/privkey.pem
 
+image_processing:
+  - platform: deepstack_face
+    ip_address: 192.168.0.13
+    port: 5000
+    scan_interval: 86400
+    source:
+      - entity_id: camera.camterrasse
+        name: face_counter_terrasse
+  - platform: deepstack_face
+    ip_address: 192.168.0.13
+    port: 5000
+    scan_interval: 86400
+    source:
+      - entity_id: camera.camsalon
+        name: face_counter_salon
+
 input_boolean:
   fake_heater:
     name: Fake Heater
@@ -213,7 +227,11 @@ notify:
     vapid_prv_key: !secret google-push-prvkey 
     vapid_email: !secret email
 
-
+panel_iframe:
+  ide:
+    title: cloud9
+    icon: mdi:code-braces
+    url: http://tiarkaerell.duckdns.org:8321/ide.html
 
 person:
 
