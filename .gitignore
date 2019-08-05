@@ -10,6 +10,8 @@
 !.travis.yml
 !custom_components
 !custom_components/**
+!www
+!www/**
 
 # Ignore folders.
 .storage
