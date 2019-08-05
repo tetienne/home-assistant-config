@@ -48,7 +48,7 @@ class TahomaSensor(TahomaDevice, Entity):
             return None
         if self.tahoma_device.type == 'io:LightIOSystemSensor':
             return 'lx'
-        if self.tahoma_device.type == 'Humidity Sensor':
+        if self.tahoma_device.type == 'somfythermostat:SomfyThermostatHumiditySensor':
             return '%'
         if self.tahoma_device.type == 'rtds:RTDSContactSensor':
             return None
@@ -83,6 +83,10 @@ class TahomaSensor(TahomaDevice, Entity):
         if self.tahoma_device.type == 'somfythermostat:SomfyThermostatTemperatureSensor':
             self.current_value = float("{:.2f}".format(
                 self.tahoma_device.active_states['core:TemperatureState']))
+            self._available = True
+        if self.tahoma_device.type == 'somfythermostat:SomfyThermostatHumiditySensor':
+            self.current_value = float("{:.2f}".format(
+                self.tahoma_device.active_states['core:HumidityState']))
             self._available = True
         _LOGGER.debug("Update %s, value: %d", self._name, self.current_value)
 
