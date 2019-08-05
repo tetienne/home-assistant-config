@@ -18,10 +18,11 @@
 .storage
 .cloud
 .google.token
-**/__pycache_
+
+custom_components/tahoma/__pycache__
+custom_components/tahoma/__pycache__/**
 
 # Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
 ip_bans.yaml
 secrets.yaml
 known_devices.yaml
- custom_components/tahoma/__pycache__/
