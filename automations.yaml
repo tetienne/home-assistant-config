@@ -1,24 +1,24 @@
 - alias: Scan for faces when motion detected outside
   trigger:
-    - platform: state
-      entity_id: binary_sensor.camterrasse_outdoor_human
-      to: 'on'
+  - platform: state
+    entity_id: binary_sensor.camterrasse_outdoor_human
+    to: 'on'
   action:
-    - service: image_processing.scan
-      data:
-        entity_id: image_processing.face_counter_terrasse
+  - service: image_processing.scan
+    data:
+      entity_id: image_processing.face_counter_terrasse
 
 ########################################################################################    
 
 - alias: Scan for faces when motion detected inside
   trigger:
-    - platform: state
-      entity_id: binary_sensor.camsalon_motion
-      to: 'on'
+  - platform: state
+    entity_id: binary_sensor.camsalon_motion
+    to: 'on'
   action:
-    - service: image_processing.scan
-      data:
-        entity_id: image_processing.face_counter_salon
+  - service: image_processing.scan
+    data:
+      entity_id: image_processing.face_counter_salon
 
 ########################################################################################    
 
@@ -99,15 +99,15 @@
     offset: +00:00:00
     platform: sun
   action:
-  - data:
+  - service: script.turn_on
+    data:
       entity_id: script.secure_close_volet_lenaic
-    service: script.turn_on
-  - data:
+  - service: script.turn_on
+    data:
       entity_id: script.secure_close_volet_palier
-    service: script.turn_on
-  - data:
+  - service: notify.google_push_pixel_2
+    data:
       message: Le soleil est couché, je ferme les volets
-    service: notify.google_push_pixel_2
 
 ########################################################################################    
 
@@ -130,21 +130,21 @@
       entity_id: cover.velux_lenaic
       state: open
   action:
-  - data_template:
+  - service: cover.close_cover
+    data_template:
       entity.id: >
-        {% if is_state('cover.velux_palier','open') %}
-          cover.velux_palier
-        {% endif %}
-    service: cover.close_cover
-  - data_template:
+      {% if is_state('cover.velux_palier','open') %}
+        cover.velux_palier
+      {% endif %}
+  - service: cover.close_cover
+    data_template:
       entity.id: >
-        {% if is_state('cover.velux_lenaic','open') %}
-          cover.velux_palier
-        {% endif %}
-    service: cover.close_cover
-  - data:
+      {% if is_state('cover.velux_lenaic','open') %}
+        cover.velux_palier
+      {% endif %}
+  - service: notify.google_push_pixel_2
+    data:
       message: il pleut, je ferme les velux
-    service: notify.google_push_pixel_2
 
 ########################################################################################    
 
@@ -167,12 +167,12 @@
       entity_id: cover.velux_palier
       state: open
   action:
-  - data:
+  - service: script.turn_on
+    data:
       entity_id: script.close_both_palier
-    service: script.turn_on
-  - data:
+  - service: notify.google_push_pixel_2
+    data:
       message: il fait trop chaud dehors, je ferme le palier !
-    service: notify.google_push_pixel_2
 
 ########################################################################################    
 
@@ -195,12 +195,12 @@
       entity_id: cover.velux_lenaic
       state: open
   action:
-  - data:
+  - service: script.turn_on
+    data:
       entity_id: script.close_both_lenaic
-    service: script.turn_on
-  - data:
+  - service: notify.google_push_pixel_2
+    data:
       message: il fait trop chaud dehors, je ferme chez Lenaïc !
-    service: notify.google_push_pixel_2
 
 ########################################################################################    
 
@@ -218,12 +218,12 @@
     condition: numeric_state
     entity_id: sensor.netatmo_pluie_jardin_rain
   action:
-  - data:
+  - service: notify.google_push
+    data:
       message: Il fait assez frais dehors, j'ouvre le vélux du palier
-    service: notify.google_push
-  - data:
+  - service: script.turn_on
+    data:
       entity_id: script.open_velux_palier
-    service: script.turn_on
 
 ########################################################################################    
 
@@ -241,12 +241,12 @@
     condition: numeric_state
     entity_id: sensor.netatmo_pluie_jardin_rain
   action:
-  - data:
+  - service: notify.google_push
+    data:
       message: Il fait assez frais dehors, j'ouvre le vélux de Lenaïc
-    service: notify.google_push
-  - data:
+  - service: script.turn_on
+    data:
       entity_id: script.open_velux_lenaic
-    service: script.turn_on
 
 ########################################################################################    
 
@@ -264,12 +264,12 @@
     entity_id: cover.velux_palier
     state: open
   action:
-  - data:
+  - service: notify.google_push
+    data:
       message: Il fait trop froid dehors, je ferme le vélux du palier
-    service: notify.google_push
-  - data:
+  - service: script.turn_on
+    data:
       entity.id: script.close_velux_palier
-    service: script.turn_on
 
 ########################################################################################    
 
@@ -287,9 +287,9 @@
     entity_id: cover.velux_lenaic
     state: open
   action:
-  - data:
+  - service: notify.google_push
+    data:
       message: Il fait trop froid dehors, je ferme le vélux de Lenaïc
-    service: notify.google_push
-  - data:
+  - service: script.turn_on
+    data:
       entity.id: script.close_velux_lenaic
-    service: script.turn_on
