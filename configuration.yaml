@@ -215,7 +215,7 @@ life360:
 logger:
   default: info
   logs:
-    homeassistant.components.netatmo: debug
+    homeassistant.components.deepstack_face: debug
 
 lovelace:
   mode: yaml
