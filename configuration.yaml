@@ -9,6 +9,10 @@ netatmo:
   discovery: true
   webhooks: true
 
+camera:
+  - platform: local_file
+    file_path: /config/www/deepstack/toto.jpg
+
 cloud:
 
 climate:
