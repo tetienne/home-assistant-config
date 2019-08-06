@@ -217,6 +217,8 @@
   - below: '0.1'
     condition: numeric_state
     entity_id: sensor.netatmo_pluie_jardin_rain
+  - condition: template
+    value_template: "{{ not is_state('weather.ti_ar_kaerell','rainy') }}"
   action:
   - service: notify.google_push
     data:
@@ -240,6 +242,8 @@
   - below: '0.1'
     condition: numeric_state
     entity_id: sensor.netatmo_pluie_jardin_rain
+  - condition: template
+    value_template: "{{ not is_state('weather.ti_ar_kaerell','rainy') }}"
   action:
   - service: notify.google_push
     data:

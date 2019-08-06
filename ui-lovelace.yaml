@@ -314,16 +314,16 @@ views:
       - entity: cover.rolling_shutter_4
         name: Volet Bureau
   - type: custom:vertical-stack-in-card
-      title: Media
+    title: Media
+    cards:
+    - type: horizontal-stack
       cards:
-      - type: horizontal-stack
-        cards:
-        - type: entity-button
-          entity: switch.ampli
-          name: "Spotify"
-        - type: entity-button
-          entity: switch.television
-          name: "Télé"
+      - type: entity-button
+        entity: switch.ampli
+        name: "Spotify"
+      - type: entity-button
+        entity: switch.television
+        name: "Télé"
 
 #- type: custom:mini-graph-card
 #          name: Température Chambre Parents
