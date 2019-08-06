@@ -48,6 +48,8 @@ views:
           name: Salon live
       - type: vertical-stack
         cards:
+        - type: entity-button
+          entity: switch.terrasse
         - type: custom:mini-graph-card
           entities:
           - entity: sensor.netatmo_terrasse_temperature
@@ -213,7 +215,7 @@ views:
               - value: 35
                 color: "#FF1500"
             entities:
-              - entity: sensor.netatmo_salon_temperature
+              - entity: sensor.tdeg_salon
                 name: "Salon"
           - type: custom:mini-graph-card
             hours_to_show: 48
@@ -241,7 +243,7 @@ views:
           cards:
           - type: gauge
             name: "Humidité Salon"
-            entity: sensor.netatmo_salon_humidity
+            entity: sensor.humidite_salon
             min: 40
             max: 70
             severity:
