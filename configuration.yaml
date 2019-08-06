@@ -168,7 +168,7 @@ image_processing:
   save_file_folder: www/deepstack/toto
   source:
   - entity_id: camera.local_file
-    name: face_counter_terrasse
+    name: face_counter_toto
 - platform: deepstack_face
   ip_address: 192.168.0.13
   port: 5000
