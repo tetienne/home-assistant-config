@@ -133,15 +133,15 @@
   - service: cover.close_cover
     data_template:
       entity.id: >
-      {% if is_state('cover.velux_palier','open') %}
-        cover.velux_palier
-      {% endif %}
+        {% if is_state('cover.velux_palier','open') %}
+          cover.velux_palier
+        {% endif %}
   - service: cover.close_cover
     data_template:
       entity.id: >
-      {% if is_state('cover.velux_lenaic','open') %}
-        cover.velux_palier
-      {% endif %}
+        {% if is_state('cover.velux_lenaic','open') %}
+          cover.velux_palier
+        {% endif %}
   - service: notify.google_push_pixel_2
     data:
       message: il pleut, je ferme les velux
