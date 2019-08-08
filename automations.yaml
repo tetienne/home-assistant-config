@@ -43,7 +43,7 @@
       brightness: 0
   id: 9d3e9fcf237449eaac1bd771e1509b0b
 
-##########
+########################################################################################    
 
 - alias: Scan for faces when motion detected outside
   trigger:
