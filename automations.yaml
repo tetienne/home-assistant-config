@@ -69,12 +69,12 @@
 
 ########################################################################################    
 
-- id: Movement Detected Inside
+- id: Movement Detected
   alias: Netatmo Webhook
   initial_state: 'on'
   trigger:
     platform: webhook
-    webhook_id: netatmo
+    webhook_id: netatmo_webhook
   action:
   - service: notify.google_push_pixel_2
     data_template:
