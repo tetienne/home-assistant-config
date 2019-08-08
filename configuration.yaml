@@ -296,6 +296,20 @@ sensor:
   - precip_intensity
 - platform: template
   sensors:
+    chauffage_bureau:
+      friendly_name: Chauffage
+      value_template: >
+        {% if state_attr('light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level','brightness') == "None" %}
+          Eteint
+        {% elif state_attr('light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level','brightness') >= 25 and
+          state_attr('light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level','brightness') <= 35 %}
+          Hors Gel
+        {% elif state_attr('light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level','brightness') >= 55 and
+          state_attr('light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level','brightness') <= 65 %}
+          Eco
+        {% elif state_attr('light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level','brightness') >= 95 %}
+          Confort
+        {% endif %}
     home:
       friendly_name: Home presence
       value_template: >
