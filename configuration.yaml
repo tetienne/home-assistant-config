@@ -301,13 +301,13 @@ sensor:
       value_template: >
         {% if state_attr('light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level','brightness') == "None" %}
           Eteint
-        {% elif state_attr('light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level','brightness') >= 25 and
-          state_attr('light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level','brightness') <= 35 %}
+        {% elif (state_attr('light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level','brightness') | float) >= 25 and
+          (state_attr('light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level','brightness') | float) <= 35 %}
           Hors Gel
-        {% elif state_attr('light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level','brightness') >= 55 and
-          state_attr('light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level','brightness') <= 65 %}
+        {% elif (state_attr('light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level','brightness') | float) >= 55 and
+          (state_attr('light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level','brightness') | float) <= 65 %}
           Eco
-        {% elif state_attr('light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level','brightness') >= 95 %}
+        {% elif (state_attr('light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level','brightness') | float) >= 95 %}
           Confort
         {% endif %}
     home:
