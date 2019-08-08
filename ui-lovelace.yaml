@@ -312,7 +312,9 @@ views:
     show_header_toggle: true
     entities:
       - entity: cover.rolling_shutter_4
-        name: Volet Bureau
+        name: Volet
+      - entity: input_select.qubino
+        name: Chauffage
   - type: custom:vertical-stack-in-card
     title: Media
     cards:
