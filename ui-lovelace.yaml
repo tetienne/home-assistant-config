@@ -19,6 +19,10 @@ views:
 #      - device_tracker.vincent_presence
 #      - device_tracker.virginia_presence
   cards:
+  - type: entities
+    entities:
+    - type: cast
+      view: home
   - type: horizontal-stack
     cards:
     - type: glance
