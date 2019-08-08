@@ -174,7 +174,7 @@ views:
     - type: horizontal-stack
       cards:
       - type: custom:mini-graph-card
-        hours_to_show: 48
+        hours_to_show: 24
         color_thresholds:
         - value: 0
           color: "#00FAFF"
@@ -196,7 +196,7 @@ views:
         - entity: sensor.netatmo_terrasse_temperature
           name: "Terrasse"
       - type: custom:mini-graph-card
-        hours_to_show: 48
+        hours_to_show: 24
         color_thresholds:
         - value: 0
           color: "#00FAFF"
@@ -218,7 +218,7 @@ views:
         - entity: sensor.tdeg_salon
           name: "Salon"
       - type: custom:mini-graph-card
-        hours_to_show: 48
+        hours_to_show: 24
         color_thresholds:
         - value: 0
           color: "#00FAFF"
@@ -352,10 +352,10 @@ views:
 - path: etage
   title: Etage
   cards:
-    - type: horizontal-stack
+    - type: vertical-stack
       cards:
       - type: custom:mini-graph-card
-        hours_to_show: 48
+        hours_to_show: 24
         color_thresholds:
         - value: 0
           color: "#00FAFF"
@@ -376,50 +376,74 @@ views:
         entities:
         - entity: sensor.netatmo_terrasse_temperature
           name: "Terrasse"
-      - type: custom:mini-graph-card
-        hours_to_show: 48
-        color_thresholds:
-        - value: 0
-          color: "#00FAFF"
-        - value: 5
-          color: "#00FFA1"
-        - value: 10
-          color: "#00FF3B"
-        - value: 15
-          color: "#26FF00"
-        - value: 20
-          color: "#8CFF00"
-        - value: 25
-          color: "#FFC300"
-        - value: 30
-          color: "#FF7B00"
-        - value: 35
-          color: "#FF1500"
-        entities:
-        - entity: sensor.tdeg_parents
-          name: "Parents"
-      - type: custom:mini-graph-card
-        hours_to_show: 48
-        color_thresholds:
-        - value: 0
-          color: "#00FAFF"
-        - value: 5
-          color: "#00FFA1"
-        - value: 10
-          color: "#00FF3B"
-        - value: 15
-          color: "#26FF00"
-        - value: 20
-          color: "#8CFF00"
-        - value: 25
-          color: "#FFC300"
-        - value: 30
-          color: "#FF7B00"
-        - value: 35
-          color: "#FF1500"
-        entities:
-        - entity: sensor.sensative_strips_comfort_temperature
-          name: "Lenaïc"
+      - type: horizontal-stack
+        cards:
+        - type: custom:mini-graph-card
+          hours_to_show: 24
+          color_thresholds:
+          - value: 0
+            color: "#00FAFF"
+          - value: 5
+            color: "#00FFA1"
+          - value: 10
+            color: "#00FF3B"
+          - value: 15
+            color: "#26FF00"
+          - value: 20
+            color: "#8CFF00"
+          - value: 25
+            color: "#FFC300"
+          - value: 30
+            color: "#FF7B00"
+          - value: 35
+            color: "#FF1500"
+          entities:
+          - entity: sensor.sensative_strips_comfort_temperature
+            name: "Lenaïc"
+        - type: custom:mini-graph-card
+          hours_to_show: 24
+          color_thresholds:
+          - value: 0
+            color: "#00FAFF"
+          - value: 5
+            color: "#00FFA1"
+          - value: 10
+            color: "#00FF3B"
+          - value: 15
+            color: "#26FF00"
+          - value: 20
+            color: "#8CFF00"
+          - value: 25
+            color: "#FFC300"
+          - value: 30
+            color: "#FF7B00"
+          - value: 35
+            color: "#FF1500"
+          entities:
+          - entity: sensor.netatmo_palier_temperature
+            name: "Palier"
+        - type: custom:mini-graph-card
+          hours_to_show: 24
+          color_thresholds:
+          - value: 0
+            color: "#00FAFF"
+          - value: 5
+            color: "#00FFA1"
+          - value: 10
+            color: "#00FF3B"
+          - value: 15
+            color: "#26FF00"
+          - value: 20
+            color: "#8CFF00"
+          - value: 25
+            color: "#FFC300"
+          - value: 30
+            color: "#FF7B00"
+          - value: 35
+            color: "#FF1500"
+          entities:
+          - entity: sensor.tdeg_parents
+            name: "Parents"
     - type: vertical-stack
       cards:
       - type: custom:vertical-stack-in-card
