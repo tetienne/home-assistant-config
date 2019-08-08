@@ -317,6 +317,7 @@ views:
     entities:
       - entity: cover.rolling_shutter_4
         name: Volet
+      - entity: sensor.chauffage_bureau
       - entity: input_select.qubino
         name: Chauffage
   - type: custom:vertical-stack-in-card
