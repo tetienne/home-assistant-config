@@ -319,7 +319,7 @@ views:
         name: Volet
       - entity: sensor.chauffage_bureau
       - entity: input_select.qubino
-        name: Chauffage
+        name: " "
   - type: custom:vertical-stack-in-card
     title: Media
     cards:
