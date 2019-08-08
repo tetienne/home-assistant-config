@@ -23,6 +23,7 @@ views:
     entities:
     - type: cast
       view: home
+      hide_if_unavailable: true
   - type: horizontal-stack
     cards:
     - type: glance
