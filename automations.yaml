@@ -56,6 +56,17 @@
 
 ########################################################################################    
 
+- alias: webhook recieved
+  trigger:
+    platform: webhook
+    webhook_id: netatmo_connect
+  action:
+  - service: notify.google_push
+    data_template:
+      message: "{{ trigger.json | tojson }}"
+
+########################################################################################    
+
 - id: Movement Detected
   alias: Movement Detected
   initial_state: 'on'
