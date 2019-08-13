@@ -147,18 +147,18 @@ hacs:
 homeassistant:
   customize: !include customize.yaml
   whitelist_external_dirs:
-    - /config
-    - /config/www/
-    - /config/www/camera
-    - /config/www/deepstack/salon
-    - /config/www/deepstack/terrasse
+  - /config
+  - /config/www/
+  - /config/www/camera
+  - /config/www/deepstack/salon
+  - /config/www/deepstack/terrasse
   auth_providers:
-    - type: trusted_networks
-      trusted_networks:
-      - 192.168.0.0/24
-      - 172.30.32.1
-      allow_bypass_login: true
-    - type: homeassistant
+  - type: trusted_networks
+    trusted_networks:
+    - 192.168.0.0/24
+    - 172.30.32.1
+    allow_bypass_login: true
+  - type: homeassistant
 
 http:
   server_port: 8124

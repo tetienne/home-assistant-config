@@ -70,21 +70,33 @@
 ########################################################################################    
 
 - id: Movement Detected
-  alias: Netatmo Webhook
+  alias: Movement Detectedk
   initial_state: 'on'
   trigger:
     platform: webhook
     webhook_id: netatmo_webhook
   action:
-  - service: notify.google_push_pixel_2
+  - service: notify.google_push
     data_template:
-      message: mouvement détecté
+      message: "{{ trigger.json | tojson }}"
   - service: mqtt.publish
     data_template:
       topic: 'netatmo/update'
       retain: true
       payload_template: >
         {{ trigger.json | tojson }}
+    
+########################################################################################    
+
+- alias: Test ifttt Webhook
+  initial_state: 'on'
+  trigger:
+    platform: webhook
+    webhook_id: ifttt_button
+  action:
+  - service: notify.google_push
+    data_template:
+      message: "{{ trigger.json | tojson }}"
     
 ########################################################################################    
 
@@ -138,7 +150,7 @@
   alias: Ferme les volets de velux la nuit
   trigger:
   - event: sunset
-    offset: +00:00:00
+    offset: +00:30:00
     platform: sun
   action:
   - service: script.turn_on
