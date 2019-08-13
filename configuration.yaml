@@ -19,7 +19,7 @@ binary_sensor:
 
 camera:
 - platform: local_file
-  name: Snap Terrasse
+  name:  Snap Terrasse
   file_path: /config/www/camera/CamTerrasse_latest.jpg
 - platform: local_file
   name: Snap Salon
@@ -42,9 +42,9 @@ climate:
   target_temp: 21
 - platform: generic_thermostat
   name: Température Bureau
-  heater: input_select.qubino
+  heater: input_boolean.fake_heater
   target_sensor: sensor.sensative_strips_comfort_temperature_2
-  initial_hvac_mode: "Eco"
+  initial_hvac_mode: "off"
   target_temp: 21
 - platform: generic_thermostat
   name: Température Chambre Parentale
