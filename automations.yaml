@@ -45,32 +45,19 @@
 
 ########################################################################################    
 
-- alias: Scan for faces when motion detected outside
+- alias: webhook recieved
   trigger:
-  - platform: state
-    entity_id: binary_sensor.camterrasse_outdoor_human
-    to: 'on'
+    platform: webhook
+    webhook_id: 0139a42bd40897717441be1a14a6466879f4a1fc91ecaae9886605baa349ec46
   action:
-  - service: image_processing.scan
-    data:
-      entity_id: image_processing.face_counter_terrasse
-
-########################################################################################    
-
-- alias: Scan for faces when motion detected inside
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.camsalon_motion
-    to: 'on'
-  action:
-  - service: image_processing.scan
-    data:
-      entity_id: image_processing.face_counter_salon
+  - service: notify.google_push
+    data_template:
+      message: "{{ trigger.json | tojson }}"
 
 ########################################################################################    
 
 - id: Movement Detected
-  alias: Movement Detectedk
+  alias: Movement Detected
   initial_state: 'on'
   trigger:
     platform: webhook
@@ -93,20 +80,29 @@
   action:
   - service: downloader.download_file
     data_template:
-       { "url": "{{ trigger.payload_json['snapshot'] }}" }
-
-########################################################################################    
-
-- alias: Test ifttt Webhook
-  initial_state: 'on'
-  trigger:
-    platform: webhook
-    webhook_id: ifttt_button
-  action:
-  - service: notify.google_push
+       { "url": "{{ trigger.payload_json['snapshot'] }}",
+         "subdir": "camera",
+         "filename": "{{ trigger.payload_json['camera'] }}_{{ now().strftime('%Y-%m-%d-%H%M') }}.jpg",
+         "overwrite": "true"
+       }
+  - service: downloader.download_file
     data_template:
-      message: "{{ trigger.json | tojson }}"
-    
+       { "url": "{{ trigger.payload_json['snapshot'] }}",
+         "subdir": "camera",
+         "filename": "{{ trigger.payload_json['camera'] }}_latest.jpg",
+         "overwrite": "true"
+       }
+  - delay:
+      seconds: 5
+  - service: image_processing.scan
+    data_template: 
+      entity_id: >
+        {% if is_state('trigger.payload_json.camera','CamSalon') %}
+          image_processing.face_counter_salon
+        {% else %}
+          image_processing.face_counter_terrasse
+        {% endif %}
+
 ########################################################################################    
 
 - id: Movement Detected Inside

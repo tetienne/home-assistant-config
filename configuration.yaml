@@ -19,7 +19,11 @@ binary_sensor:
 
 camera:
 - platform: local_file
-  file_path: /config/www/deepstack/toto.jpg
+  name: Snap Terrasse
+  file_path: /config/www/camera/CamTerrasse_latest.jpg
+- platform: local_file
+  name: Snap Salon
+  file_path: /config/www/camera/CamSalon_latest.jpg
 
 cloud:
 
@@ -153,8 +157,8 @@ homeassistant:
   - /config
   - /config/www/
   - /config/www/camera
-  - /config/www/deepstack/salon
-  - /config/www/deepstack/terrasse
+  - /config/www/deepstack/Salon
+  - /config/www/deepstack/Terrasse
   auth_providers:
   - type: trusted_networks
     trusted_networks:
@@ -174,26 +178,18 @@ image_processing:
   ip_address: 192.168.0.13
   port: 5000
   scan_interval: 86400
-  save_file_folder: www/deepstack/toto
+  save_file_folder: www/deepstack/Salon
   source:
-  - entity_id: camera.local_file
-    name: face_counter_toto
-- platform: deepstack_face
-  ip_address: 192.168.0.13
-  port: 5000
-  scan_interval: 86400
-  save_file_folder: www/deepstack/terrasse
-  source:
-  - entity_id: camera.camterrasse
-    name: face_counter_terrasse
-- platform: deepstack_face
-  ip_address: 192.168.0.13
-  port: 5000
-  scan_interval: 86400
-  save_file_folder: www/deepstack/salon
-  source:
-  - entity_id: camera.camsalon
+  - entity_id: camera.snap_salon
     name: face_counter_salon
+- platform: deepstack_face
+  ip_address: 192.168.0.13
+  port: 5000
+  scan_interval: 86400
+  save_file_folder: www/deepstack/Terrasse
+  source:
+  - entity_id: camera.snap_terrasse
+    name: face_counter_terrasse
 
 input_boolean:
   fake_heater:

@@ -46,6 +46,14 @@ views:
       entity: camera.camsalon
       camera_view: live
       name: Salon live
+    - type: horizontal-stack
+      cards:
+      - type: picture-entity
+        entity: camera.snap_terrasse
+        name: Dernier Snap
+      - type: picture-entity
+        entity: camera.snap_salon
+        name: Dernier Snap
   - type: vertical-stack
     cards:
     - type: entity-button
