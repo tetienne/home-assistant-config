@@ -42,9 +42,9 @@ climate:
   target_temp: 21
 - platform: generic_thermostat
   name: Température Bureau
-  heater: input_boolean.fake_heater
+  heater: input_select.qubino
   target_sensor: sensor.sensative_strips_comfort_temperature_2
-  initial_hvac_mode: "off"
+  initial_hvac_mode: "Eco"
   target_temp: 21
 - platform: generic_thermostat
   name: Température Chambre Parentale
