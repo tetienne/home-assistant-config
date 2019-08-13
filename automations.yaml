@@ -222,12 +222,12 @@
   alias: Ferme tout sur le palier s'il fait trop chaud dehors
   trigger:
   - platform: template
-    value_template: '{{ (states.sensor.tdeg_parents.state | float) < (states.sensor.netatmo_terrasse_temperature.state
+    value_template: '{{ (states.sensor.netatmo_palier_temperature.state | float) < (states.sensor.netatmo_terrasse_temperature.state
       | float) }}'
   condition:
   - above: '22'
     condition: numeric_state
-    entity_id: sensor.tdeg_parents
+    entity_id: sensor.netatmo_palier_temperature
   - condition: or
     conditions:
     - condition: state
