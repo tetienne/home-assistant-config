@@ -76,16 +76,25 @@
     platform: webhook
     webhook_id: netatmo_webhook
   action:
-  - service: notify.google_push
-    data_template:
-      message: "{{ trigger.json | tojson }}"
   - service: mqtt.publish
     data_template:
       topic: 'netatmo/update'
       retain: true
       payload_template: >
         {{ trigger.json | tojson }}
-    
+
+########################################################################################
+
+- alias: Download Snapshot
+  initial_state: 'on'
+  trigger:
+  - platform: mqtt
+    topic: 'netatmo/update'
+  action:
+  - service: downloader.download_file
+    data_template:
+       { "url": "{{ trigger.payload_json['snapshot'] }}" }
+
 ########################################################################################    
 
 - alias: Test ifttt Webhook

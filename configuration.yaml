@@ -97,7 +97,10 @@ device_tracker:
     - device_tracker.ariela_virginia
     - device_tracker.life360_virginia
     - device_tracker.tile_dd661ca6aff34ef1
-    
+
+downloader:
+  download_dir: www
+
 #  - platform: googlehome
 #    host: 192.168.0.131
 #    rssi_threshold: -100
@@ -107,7 +110,7 @@ device_tracker:
 #      track_new_devices: false
 
 google:
-  client_id: !secret google-client-id
+  client_id: !secret a
   client_secret: !secret google-client-secret
 
 google_assistant:
@@ -297,7 +300,7 @@ sensor:
 - platform: template
   sensors:
     netatmo_type:
-      friendly_name: Netatmo webhook
+      friendly_name: Netatmo webhook type
       value_template: >-
         {%- if is_state_attr("sensor.netatmo_webhook", "push_type", "NOC-animal") %}
             Animal
