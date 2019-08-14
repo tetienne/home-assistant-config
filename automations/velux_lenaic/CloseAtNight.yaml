@@ -1,0 +1,9 @@
+alias: Ferme le velux de Lenaic la nuit
+trigger:
+  - event: sunset
+    offset: +00:30:00
+    platform: sun
+action:
+  - service: script.turn_on
+    data:
+      entity_id: script.secure_close_volet_lenaic

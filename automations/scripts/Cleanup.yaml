@@ -1,0 +1,9 @@
+alias: Nettoie les appareils connus
+trigger:
+  - platform: homeassistant
+    event: start
+  - platform: homeassistant
+    event: shutdown
+condition: []
+action:
+  - service: shell_command.clean_knowndevices

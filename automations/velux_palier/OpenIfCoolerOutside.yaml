@@ -1,0 +1,18 @@
+alias: Ouvre le vélux du palier s'il fait assez frais dehors
+trigger:
+  - platform: template
+    value_template: '{{ (states.sensor.tdeg_parents.state | float) > (states.sensor.netatmo_terrasse_temperature.state
+    | float) }}'
+condition:
+  - above: '22'
+    condition: numeric_state
+    entity_id: sensor.tdeg_parents
+  - below: '0.1'
+    condition: numeric_state
+    entity_id: sensor.netatmo_pluie_jardin_rain
+  - condition: template
+    value_template: "{{ not is_state('weather.ti_ar_kaerell','rainy') }}"
+action:
+  - service: script.turn_on
+    data:
+      entity_id: script.open_velux_palier

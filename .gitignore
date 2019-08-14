@@ -13,6 +13,8 @@
 !custom_components/**
 !www
 !www/**
+!automations
+!automations/**
 
 # Ignore folders.
 .storage

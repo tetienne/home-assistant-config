@@ -1,0 +1,9 @@
+alias: Ferme le velux du palier la nuit
+trigger:
+  - event: sunset
+    offset: +01:00:00
+    platform: sun
+action:
+  - service: script.turn_on
+    data:
+      entity_id: script.secure_close_volet_palier
