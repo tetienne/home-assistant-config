@@ -1,4 +1,4 @@
-alias: Movement Detected Inside
+alias: Movement Detected
 initial_state: 'on'
 trigger:
   platform: webhook
@@ -9,7 +9,12 @@ condition:
 action:
   - service: mqtt.publish
     data_template:
-      topic: 'netatmo/update/salon'
+       topic_tempalte: >
+        {% if trigger.payload_json['device_id'] == '70:ee:50:3a:c2:c4' %}
+          'netatmo/update/salon'
+        {% else %}
+          'netatmo/update/terrasse'
+        {% endif %}
       retain: true
       payload_template: >
         {{ trigger.json | tojson }}
