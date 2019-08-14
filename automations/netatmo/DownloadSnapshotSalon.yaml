@@ -7,6 +7,12 @@ condition:
   - condition: template
     value_template: "{{ trigger.payload_json['device_id'] == '70:ee:50:3a:c2:c4' }}"
 action:
+  - service: mqtt.publish
+    data_template:
+      topic: netatmo/update/salon
+      retain: true
+      payload_template: >
+        {{ trigger.payload_json | tojson }}
   - service: downloader.download_file
     data_template:
       { "url": "{{ trigger.payload_json['snapshot_url'] }}",
