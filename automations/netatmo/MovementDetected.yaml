@@ -3,9 +3,6 @@ initial_state: 'on'
 trigger:
   platform: webhook
   webhook_id: 0139a42bd40897717441be1a14a6466879f4a1fc91ecaae9886605baa349ec46
-condition:
-  - condition: template
-    value_template: "{{ trigger.payload_json['device_id'] == '70:ee:50:3a:c2:c4' }}"
 action:
   - service: mqtt.publish
     data_template:
