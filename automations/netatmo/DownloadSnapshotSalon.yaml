@@ -21,4 +21,5 @@ action:
   - delay:
       seconds: 5
   - service: image_processing.scan
+    data:
       entity_id: image_processing.face_counter_salon
