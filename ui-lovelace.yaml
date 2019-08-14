@@ -46,6 +46,9 @@ views:
       entity: camera.camsalon
       camera_view: live
       name: Salon live
+    - type: entities
+      entities:
+      - entity: sensor.netatmo_type 
     - type: horizontal-stack
       cards:
       - type: picture-entity
@@ -509,19 +512,15 @@ views:
       title: Automatismes (on/off)
       cards:
         - type: entities
-          title: Tous
-          show_header_toggle: false
-          entities:
-          - entity: automation.ferme_les_volets_de_velux_la_nuit
-            name: Ferme les volets la nuit
-          - entity: automation.ferme_les_velux_en_cas_de_pluie
-            name: Ferme les velux en cas de pluie
-        - type: entities
           title: Velux Palier
           show_header_toggle: false
           entities:
           - entity: automation.ouvre_le_velux_du_palier_s_il_fait_assez_frais_dehors
             name: Ouvre le vélux s'il fait plus frais dehors
+          - entity: automation.ferme_le_velux_du_palier_en_cas_de_pluie
+            name: Ferme le vélux s'il pleut.
+          - entity: automation.ferme_le_velux_du_palier_la_nuit
+            name: Ferme le volet la nuit.
           - entity: automation.ferme_tout_sur_le_palier_s_il_fait_trop_chaud_dehors
             name: Ferme tout s'il fait trop chaud dehors
           - entity: automation.ferme_le_velux_du_palier_s_il_fait_trop_froid_dehors
@@ -532,6 +531,10 @@ views:
           entities:
           - entity: automation.ouvre_le_velux_de_lenaic_s_il_fait_assez_frais_dehors
             name: Ouvre le vélux s'il fait plus frais dehors
+          - entity: automation.ferme_le_velux_de_lenaic_en_cas_de_pluie
+            name: Ferme le vélux s'il pleut.
+          - entity: automation.ferme_le_velux_de_lenaic_la_nuit
+            name: Ferme le volet la nuit.
           - entity: automation.ferme_tout_chez_lenaic_s_il_fait_trop_chaud_dehors
             name: Ferme tout s'il fait trop chaud dehors
           - entity: automation.ferme_le_velux_de_lenaic_s_il_fait_trop_froid_dehors
