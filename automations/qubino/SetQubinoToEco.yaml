@@ -3,9 +3,9 @@ trigger:
   platform: state
   entity_id: input_select.qubino
   to: 'Eco'
-  action:
-    service: light.turn_on
-    entity_id: light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level
-    data:
-      brightness: 60
+action:
+  service: light.turn_on
+  entity_id: light.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_level
+  data:
+    brightness: 60
 
