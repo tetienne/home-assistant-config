@@ -21,19 +21,19 @@ action:
         "overwrite": "true"
        }
   - service: downloader.download_file
-      data_template:
-          { "url": "{{ trigger.payload_json['snapshot_url'] }}",
-            "subdir": "camera",
-            "filename": "CamSalon_{{ trigger.payload_json['event_type'] }}_latest.jpg",
-            "overwrite": "true"
-    }
+    data_template:
+      { "url": "{{ trigger.payload_json['snapshot_url'] }}",
+        "subdir": "camera",
+        "filename": "CamSalon_{{ trigger.payload_json['event_type'] }}_latest.jpg",
+        "overwrite": "true"
+        }
   - service: downloader.download_file
-      data_template:
-          { "url": "{{ trigger.payload_json['snapshot_url'] }}",
-            "subdir": "camera",
-            "filename": "CamSalon_latest.jpg",
-            "overwrite": "true"
-    }
+    data_template:
+      { "url": "{{ trigger.payload_json['snapshot_url'] }}",
+        "subdir": "camera",
+        "filename": "CamSalon_latest.jpg",
+        "overwrite": "true"
+      }
   - delay:
       seconds: 5
   - service: image_processing.scan

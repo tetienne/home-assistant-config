@@ -1,0 +1,13 @@
+alias: Log Unused Webhooks
+initial_state: 'on'
+trigger:
+  - platform: webhook
+    webhook_id: netatmo_alert
+  - platform: webhook
+    webhook_id: 0139a42bd40897717441be1a14a6466879f4a1fc91ecaae9886605baa349ec46
+  - platform: webhook
+    webhook_id: netatmo_connect
+action:
+  - service: notify.webhook
+    data_template:
+      message: "{{ now() }} - {{ trigger.webhook_id }}: {{ trigger.json | tojson }}"

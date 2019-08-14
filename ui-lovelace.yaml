@@ -46,14 +46,18 @@ views:
       entity: camera.camsalon
       camera_view: live
       name: Salon live
-    - type: entities
-      entities:
-      - entity: sensor.netatmo_type 
     - type: horizontal-stack
       cards:
-      - type: picture-entity
-        entity: camera.snap_terrasse
-        name: Dernier Snap
+      - type: custom:vertical-stack-in-card
+        title: Terrasse
+        cards:
+        - type: entities
+          entities:
+          - entity: sensor.netatmo_type 
+            name: " "
+        - type: picture-entity
+          entity: camera.snap_terrasse
+          name: Dernier Snap
       - type: picture-entity
         entity: camera.snap_salon
         name: Dernier Snap
