@@ -20,7 +20,7 @@ binary_sensor:
 camera:
 - platform: local_file
   name:  Snap Terrasse
-  file_path: /config/www/camera/CamTerrasse_latest.jpg
+  file_path: /config/www/camera/CamTerrasse_vehicle_latest.jpg
 - platform: local_file
   name: Snap Salon
   file_path: /config/www/camera/CamSalon_latest.jpg
