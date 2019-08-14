@@ -1,4 +1,4 @@
-zsh:1: command not found: q
+alias: Set Qubino to Eco
 trigger:
   platform: state
   entity_id: input_select.qubino
