@@ -50,16 +50,27 @@
     platform: webhook
     webhook_id: 0139a42bd40897717441be1a14a6466879f4a1fc91ecaae9886605baa349ec46
   action:
+  - service: notify.webhook
+    data_template:
+      message: "{{ trigger.json | tojson }}"
+
+########################################################################################    
+
+- alias: webhook recieved 2
+  trigger:
+    platform: webhook
+    webhook_id: netatmo_connect
+  action:
   - service: notify.google_push
     data_template:
       message: "{{ trigger.json | tojson }}"
 
 ########################################################################################    
 
-- alias: webhook recieved
+- alias: webhook recieved 3
   trigger:
     platform: webhook
-    webhook_id: netatmo_connect
+    webhook_id: netatmo_alert
   action:
   - service: notify.google_push
     data_template:

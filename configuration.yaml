@@ -259,7 +259,10 @@ notify:
   vapid_pub_key: !secret google-push-pubkey
   vapid_prv_key: !secret google-push-prvkey
   vapid_email: !secret email
-
+- platform: file
+  name: webhook
+  filename: webhook.log
+  
 panel_iframe:
   ide:
     title: cloud9
