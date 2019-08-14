@@ -2,7 +2,10 @@ alias: Download Snapshot Salon
 initial_state: 'on'
 trigger:
   - platform: mqtt
-    topic: 'netatmo/update/salon'
+    topic: 'netatmo/update'
+condition:
+  - condition: template
+    value_template: "{{ trigger.payload_json['device_id'] == '70:ee:50:3a:c2:c4' }}"
 action:
   - service: downloader.download_file
     data_template:

@@ -6,12 +6,7 @@ trigger:
 action:
   - service: mqtt.publish
     data_template:
-       topic_tempalte: >
-        {% if trigger.payload_json['device_id'] == '70:ee:50:3a:c2:c4' %}
-          'netatmo/update/salon'
-        {% else %}
-          'netatmo/update/terrasse'
-        {% endif %}
+      topic: netatmo/update
       retain: true
       payload_template: >
         {{ trigger.json | tojson }}
