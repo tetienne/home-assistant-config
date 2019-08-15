@@ -1,6 +1,23 @@
 # Configure a default setup of Home Assistant (frontend, api, etc)
+
+homeassistant:
+  customize: !include includes/customize.yaml
+  whitelist_external_dirs:
+    - /config
+    - /config/www/
+    - /config/www/camera
+    - /config/www/deepstack/Salon
+    - /config/www/deepstack/Terrasse
+  auth_providers:
+    - type: trusted_networks
+      trusted_networks:
+        - 192.168.0.0/24
+        - 172.30.32.1
+      allow_bypass_login: true
+    - type: homeassistant
+
 automation: !include_dir_list automations/
-binary_sensor: !include_dir_list binary_sensors/
+binary_sensor: !include binary_sensors/binary_sensors.yaml
 camera: !include_dir_list cameras
 cloud:
 climate: !include_dir_list climates
@@ -12,7 +29,6 @@ group: !include includes/groups.yaml
 google: !include includes/google.yaml
 google_assistant: !include includes/google_assistant.yaml
 hacs: !include includes/hacs.yaml
-homeassistant: !include includes/homeassistant.yaml
 http: !include includes/http.yaml
 image_processing: !include_dir_list image_processings
 input_boolean: !include_dir_list input_booleans

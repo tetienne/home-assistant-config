@@ -1,4 +1,4 @@
-platform: template
+- platform: template
   sensors:
     netatmo_webhook_trigger:
       device_class: motion
