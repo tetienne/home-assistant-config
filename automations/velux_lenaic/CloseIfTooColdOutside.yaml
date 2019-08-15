@@ -13,4 +13,4 @@ condition:
 action:
   - service: script.turn_on
     data:
-      entity.id: script.close_velux_lenaic
+      entity_id: script.close_velux_lenaic

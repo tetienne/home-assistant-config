@@ -5,7 +5,7 @@ trigger:
     topic: 'netatmo/update/terrasse'
 condition:
   - condition: template
-    value_template: "{{ 'snapshot_url' in trigger.payload_json }}"
+    value_template: "{{ 'snapshot_url' in trigger.payload }}"
 action:
   - service: downloader.download_file
     data_template:
