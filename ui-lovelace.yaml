@@ -59,10 +59,10 @@ views:
         cards:
         - type: picture-entity
           entity: camera.snap_terrasse
-          name: Dernier Snap
+          name: Terrasse
         - type: picture-entity
           entity: camera.snap_salon
-          name: Dernier Snap
+          name: Salon
   - type: vertical-stack
     cards:
     - type: entity-button
