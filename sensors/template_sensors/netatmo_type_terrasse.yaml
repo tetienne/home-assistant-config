@@ -1,6 +1,6 @@
 platform: template
 sensors:
-  netatmo_type:
+  netatmo_type_terrasse:
     friendly_name: Netatmo webhook type terrasse
     value_template: >-
       {%- if is_state_attr("sensor.netatmo_webhook_terrasse", "push_type", "NOC-animal") %}

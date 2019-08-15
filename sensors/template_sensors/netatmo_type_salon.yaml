@@ -1,6 +1,6 @@
 platform: template
 sensors:
-  netatmo_type:
+  netatmo_type_salon:
     friendly_name: Netatmo webhook type salon
     value_template: >-
       {%- if is_state_attr("sensor.netatmo_webhook_salon", "push_type", "NACamera-movement") %}
