@@ -32,7 +32,7 @@ hacs: !include includes/hacs.yaml
 http: !include includes/http.yaml
 image_processing: !include_dir_list image_processings
 input_boolean: !include_dir_list input_booleans
-input_select: !include_dir_list input_selects
+input_select: !include_dir_named input_selects
 life360: !include includes/life360.yaml
 logger: !include includes/logger.yaml
 lovelace: !include includes/lovelace.yaml
