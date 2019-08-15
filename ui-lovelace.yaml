@@ -31,3 +31,8 @@ views:
 - path: conf
   title: Configuration
   cards: !include_dir_list ui/conf
+
+# Onglet snapshots
+- path: snapshots
+  title: Snapshots
+  cards: !include_dir_list ui/snapshots
