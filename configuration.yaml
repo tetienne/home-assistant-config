@@ -31,7 +31,7 @@ google_assistant: !include includes/google_assistant.yaml
 hacs: !include includes/hacs.yaml
 http: !include includes/http.yaml
 image_processing: !include_dir_list image_processings
-input_boolean: !include_dir_list input_booleans
+input_boolean: !include_dir_named input_booleans
 input_select: !include_dir_named input_selects
 life360: !include includes/life360.yaml
 logger: !include includes/logger.yaml
@@ -41,7 +41,7 @@ media_player: !include_dir_list media_players
 mqtt: !include includes/mqtt.yaml
 netatmo: !include includes/netatmo.yaml
 notify: !include_dir_list notifies
-panel_iframe: !include_dir_list panel_iframes
+panel_iframe: !include_dir_named panel_iframes
 person:
 remote: !include_dir_list remotes
 script: !include includes/scripts.yaml

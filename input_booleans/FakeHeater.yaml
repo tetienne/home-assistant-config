@@ -1,4 +1,0 @@
-fake_heater:
-  name: Fake Heater
-  icon: mdi:toggle-switch-off
-  initial: off
