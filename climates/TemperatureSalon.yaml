@@ -1,0 +1,6 @@
+platform: generic_thermostat
+name: Température Salon
+heater: input_boolean.fake_heater
+target_sensor: sensor.netatmo_salon_temperature
+initial_hvac_mode: "off"
+target_temp: 21

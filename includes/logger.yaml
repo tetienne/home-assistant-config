@@ -1,0 +1,3 @@
+default: info
+logs:
+  homeassistant.components.deepstack_face: debug

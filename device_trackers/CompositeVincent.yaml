@@ -1,0 +1,7 @@
+platform: composite
+name: Vincent
+time_as: local
+entity_id:
+  - device_tracker.ariela_vincent
+  - device_tracker.life360_vincent
+  - device_tracker.tile_84ff3b083add401d

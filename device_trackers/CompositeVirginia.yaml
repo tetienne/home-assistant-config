@@ -1,0 +1,7 @@
+platform: composite
+name: Virginia
+time_as: local
+entity_id:
+  - device_tracker.ariela_virginia
+  - device_tracker.life360_virginia
+  - device_tracker.tile_dd661ca6aff34ef1
