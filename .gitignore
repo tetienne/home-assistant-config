@@ -48,6 +48,7 @@
 .google.token
 www/camera
 www/deepstack
+deps
 custom_components/tahoma/__pycache__
 custom_components/tahoma/__pycache__/**
 
