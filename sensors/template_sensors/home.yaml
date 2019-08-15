@@ -1,0 +1,12 @@
+friendly_name: Home presence
+value_template: >
+  {% if is_state('device_tracker.virginia_presence', 'A la maison') and
+     is_state('device_tracker.vincent_presence', 'A la maison') %}
+    both
+  {% elif is_state('device_tracker.virginia_presence', 'A la maison') %}
+    Virginia
+  {% elif is_state('device_tracker.vincent_presence', 'A la maison') %}
+    Vincent
+  {% else %}
+    empty
+  {% endif %}

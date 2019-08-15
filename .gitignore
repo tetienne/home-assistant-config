@@ -14,7 +14,6 @@
 !cameras/
 !climates/
 !custom_components/
-!deps/
 !device_trackers/
 !image_processings/
 !includes/
@@ -26,6 +25,22 @@
 !remotes/
 !sensors/
 !www/
+!automations/**
+!binary_sensors/**
+!cameras/**
+!climates/**
+!custom_components/**
+!device_trackers/**
+!image_processings/**
+!includes/**
+!input_booleans/**
+!input_selects/**
+!media_players/**
+!notifies/**
+!panel_iframes/**
+!remotes/**
+!sensors/**
+!www/**
 
 # Ignore folders.
 .storage

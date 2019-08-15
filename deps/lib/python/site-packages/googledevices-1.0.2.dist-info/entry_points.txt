@@ -1,0 +1,3 @@
+[console_scripts]
+googledevices = googledevices.cli.cli:CLI
+
