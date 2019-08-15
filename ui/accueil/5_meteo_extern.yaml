@@ -1,0 +1,19 @@
+type: vertical-stack
+cards:
+- type: horizontal-stack
+  cards:
+  - type: gauge
+    entity: sensor.netatmo_pluie_jardin_rain
+    name: Précipitations
+    min: 0
+    max: 4
+  - type: gauge
+    entity: sensor.dark_sky_precip_probability_1h
+    name: 1h
+  - type: gauge
+    entity: sensor.dark_sky_precip_probability_2h
+    name: 2h
+- type: custom:weather-card-chart
+  title: Météo
+  weather: weather.dark_sky
+  mode: hourly

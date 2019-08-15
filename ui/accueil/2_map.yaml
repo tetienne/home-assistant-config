@@ -1,0 +1,9 @@
+type: conditional
+conditions:
+- entity: sensor.home
+  state_not: both
+card:
+  type: map
+  entities:
+  - device_tracker.vincent_presence
+  - device_tracker.virginia_presence

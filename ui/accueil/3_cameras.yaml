@@ -1,0 +1,27 @@
+type: vertical-stack
+cards:
+- type: picture-entity
+  entity: camera.camterrasse
+  camera_view: live
+  name: Terrasse live
+- type: picture-entity
+  entity: camera.camsalon
+  camera_view: live
+  name: Salon live
+- type: custom:vertical-stack-in-card
+  title: Snapshots
+  cards:
+  - type: entities
+    entities:
+    - entity: sensor.netatmo_type_terrasse
+      name: "Terrasse"
+    - entity: sensor.netatmo_type_salon
+      name: "Salon"
+  - type: horizontal-stack
+    cards:
+    - type: picture-entity
+      entity: camera.snap_terrasse
+      name: Terrasse
+    - type: picture-entity
+      entity: camera.snap_salon
+      name: Salon
