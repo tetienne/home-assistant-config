@@ -46,21 +46,23 @@ views:
       entity: camera.camsalon
       camera_view: live
       name: Salon live
-    - type: horizontal-stack
+    - type: custom:vertical-stack-in-card
+      title: Snapshots
       cards:
-      - type: custom:vertical-stack-in-card
-        title: Terrasse
+      - type: entities
+        entities:
+        - entity: sensor.netatmo_type_terrasse
+          name: "Terrasse"
+        - entity: sensor.netatmo_type_salon
+          name: "Salon"
+      - type: horizontal-stack
         cards:
-        - type: entities
-          entities:
-          - entity: sensor.netatmo_type_terrasse
-            name: " "
         - type: picture-entity
           entity: camera.snap_terrasse
           name: Dernier Snap
-      - type: picture-entity
-        entity: camera.snap_salon
-        name: Dernier Snap
+        - type: picture-entity
+          entity: camera.snap_salon
+          name: Dernier Snap
   - type: vertical-stack
     cards:
     - type: entity-button
