@@ -4,7 +4,7 @@ trigger:
   - platform: webhook
     webhook_id: netatmo_alert
   - platform: webhook
-    webhook_id: 0139a42bd40897717441be1a14a6466879f4a1fc91ecaae9886605baa349ec46
+    webhook_id: netatmo_webhook
   - platform: webhook
     webhook_id: netatmo_connect
 action:
