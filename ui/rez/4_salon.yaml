@@ -1,0 +1,34 @@
+type: custom:vertical-stack-in-card
+title: Salon
+cards:
+- type: horizontal-stack
+  cards:
+  - type: light
+    entity: light.lampe_peau
+    name: Peau
+  - type: light
+    entity: light.lux_salon_1
+    name: Salon 1
+- type: horizontal-stack
+  cards:
+  - type: light
+    entity: light.lux_salon_2
+    name: Salon 2
+  - type: light
+    entity: light.lux_salon_3
+    name: Salon 3
+- type: entities
+  entities:
+  - entity: cover.rolling_shutter_3
+    name: Volet Porte Fenêtre
+- type: custom:vertical-stack-in-card
+  title: Media
+  cards:
+  - type: horizontal-stack
+    cards:
+    - type: entity-button
+      entity: switch.ampli
+      name: "Spotify"
+    - type: entity-button
+      entity: switch.television
+      name: "Télé"

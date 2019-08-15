@@ -1,0 +1,10 @@
+type: custom:vertical-stack-in-card
+title: Entrée
+cards:
+- type: light
+  entity: light.lux_entree
+  name: Entrée
+- type: entities
+  entities:
+  - entity: cover.rolling_shutter_2
+    name: Volet Entrée

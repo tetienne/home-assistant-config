@@ -1,0 +1,15 @@
+type: custom:vertical-stack-in-card
+title: Cuisine
+cards:
+- type: horizontal-stack
+  cards:
+  - type: light
+    entity: light.lux_cuisine_1
+    name: Cuisine 1
+  - type: light
+    entity: light.lux_cuisine_2
+    name: Cuisine 2
+- type: entities
+  entities:
+  - entity: cover.rolling_shutter
+    name: Volet Cuisine

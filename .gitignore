@@ -24,6 +24,7 @@
 !panel_iframes/
 !remotes/
 !sensors/
+!ui/
 !www/
 !automations/**
 !binary_sensors/**
@@ -40,6 +41,7 @@
 !panel_iframes/**
 !remotes/**
 !sensors/**
+!ui/**
 !www/**
 
 # Ignore folders.

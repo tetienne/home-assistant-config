@@ -1,0 +1,9 @@
+type: entities
+title: Bureau
+show_header_toggle: false
+entities:
+  - entity: cover.rolling_shutter_4
+    name: Volet
+  - entity: sensor.chauffage_bureau
+  - entity: input_select.qubino
+    name: " "
