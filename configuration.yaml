@@ -17,7 +17,7 @@ homeassistant:
     - type: homeassistant
 
 automation: !include_dir_list automations/
-binary_sensor: !include binary_sensors/binary_sensors.yaml
+binary_sensor: !include_dir_list binary_sensors/
 camera: !include_dir_list cameras
 cloud:
 climate: !include_dir_list climates
