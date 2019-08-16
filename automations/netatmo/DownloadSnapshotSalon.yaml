@@ -21,10 +21,10 @@ action:
       overwrite: true
   - service: downloader.download_file
     data_template:
-      url": "{{ trigger.payload_json['snapshot_url'] }}"
-      subdir": "camera"
-      filename": "CamSalon_latest.jpg"
-      overwrite": true
+      url: "{{ trigger.payload_json['snapshot_url'] }}"
+      subdir: "camera"
+      filename: "CamSalon_latest.jpg"
+      overwrite: true
   - service: image_processing.scan
     data:
       entity_id: image_processing.face_counter_salon_person
