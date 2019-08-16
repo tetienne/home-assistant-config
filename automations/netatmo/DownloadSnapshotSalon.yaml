@@ -27,4 +27,4 @@ action:
       overwrite": true
   - service: image_processing.scan
     data:
-      entity_id: image_processing.face_counter_salon
+      entity_id: image_processing.face_counter_salon_person
