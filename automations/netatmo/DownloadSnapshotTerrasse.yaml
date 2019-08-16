@@ -9,11 +9,10 @@ condition:
 action:
   - service: downloader.download_file
     data_template:
-      { "url": "{{ trigger.payload_json['snapshot_url'] }}",
-        "subdir": "camera",
-        "filename": "CamTerrasse_{{ trigger.payload_json['event_type'] }}_{{ now().strftime('%Y-%m-%d-%H%M') }}.jpg",
-        "overwrite": "true"
-      }
+      url: "{{ trigger.payload_json['snapshot_url'] }}"
+      subdir: "camera"
+      filename: "CamTerrasse_{{ trigger.payload_json['event_type'] }}_{{ now().strftime('%Y-%m-%d-%H%M') }}.jpg"
+      overwrite: true
   - service: downloader.download_file
     data_template:
       { "url": "{{ trigger.payload_json['snapshot_url'] }}",
