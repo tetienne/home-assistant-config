@@ -11,3 +11,6 @@ action:
   - service: notify.webhook
     data_template:
       message: "UNREGISTERED - {{ now() }} - {{ trigger.webhook_id }}: {{ trigger.json | tojson }}"
+  - service: notify.google_push
+    data_template:
+      message: "UNREGISTERED - {{ now() }} - {{ trigger.webhook_id }}"
