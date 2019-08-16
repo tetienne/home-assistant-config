@@ -4,5 +4,5 @@ port: 5000
 scan_interval: 86400
 save_file_folder: www/deepstack/Salon
 source:
-- entity_id: camera.snap_salon
-  name: face_counter_salon
+- entity_id: camera.salon_personne
+  name: face_counter_salon_person

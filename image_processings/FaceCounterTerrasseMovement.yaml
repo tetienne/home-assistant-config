@@ -4,5 +4,5 @@ port: 5000
 scan_interval: 86400
 save_file_folder: www/deepstack/Terrasse
 source:
-- entity_id: camera.snap_terrasse
-  name: face_counter_terrasse
+- entity_id: camera.terrasse_mouvement
+  name: face_counter_terrasse_movement
