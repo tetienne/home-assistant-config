@@ -1,4 +1,3 @@
-type: picture-glance
-title: Mouvement
-entities: []
-image: local/camera/CamSalon_movement_latest.jpg?v=1
+type: picture-entity
+entity: camera.salon_mouvement
+name: Mouvement
