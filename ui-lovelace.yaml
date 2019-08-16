@@ -36,3 +36,8 @@ views:
 - path: snapshots
   title: Snapshots
   cards: !include_dir_list ui/snapshots
+
+# Onglet deepstack
+- path: deepstack
+  title: Deepstack
+  cards: !include_dir_list ui/deepstack

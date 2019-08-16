@@ -1,0 +1,5 @@
+type: vertical-stack
+cards:
+- type: picture-entity
+  entity: camera.deepstack_face_salon
+  name: Deepstack Face Salon
