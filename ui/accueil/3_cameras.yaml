@@ -8,20 +8,9 @@ cards:
   entity: camera.camsalon
   camera_view: live
   name: Salon live
-- type: custom:vertical-stack-in-card
-  title: Snapshots
-  cards:
-  - type: entities
-    entities:
-    - entity: sensor.netatmo_type_terrasse
-      name: "Terrasse"
-    - entity: sensor.netatmo_type_salon
-      name: "Salon"
-  - type: horizontal-stack
-    cards:
-    - type: picture-entity
-      entity: camera.snap_terrasse
-      name: Terrasse
-    - type: picture-entity
-      entity: camera.snap_salon
-      name: Salon
+- type: entities
+  entities:
+  - entity: sensor.netatmo_type_terrasse
+    name: "Terrasse"
+  - entity: sensor.netatmo_type_salon
+    name: "Salon"
