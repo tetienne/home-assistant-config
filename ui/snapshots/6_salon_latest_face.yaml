@@ -1,4 +1,4 @@
 type: picture-glance
 title: Dernier Visage Salon
 entities: []
-image: local/deepstack/Salon/deepstack_latest_face.jpg
+image: local/deepstack/Salon/deepstack_latest_face.jpg?v=1

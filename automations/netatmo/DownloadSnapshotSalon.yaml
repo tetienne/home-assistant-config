@@ -9,27 +9,22 @@ condition:
 action:
   - service: downloader.download_file
     data_template:
-      { "url": "{{ trigger.payload_json['snapshot_url'] }}",
-        "subdir": "camera",
-        "filename": "CamSalon_{{ trigger.payload_json['event_type'] }}_{{ now().strftime('%Y-%m-%d-%H%M') }}.jpg",
-        "overwrite": "true"
-       }
+      url: "{{ trigger.payload_json['snapshot_url'] }}"
+      subdir: "camera"
+      filename: "CamSalon_{{ trigger.payload_json['event_type'] }}_{{ now().strftime('%Y-%m-%d-%H%M') }}.jpg"
+      overwrite: true
   - service: downloader.download_file
     data_template:
-      { "url": "{{ trigger.payload_json['snapshot_url'] }}",
-        "subdir": "camera",
-        "filename": "CamSalon_{{ trigger.payload_json['event_type'] }}_latest.jpg",
-        "overwrite": "true"
-        }
+      url: "{{ trigger.payload_json['snapshot_url'] }}"
+      subdir: "camera"
+      filename: "CamSalon_{{ trigger.payload_json['event_type'] }}_latest.jpg"
+      overwrite: true
   - service: downloader.download_file
     data_template:
-      { "url": "{{ trigger.payload_json['snapshot_url'] }}",
-        "subdir": "camera",
-        "filename": "CamSalon_latest.jpg",
-        "overwrite": "true"
-      }
-  - delay:
-      seconds: 5
+      url": "{{ trigger.payload_json['snapshot_url'] }}"
+      subdir": "camera"
+      filename": "CamSalon_latest.jpg"
+      overwrite": true
   - service: image_processing.scan
     data:
       entity_id: image_processing.face_counter_salon
