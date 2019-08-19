@@ -1,5 +1,17 @@
 type: vertical-stack
 cards:
 - type: picture-entity
-  entity: camera.deepstack_face_salon
-  name: Deepstack Face Salon
+  entity: camera.salon_last_seen_virginia
+  name: Virginia
+- type: picture-entity
+  entity: camera.salon_last_seen_vincent
+  name: Vincent
+- type: picture-entity
+  entity: camera.salon_last_seen_unknown
+  name: Inconnu
+- type: picture-entity
+  entity: camera.salon_mouvement
+  name: Mouvement
+- type: picture-entity
+  entity: camera.salon_personne
+  name: Personne
