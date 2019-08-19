@@ -10,6 +10,9 @@ cards:
   entity: camera.terrasse_last_unknown_face
   name: Inconnu
 - type: picture-entity
+  entity: camera.terrasse_humain
+  name: Mouvement
+- type: picture-entity
   entity: camera.terrasse_mouvement
   name: Mouvement
 - type: picture-entity
