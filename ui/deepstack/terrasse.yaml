@@ -7,7 +7,7 @@ cards:
   entity: camera.terrasse_last_seen_vincent
   name: Vincent
 - type: picture-entity
-  entity: camera.terrasse_last_seen_unknown
+  entity: camera.terrasse_last_unknown_face
   name: Inconnu
 - type: picture-entity
   entity: camera.terrasse_mouvement

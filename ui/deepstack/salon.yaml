@@ -7,7 +7,7 @@ cards:
   entity: camera.salon_last_seen_vincent
   name: Vincent
 - type: picture-entity
-  entity: camera.salon_last_seen_unknown
+  entity: camera.salon_last_unknown_face
   name: Inconnu
 - type: picture-entity
   entity: camera.salon_mouvement
