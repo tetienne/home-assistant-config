@@ -47,7 +47,7 @@ remote: !include_dir_list remotes
 script: !include includes/scripts.yaml
 sensor: !include_dir_list sensors
 shell_command: !include includes/shell_command.yaml
-somfy: !include includes/somfy.yaml
+#somfy: !include includes/somfy.yaml
 stream:
 sun:
 switch: !include includes/switches.yaml
