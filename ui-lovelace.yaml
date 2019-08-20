@@ -61,6 +61,7 @@ views:
       background: "#EDE7B0"
       heading: "Présence"
       link: /lovelace/home
+      row_size: 2
       entities:
         - entity: device_tracker.vincent_presence
           name: Vincent
