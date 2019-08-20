@@ -11,7 +11,7 @@ resources:
   type: module
 - url: /local/community/lovelace-card-tools/card-tools.js
   type: js
-- url: /local/community/lovelace-card-tools/layout-card.js
+- url: /local/community/lovelace-layout-card/layout-card.js
   type: js
 - url: /local/community/plugin/banner-card/banner-card.js
   type: module
