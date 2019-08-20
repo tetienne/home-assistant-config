@@ -9,7 +9,11 @@ resources:
   url: /local/community/lovelace-home-feed-card/home-feed-card.js
 - url: /community_plugin/atomic_calendar/atomic_calendar.js
   type: module
-    
+- url: /customcards/github/thomasloven/card-tools.js?track=true
+  type: js
+- url: /customcards/github/thomasloven/layout-card.js?track=true
+  type: js
+
 title: Ti Ar Kaerell
 views:
 # Onglet principal
