@@ -75,11 +75,11 @@ views:
     heading: "Terrasse"
     link: /lovelace/home
     entities:
-    - entity: switch.terrasse
-      name: Lumière
     - entity: sensor.netatmo_terrasse_temperature
       name: Température
     - entity: sensor.netatmo_terrasse_humidity
       name: Humidité
     - entity: sensor.netatmo_pluie_jardin_rain
       name: Pluie
+    - entity: switch.terrasse
+      name: Lumière
