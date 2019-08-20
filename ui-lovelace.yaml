@@ -83,3 +83,18 @@ views:
       name: Pluie
     - entity: switch.terrasse
       name: Lumière
+  - type: custom:banner-card
+    background: "#8B008B"
+    link: /lovelace/rez
+    heading: "Cuisine"
+    entities:
+      - entity: light.lux_cuisine_1
+        name: "Cuisine 1"
+      - entity: light.lux_cuisine_2
+        name: "Cuisine 2"
+      - entity: light.lux_entree
+        name: "Entrée"
+      - entity: cover.rolling_shutter
+        name: "Grand Volet"
+      - entity: cover.rolling_shutter_2
+        name: "Petit Volet"
