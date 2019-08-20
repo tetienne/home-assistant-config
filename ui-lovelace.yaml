@@ -52,35 +52,30 @@ views:
 - path: cast
   title: cast
   cards:
-  - type: custom:layout-card
-    layout: horizontal
-    column_num: 1
-    max_columns: 2
-    cards:
-    - type: custom:banner-card
-      background: "#EDE7B0"
-      heading: "Présence"
-      link: /lovelace/home
-      row_size: 2
-      entities:
-        - entity: device_tracker.vincent_presence
-          name: Vincent
-        - entity: device_tracker.virginia_presence
-          name: Virginia
-        - entity: sensor.netatmo_type_terrasse
-          name: Terrasse
-        - entity: sensor.netatmo_type_salon
-          name: Salon
-    - type: custom:banner-card
-      background: "#7FFFD4"
-      heading: "Terrasse"
-      link: /lovelace/home
-      entities:
-      - entity: switch.terrasse
-        name: Lumière
-      - entity: sensor.netatmo_terrasse_temperature
-        name: Température
-      - entity: sensor.netatmo_terrasse_humidity
-        name: Humidité
-      - entity: sensor.netatmo_pluie_jardin_rain
-        name: Pluie
+  - type: custom:banner-card
+    background: "#EDE7B0"
+    heading: "Présence"
+    link: /lovelace/home
+    row_size: 2
+    entities:
+    - entity: device_tracker.vincent_presence
+      name: Vincent
+    - entity: device_tracker.virginia_presence
+      name: Virginia
+    - entity: sensor.netatmo_type_terrasse
+      name: Terrasse
+    - entity: sensor.netatmo_type_salon
+      name: Salon
+  - type: custom:banner-card
+    background: "#7FFFD4"
+    heading: "Terrasse"
+    link: /lovelace/home
+    entities:
+    - entity: switch.terrasse
+      name: Lumière
+    - entity: sensor.netatmo_terrasse_temperature
+      name: Température
+    - entity: sensor.netatmo_terrasse_humidity
+      name: Humidité
+    - entity: sensor.netatmo_pluie_jardin_rain
+      name: Pluie
