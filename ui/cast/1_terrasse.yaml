@@ -1,0 +1,13 @@
+type: custom:banner-card
+background: "#EDE7B0"
+heading: "\U0001F6CB Terrasse"
+link: /lovelace/home
+entities:
+  - device_tracker.vincent_presence
+  - device_tracker.virginia_presence
+  - sensor.netatmo_type_terrasse
+  - sensor.netatmo_type_salon
+  - switch.terrasse
+  - sensor.netatmo_terrasse_temperature
+  - sensor.netatmo_pluie_jardin_rain
+  - sensor.netatmo_terrasse_humidity
