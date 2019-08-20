@@ -13,7 +13,7 @@ resources:
   type: js
 - url: /local/community/lovelace-layout-card/layout-card.js
   type: js
-- url: /local/community/plugin/banner-card/banner-card.js
+- url: /local/community/banner-card/banner-card.js
   type: module
 
 title: Ti Ar Kaerell
