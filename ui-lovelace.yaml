@@ -54,8 +54,8 @@ views:
   cards:
   - type: custom:layout-card
     layout: horizontal
-    column_num: 3
-    max_columns: 3
+    column_num: 1
+    max_columns: 2
     cards:
     - type: custom:banner-card
       background: "#EDE7B0"
