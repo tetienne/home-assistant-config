@@ -79,12 +79,3 @@ cards:
       green: 50
       yellow: 60
       red: 70
-  - type: gauge
-    name: "CO2 Salon"
-    entity: sensor.netatmo_salon_co2
-    min: 0
-    max: 2000
-    severity:
-      green: 0
-      yellow: 750
-      red: 1500
