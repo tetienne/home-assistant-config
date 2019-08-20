@@ -56,4 +56,30 @@ views:
     layout: horizontal
     column_num: 3
     max_columns: 3
-    cards: !include_dir_list ui/cast
+    cards:
+      - type: custom:banner-card
+        background: "#EDE7B0"
+        heading: "Présence"
+        link: /lovelace/home
+        entities:
+          - entity: device_tracker.vincent_presence
+            name: Vincent
+          - entity: device_tracker.virginia_presence
+            name: Virginia
+          - entity: sensor.netatmo_type_terrasse
+            name: Terrasse
+          - entity: sensor.netatmo_type_salon
+            name: Salon
+      - type: custom:banner-card
+          background: "#7FFFD4"
+          heading: "Terrasse"
+          link: /lovelace/home
+          entities:
+          - entity: switch.terrasse
+            name: Lumière
+          - entity: sensor.netatmo_terrasse_temperature
+            name: Température
+          - entity: sensor.netatmo_terrasse_humidity
+            name: Humidité
+          - entity: sensor.netatmo_pluie_jardin_rain
+            name: Pluie
