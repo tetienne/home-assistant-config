@@ -63,9 +63,9 @@ views:
     - entity: device_tracker.virginia_presence
       name: Virginia
     - entity: sensor.netatmo_type_terrasse
-      name: Terrasse
+      name: Caméra Terrasse
     - entity: sensor.netatmo_type_salon
-      name: Salon
+      name: Caméra Salon
     - entity: camera.camterrasse
       name: " "
     - entity: camera.camsalon
