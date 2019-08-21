@@ -57,7 +57,10 @@ class TahomaLock(TahomaDevice, LockDevice):
         super_attr = super().device_state_attributes
         if super_attr is not None:
             attr.update(super_attr)
-
-        attr[ATTR_BATTERY_LEVEL] = self.tahoma_device.active_states['core:BatteryState']
+        for x in self.tahoma_device.active_states:
+            print(x)
+            for y in self.tahoma_device.active_states[x]:
+                print(y,':',self.tahoma_device.active_states[x][y])
+        # attr[ATTR_BATTERY_LEVEL] = self.tahoma_device.active_states['core:BatteryState']
         return attr
 
