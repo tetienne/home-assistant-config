@@ -1,6 +1,7 @@
 type: horizontal-stack
 cards:
 - type: custom:vertical-stack-in-card
+  cards:
   - type: glance
     entities:
     - entity: device_tracker.vincent_presence
