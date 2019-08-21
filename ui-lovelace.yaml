@@ -73,6 +73,7 @@ views:
   - type: custom:banner-card
     background: "#7FFFD4"
     heading: "Terrasse"
+    row_size: 2
     link: /lovelace/home
     entities:
     - entity: sensor.netatmo_terrasse_temperature
