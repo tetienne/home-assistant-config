@@ -10,5 +10,7 @@ cards:
       icon: mdi:pine-tree-box
   - type: glance
     entities:
-    - proximity.home1
-    - proxumity.home2
+    - entity: proximity.home1
+      name: Distance
+    - entity: proximity.home2
+      name: Distance
