@@ -1,8 +1,13 @@
 type: horizontal-stack
 cards:
-- type: glance
-  entities:
-  - entity: device_tracker.vincent_presence
-    icon: mdi:camera
-  - entity: device_tracker.virginia_presence
-    icon: mdi:pine-tree-box
+- type: custom:vertical-stack-in-card
+  - type: glance
+    entities:
+    - entity: device_tracker.vincent_presence
+      icon: mdi:camera
+    - entity: device_tracker.virginia_presence
+      icon: mdi:pine-tree-box
+  - type: glance
+    entities:
+    - proximity.home1
+    - proxumity.home2
