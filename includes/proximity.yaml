@@ -2,4 +2,4 @@ home:
   devices:
     - device_tracker.vincent
   tolerance: 25
-  unit_of_measurment: km
+  unit_of_measurement: km
