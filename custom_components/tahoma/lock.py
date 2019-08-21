@@ -28,7 +28,6 @@ class TahomaLock(TahomaDevice, LockDevice):
         super().__init__(tahoma_device, controller)
         self._state = STATE_LOCKED
         self._available = False
-        self._battery =
 
     def update(self):
         """Update method."""
