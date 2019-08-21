@@ -123,6 +123,7 @@ views:
         name: "Télé"
   - type: custom:banner-card
     background: "#2F2A4F"
+    row_size: 2
     link: /lovelace/rez
     heading: "Bureau"
     entities:
@@ -133,4 +134,4 @@ views:
       - entity: sensor.chauffage_bureau
         name: Chauffage
       - entity: input_select.qubino
-        name: " "
+        name: Mode
