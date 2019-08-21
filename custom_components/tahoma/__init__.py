@@ -90,7 +90,6 @@ def setup(hass, config):
 
     for device in devices:
         _device = api.get_device(device)
-        print(_device)
         if all(ext not in _device.type for ext in exclude):
             device_type = map_tahoma_device(_device)
             if device_type is None:
