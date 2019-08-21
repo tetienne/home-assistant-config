@@ -137,30 +137,32 @@ views:
         name: Mode
   - type: custom:banner-card
     background: "#CD5C5C"
+    row_size: 2
     link: /lovelace/etage
     heading: Chambre de Lenaïc
     entities:
       - entity: sensor.sensative_strips_comfort_temperature
         name: Température
+      - entity: switch.toggle_both_lenaic
+        name: Les Deux
       - entity: switch.toggle_velux_lenaic
         name: Vélux
       - entity: switch.toggle_volet_lenaic
         name: Volet
-      - entity: switch.toggle_both_lenaic
-        name: Les Deux
   - type: custom:banner-card
     background: "#CDED5C"
+    row_size: 2
     link: /lovelace/etage
     heading: Palier
     entities:
       - entity: sensor.netatmo_palier_temperature
         name: Température
+      - entity: switch.toggle_both_palier
+        name: Les Deux
       - entity: switch.toggle_velux_palier
         name: Vélux
       - entity: switch.toggle_volet_palier
         name: Volet
-      - entity: switch.toggle_both_palier
-        name: Les Deux
   - type: custom:banner-card
     background: "#CB4D5A"
     link: /lovelace/etage
@@ -168,10 +170,6 @@ views:
     entities:
       - entity: sensor.tdeg_parents
         name: Température
-      - entity: input_boolean.fake_heater
-        name: " "
-      - entity: input_boolean.fake_heater
-        name: " "
       - entity: light.lux_parents_1
         name: Lumière 1
       - entity: light.lux_parents_2
