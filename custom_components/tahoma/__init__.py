@@ -25,7 +25,7 @@ CONFIG_SCHEMA = vol.Schema({
 }, extra=vol.ALLOW_EXTRA)
 
 TAHOMA_COMPONENTS = [
-    'scene', 'sensor', 'cover', 'switch', 'binary_sensor'
+    'scene', 'sensor', 'cover', 'switch', 'binary_sensor','lock'
 ]
 
 TAHOMA_TYPES = {
@@ -55,7 +55,8 @@ TAHOMA_TYPES = {
     'rts:LightRTSComponent': 'switch',
     'io:TemperatureIOSystemSensor': 'sensor',
     'somfythermostat:SomfyThermostatTemperatureSensor': 'sensor',
-    'somfythermostat:SomfyThermostatHumiditySensor': 'sensor'
+    'somfythermostat:SomfyThermostatHumiditySensor': 'sensor',
+    'opendoors:OpenDoorsSmartLockComponent': 'lock'
 }
 
 
@@ -89,6 +90,7 @@ def setup(hass, config):
 
     for device in devices:
         _device = api.get_device(device)
+        print(_device)
         if all(ext not in _device.type for ext in exclude):
             device_type = map_tahoma_device(_device)
             if device_type is None:

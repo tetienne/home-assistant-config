@@ -23,39 +23,39 @@ person:
 stream:
 sun:
 
-automation:       !include_dir_list includes/automations
-binary_sensor:    !include_dir_list includes/binary_sensors
-camera:           !include_dir_list includes/cameras
-climate:          !include_dir_list includes/climates
-device_tracker:   !include_dir_list includes/device_trackers
-image_processing: !include_dir_list includes/image_processings
-media_player:     !include_dir_list includes/media_players
-notify:           !include_dir_list includes/notifies
-remote:           !include_dir_list includes/remotes
-sensor:           !include_dir_list includes/sensors
-
-input_boolean:    !include_dir_named includes/input_booleans
-input_select:     !include_dir_named includes/input_selects
-panel_iframe:     !include_dir_named includes/panel_iframes
-
-googlehome:       !include includes/googlehome.yaml
-downloader:       !include includes/dowloader.yaml
-group:            !include includes/groups.yaml
-google:           !include includes/google.yaml
-google_assistant: !include includes/google_assistant.yaml
-hacs:             !include includes/hacs.yaml
-http:             !include includes/http.yaml
-life360:          !include includes/life360.yaml
-logger:           !include includes/logger.yaml
-lovelace:         !include includes/lovelace.yaml
-mqtt:             !include includes/mqtt.yaml
-netatmo:          !include includes/netatmo.yaml
-script:           !include includes/scripts.yaml
-shell_command:    !include includes/shell_command.yaml
-#somfy:            !include includes/somfy.yaml
-switch:           !include includes/switches.yaml
+#automation:       !include_dir_list includes/automations
+#binary_sensor:    !include_dir_list includes/binary_sensors
+#camera:           !include_dir_list includes/cameras
+#climate:          !include_dir_list includes/climates
+#device_tracker:   !include_dir_list includes/device_trackers
+#image_processing: !include_dir_list includes/image_processings
+#media_player:     !include_dir_list includes/media_players
+#notify:           !include_dir_list includes/notifies
+#remote:           !include_dir_list includes/remotes
+#sensor:           !include_dir_list includes/sensors
+#
+#input_boolean:    !include_dir_named includes/input_booleans
+#input_select:     !include_dir_named includes/input_selects
+#panel_iframe:     !include_dir_named includes/panel_iframes
+#
+#googlehome:       !include includes/googlehome.yaml
+#downloader:       !include includes/dowloader.yaml
+#group:            !include includes/groups.yaml
+#google:           !include includes/google.yaml
+#google_assistant: !include includes/google_assistant.yaml
+#hacs:             !include includes/hacs.yaml
+#http:             !include includes/http.yaml
+#life360:          !include includes/life360.yaml
+#logger:           !include includes/logger.yaml
+#lovelace:         !include includes/lovelace.yaml
+#mqtt:             !include includes/mqtt.yaml
+#netatmo:          !include includes/netatmo.yaml
+#script:           !include includes/scripts.yaml
+#shell_command:    !include includes/shell_command.yaml
+##somfy:            !include includes/somfy.yaml
+#switch:           !include includes/switches.yaml
 tahoma:           !include includes/tahoma.yaml
-tts:              !include includes/tts.yaml
-weather:          !include includes/weather.yaml
-zone:             !include includes/zones.yaml
-zwave:            !include includes/zwave.yaml
+#tts:              !include includes/tts.yaml
+#weather:          !include includes/weather.yaml
+#zone:             !include includes/zones.yaml
+#zwave:            !include includes/zwave.yaml
