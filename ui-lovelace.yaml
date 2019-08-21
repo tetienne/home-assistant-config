@@ -168,6 +168,10 @@ views:
     entities:
       - entity: sensor.tdeg_parents
         name: Température
+      - entity: input_boolean.fake_heater
+        name: " "
+      - entity: input_boolean.fake_heater
+        name: " "
       - entity: light.lux_parents_1
         name: Lumière 1
       - entity: light.lux_parents_2
