@@ -121,3 +121,16 @@ views:
         name: "Spotify"
       - entity: switch.television
         name: "Télé"
+  - type: custom:banner-card
+    background: "#2F2A4F"
+    link: /lovelace/rez
+    heading: "Bureau"
+    entities:
+      - entity: sensor.sensative_strips_comfort_temperature_2
+        name: Température
+      - entity: cover.rolling_shutter_4
+        name: Volet
+      - entity: sensor.chauffage_bureau
+        name: Chauffage
+      - entity: input_select.qubino
+        name: " "
