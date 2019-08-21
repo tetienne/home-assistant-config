@@ -47,8 +47,8 @@ class TahomaLock(TahomaDevice, LockDevice):
     def lock(self, **kwargs):
         pass
 
-    @property
-    def is_locked(self):
+    # @property
+    # def is_locked(self):
 
     @property
     def device_state_attributes(self):
