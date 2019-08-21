@@ -110,14 +110,14 @@ views:
         name: Humidité
       - entity: cover.rolling_shutter_3
         name: "Porte Fenêtre"
-      - entity: light.lampe_peau
-        name: "Lampe Canapé"
       - entity: light.lux_salon_1
         name: "Salon 1"
       - entity: light.lux_salon_2
         name: "Salon 2"
       - entity: light.lux_salon_3
         name: "Salon 3"
+      - entity: light.lampe_peau
+        name: "Lampe Canapé"
       - entity: switch.ampli
         name: "Spotify"
       - entity: switch.television
