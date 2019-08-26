@@ -26,7 +26,7 @@ class TahomaLock(TahomaDevice, LockDevice):
     def __init__(self, tahoma_device, controller):
         """Initialize the device."""
         super().__init__(tahoma_device, controller)
-        self._state = STATE_LOCKED
+        self._state = STATE_UNLOCKED
         self._available = False
         self._battery_level = None
         self._name = None
@@ -37,7 +37,7 @@ class TahomaLock(TahomaDevice, LockDevice):
         self._battery_level = self.tahoma_device.active_states['core:BatteryState']
         self._name = self.tahoma_device.active_states['core:NameState']
         if self._battery_level == 'low':
-            _LOGGER.warning("Lock "+self._name+" has low battery")
+            _LOGGER.warning("Lock " + self._name + " has low battery")
         if self._battery_level == 'verylow':
             _LOGGER.error("Lock " + self._name + " has very low battery")
         if self.tahoma_device.active_states.get('core:LockedUnlockedState') == 'locked':
@@ -50,11 +50,11 @@ class TahomaLock(TahomaDevice, LockDevice):
         pass
 
     def unlock(self, **kwargs):
-        _LOGGER.info("unlocking ",self._name)
+        _LOGGER.info("unlocking ", self._name)
         self.apply_action('unlock')
 
     def lock(self, **kwargs):
-        _LOGGER.info("locking ",self._name)
+        _LOGGER.info("locking ", self._name)
         self.apply_action('lock')
 
     @property
@@ -64,7 +64,6 @@ class TahomaLock(TahomaDevice, LockDevice):
     @property
     def state(self):
         """Return the state."""
-        print(self._state)
         return self._state
 
     @property
