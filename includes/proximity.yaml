@@ -2,9 +2,9 @@ home1:
   devices:
     - device_tracker.vincent
   tolerance: 10
-  unit_of_measurement: km
+  unit_of_measurement: m
 home2:
   devices:
     - device_tracker.virginia
   tolerance: 10
-  unit_of_measurement: km
+  unit_of_measurement: m

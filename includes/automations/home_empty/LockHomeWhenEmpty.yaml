@@ -3,10 +3,10 @@ trigger:
   - platform: state
     entity_id: sensor.home
     to: empty
-condition:
-  - condition: state
-    entity_id: lock.ti_ar_kaerell
-    state: unlocked
+# condition:
+#   - condition: state
+#     entity_id: lock.ti_ar_kaerell
+#     state: unlocked
 action:
   - service: lock.lock
     data:
