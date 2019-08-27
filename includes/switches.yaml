@@ -119,4 +119,3 @@
         {% else %}
           mdi:window-closed
         {% endif %}
-      
