@@ -79,5 +79,3 @@ cards:
       green: 50
       yellow: 60
       red: 70
-- type: thermostat
-  entity: climate.radiateur_salon

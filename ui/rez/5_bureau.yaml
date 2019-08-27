@@ -1,9 +1,10 @@
-type: entities
+type: custom:vertical-stack-in-card
 title: Bureau
-show_header_toggle: false
-entities:
-  - entity: cover.rolling_shutter_4
-    name: Volet
-  - entity: sensor.chauffage_bureau
-  - entity: input_select.qubino
-    name: " "
+cards:
+- type: entities
+  show_header_toggle: false
+  entities:
+    - entity: cover.rolling_shutter_4
+      name: Volet
+- type: thermostat
+  entity: climate.radiateur_bureau

@@ -21,6 +21,8 @@ cards:
   entities:
   - entity: cover.rolling_shutter_3
     name: Volet Porte Fenêtre
+- type: thermostat
+  entity: climate.radiateur_salon
 - type: custom:vertical-stack-in-card
   title: Media
   cards:
