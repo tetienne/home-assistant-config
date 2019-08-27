@@ -101,13 +101,20 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
         super().__init__(tahoma_device, controller)
         if self.tahoma_device.type == "io:AtlanticElectricalHeaterIOComponent":
             self._type = "io"
+            if self.tahoma_device.active_states['core:OnOffState'] == "on":
+                self._hvac_mode = HVAC_MODE_HEAT
+            else:
+                self._hvac_mode = HVAC_MODE_OFF
         if self.tahoma_device.type == "somfythermostat:SomfyThermostatThermostatComponent":
             self._type = "thermostat"
+            if self.tahoma_device.active_states['core:DerogationActivationState'] == "active":
+                self._hvac_mode = HVAC_MODE_HEAT
+            else:
+                self._hvac_mode = HVAC_MODE_OFF
         self._cur_temp = None
         self._unit = TEMP_CELSIUS
         self.sensor_entity_id = sensor_entity_id
         self._support_flags = SUPPORT_FLAGS
-        self._hvac_mode = HVAC_MODE_HEAT
         self._current_hvac_mode = CURRENT_HVAC_OFF
         self._hvac_list = [HVAC_MODE_HEAT, HVAC_MODE_OFF]
         if away_temp or eco_temp or comfort_temp or anti_freeze_temp:
