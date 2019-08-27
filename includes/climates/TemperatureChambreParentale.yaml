@@ -1,6 +1,0 @@
-platform: generic_thermostat
-name: Température Chambre Parentale
-heater: input_boolean.fake_heater
-target_sensor: sensor.tdeg_parents
-initial_hvac_mode: "off"
-target_temp: 21
