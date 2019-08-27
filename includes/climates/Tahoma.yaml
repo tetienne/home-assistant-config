@@ -1,0 +1,6 @@
+platform: tahoma
+sensors:
+- name: "Radiateur Parents"
+  entity_id: sensor.tdeg_parents
+- name: "Radiateur Salon"
+  entity_id: sensor.tdeg_salon
