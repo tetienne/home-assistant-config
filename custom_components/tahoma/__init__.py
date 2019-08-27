@@ -4,7 +4,7 @@ import logging
 import voluptuous as vol
 from requests.exceptions import RequestException
 
-from homeassistant.const import CONF_USERNAME, CONF_PASSWORD, CONF_EXCLUDE
+from homeassistant.const import CONF_USERNAME, CONF_PASSWORD, CONF_EXCLUDE, CONF_NAME
 from homeassistant.helpers import discovery
 from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.entity import Entity
@@ -25,10 +25,11 @@ CONFIG_SCHEMA = vol.Schema({
 }, extra=vol.ALLOW_EXTRA)
 
 TAHOMA_COMPONENTS = [
-    'scene', 'sensor', 'cover', 'switch', 'binary_sensor','lock'
+    'scene', 'sensor', 'cover', 'switch', 'binary_sensor', 'lock'
 ]
 
 TAHOMA_TYPES = {
+    'io:AtlanticElectricalHeaterIOComponent': 'climate',
     'io:ExteriorVenetianBlindIOComponent': 'cover',
     'io:HorizontalAwningIOComponent': 'cover',
     'io:LightIOSystemSensor': 'sensor',
@@ -56,6 +57,7 @@ TAHOMA_TYPES = {
     'io:TemperatureIOSystemSensor': 'sensor',
     'somfythermostat:SomfyThermostatTemperatureSensor': 'sensor',
     'somfythermostat:SomfyThermostatHumiditySensor': 'sensor',
+    'somfythermostat:SomfyThermostatThermostatComponent': 'climate',
     'opendoors:OpenDoorsSmartLockComponent': 'lock'
 }
 
