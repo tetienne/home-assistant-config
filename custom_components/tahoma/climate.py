@@ -135,13 +135,14 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
         self._support_flags = SUPPORT_FLAGS
         self._current_hvac_mode = CURRENT_HVAC_OFF
         self._hvac_list = [HVAC_MODE_HEAT, HVAC_MODE_OFF]
+        self._preset_mode = None
         if away_temp or eco_temp or comfort_temp or anti_freeze_temp:
             self._support_flags = SUPPORT_FLAGS | SUPPORT_PRESET_MODE
+            self._preset_mode = PRESET_NONE
         self._away_temp = away_temp
         self._eco_temp = eco_temp
         self._comfort_temp = comfort_temp
         self._anti_freeze_temp = anti_freeze_temp
-        self._preset_mode = None
         self._target_temp = 21
         self._saved_target_temp = self._target_temp
         self._temp_lock = asyncio.Lock()
