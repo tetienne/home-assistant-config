@@ -1,7 +1,6 @@
 import asyncio
 from datetime import timedelta
 import logging
-from typing import Optional, List
 
 import voluptuous as vol
 
@@ -12,29 +11,34 @@ from homeassistant.components.climate.const import (
     HVAC_MODE_HEAT,
     HVAC_MODE_OFF,
     PRESET_AWAY,
+    PRESET_ECO,
+    PRESET_COMFORT,
+    PRESET_NONE,
     CURRENT_HVAC_HEAT,
     CURRENT_HVAC_OFF,
     SUPPORT_TARGET_TEMPERATURE,
     SUPPORT_PRESET_MODE,
-    PRESET_NONE)
+)
 from homeassistant.const import (
     TEMP_CELSIUS,
     ATTR_TEMPERATURE,
+    ATTR_BATTERY_LEVEL,
     CONF_NAME,
     CONF_ENTITY_ID,
     CONF_SENSORS,
     STATE_UNKNOWN,
-    EVENT_HOMEASSISTANT_START)
-from homeassistant.core import callback
-from homeassistant.helpers.event import (
-    async_track_state_change,
+    EVENT_HOMEASSISTANT_START,
 )
+from homeassistant.core import callback
+from homeassistant.helpers.event import async_track_state_change
 from . import DOMAIN as TAHOMA_DOMAIN, TahomaDevice
 
 CONF_AWAY_TEMP = "away_temp"
 CONF_ECO_TEMP = "eco_temp"
 CONF_COMFORT_TEMP = "comfort_temp"
 CONF_ANTI_FREEZE_TEMP = "anti_freeze_temp"
+
+PRESET_ANTI_FREEZE = "Anti-freeze"
 
 SENSOR_SCHEMA = vol.Schema(
     {
@@ -48,9 +52,7 @@ SENSOR_SCHEMA = vol.Schema(
 )
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
-    {
-        vol.Required(CONF_SENSORS): vol.All(cv.ensure_list, [SENSOR_SCHEMA]),
-    }
+    {vol.Required(CONF_SENSORS): vol.All(cv.ensure_list, [SENSOR_SCHEMA])}
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -61,25 +63,35 @@ SUPPORT_FLAGS = SUPPORT_TARGET_TEMPERATURE
 
 async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
     """Set up Tahoma Thermostat."""
-    controller = hass.data[TAHOMA_DOMAIN]['controller']
+    controller = hass.data[TAHOMA_DOMAIN]["controller"]
     devices = []
-    away_temp = config.get(CONF_AWAY_TEMP)
-    eco_temp = config.get(CONF_ECO_TEMP)
-    comfort_temp = config.get(CONF_COMFORT_TEMP)
-    anti_freeze_temp = config.get(CONF_ANTI_FREEZE_TEMP)
 
-    for device in hass.data[TAHOMA_DOMAIN]['devices']['climate']:
+    for device in hass.data[TAHOMA_DOMAIN]["devices"]["climate"]:
         name = device.label
         device_sensor = None
-        for sensor in config['sensors']:
+        for sensor in config["sensors"]:
             if sensor[CONF_NAME] == name:
                 device_sensor = sensor[CONF_ENTITY_ID]
+                away_temp = sensor.get(CONF_AWAY_TEMP)
+                eco_temp = sensor.get(CONF_ECO_TEMP)
+                comfort_temp = sensor.get(CONF_COMFORT_TEMP)
+                anti_freeze_temp = sensor.get(CONF_ANTI_FREEZE_TEMP)
+
         if device_sensor is None:
             _LOGGER.error("Could not find a sensor for thermostat " + name)
             return
         device.temperature_sensor = device_sensor
         devices.append(
-            TahomaThermostat(device, controller, device_sensor, away_temp, eco_temp, comfort_temp, anti_freeze_temp))
+            TahomaThermostat(
+                device,
+                controller,
+                device_sensor,
+                away_temp,
+                eco_temp,
+                comfort_temp,
+                anti_freeze_temp,
+            )
+        )
 
     async_add_entities(devices, True)
 
@@ -87,27 +99,33 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
 class TahomaThermostat(TahomaDevice, ClimateDevice):
     """Representation of a Tahoma thermostat."""
 
-    @property
-    def target_temperature_high(self) -> Optional[float]:
-        pass
-
-    @property
-    def target_temperature_low(self) -> Optional[float]:
-        pass
-
-    def __init__(self, tahoma_device, controller, sensor_entity_id, away_temp, eco_temp, comfort_temp,
-                 anti_freeze_temp):
+    def __init__(
+        self,
+        tahoma_device,
+        controller,
+        sensor_entity_id,
+        away_temp,
+        eco_temp,
+        comfort_temp,
+        anti_freeze_temp,
+    ):
         """Initialize the device."""
         super().__init__(tahoma_device, controller)
         if self.tahoma_device.type == "io:AtlanticElectricalHeaterIOComponent":
             self._type = "io"
-            if self.tahoma_device.active_states['core:OnOffState'] == "on":
+            if self.tahoma_device.active_states["core:OnOffState"] == "on":
                 self._hvac_mode = HVAC_MODE_HEAT
             else:
                 self._hvac_mode = HVAC_MODE_OFF
-        if self.tahoma_device.type == "somfythermostat:SomfyThermostatThermostatComponent":
+        if (
+            self.tahoma_device.type
+            == "somfythermostat:SomfyThermostatThermostatComponent"
+        ):
             self._type = "thermostat"
-            if self.tahoma_device.active_states['core:DerogationActivationState'] == "active":
+            if (
+                self.tahoma_device.active_states["core:DerogationActivationState"]
+                == "active"
+            ):
                 self._hvac_mode = HVAC_MODE_HEAT
             else:
                 self._hvac_mode = HVAC_MODE_OFF
@@ -120,8 +138,12 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
         if away_temp or eco_temp or comfort_temp or anti_freeze_temp:
             self._support_flags = SUPPORT_FLAGS | SUPPORT_PRESET_MODE
         self._away_temp = away_temp
-        self._is_away = False
+        self._eco_temp = eco_temp
+        self._comfort_temp = comfort_temp
+        self._anti_freeze_temp = anti_freeze_temp
+        self._preset_mode = None
         self._target_temp = 21
+        self._saved_target_temp = self._target_temp
         self._temp_lock = asyncio.Lock()
         self._active = False
         self._cold_tolerance = 0.3
@@ -130,24 +152,35 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
     def update(self):
         """Update method."""
         from time import sleep
+
         sleep(1)
         self.controller.get_states([self.tahoma_device])
         sensor_state = self.hass.states.get(self.sensor_entity_id)
         if sensor_state and sensor_state.state != STATE_UNKNOWN:
             self._async_update_temp(sensor_state)
         if self._type == "io":
-            state = self.tahoma_device.active_states['io:TargetHeatingLevelState']
+            state = self.tahoma_device.active_states["io:TargetHeatingLevelState"]
             if state == "off":
                 self._current_hvac_mode = CURRENT_HVAC_OFF
             else:
                 self._current_hvac_mode = CURRENT_HVAC_HEAT
         if self._type == "thermostat":
-            if self.tahoma_device.active_states['somfythermostat:HeatingModeState'] == 'freezeMode':
-                self._target_temp = \
-                    float(self.tahoma_device.active_states['somfythermostat:FreezeModeTargetTemperatureState'])
+            if (
+                self.tahoma_device.active_states["somfythermostat:HeatingModeState"]
+                == "freezeMode"
+            ):
+                self._target_temp = float(
+                    self.tahoma_device.active_states[
+                        "somfythermostat:FreezeModeTargetTemperatureState"
+                    ]
+                )
             else:
-                self._target_temp = float(self.tahoma_device.active_states['core:TargetTemperatureState'])
-            state = self.tahoma_device.active_states['somfythermostat:DerogationHeatingModeState']
+                self._target_temp = float(
+                    self.tahoma_device.active_states["core:TargetTemperatureState"]
+                )
+            state = self.tahoma_device.active_states[
+                "somfythermostat:DerogationHeatingModeState"
+            ]
             if state == "freezeMode":
                 self._current_hvac_mode = CURRENT_HVAC_OFF
             else:
@@ -179,60 +212,24 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
     @property
     def preset_mode(self):
         """Return the current preset mode, e.g., home, away, temp."""
-        if self._is_away:
-            return PRESET_AWAY
-        return None
+        return self._preset_mode
 
     @property
     def preset_modes(self):
         """Return a list of available preset modes."""
+        preset_modes = []
         if self._away_temp:
-            return [PRESET_NONE, PRESET_AWAY]
-        return None
-
-    @property
-    def is_aux_heat(self) -> Optional[bool]:
-        pass
-
-    @property
-    def fan_mode(self) -> Optional[str]:
-        pass
-
-    @property
-    def fan_modes(self) -> Optional[List[str]]:
-        pass
-
-    @property
-    def swing_mode(self) -> Optional[str]:
-        pass
-
-    @property
-    def swing_modes(self) -> Optional[List[str]]:
-        pass
-
-    def set_temperature(self, **kwargs) -> None:
-        pass
-
-    def set_humidity(self, humidity: int) -> None:
-        pass
-
-    def set_fan_mode(self, fan_mode: str) -> None:
-        pass
-
-    def set_hvac_mode(self, hvac_mode: str) -> None:
-        pass
-
-    def set_swing_mode(self, swing_mode: str) -> None:
-        pass
-
-    def set_preset_mode(self, preset_mode: str) -> None:
-        pass
-
-    def turn_aux_heat_on(self) -> None:
-        pass
-
-    def turn_aux_heat_off(self) -> None:
-        pass
+            preset_modes.append(PRESET_AWAY)
+        if self._eco_temp:
+            preset_modes.append(PRESET_ECO)
+        if self._comfort_temp:
+            preset_modes.append(PRESET_COMFORT)
+        if self._anti_freeze_temp:
+            preset_modes.append(PRESET_ANTI_FREEZE)
+        if not preset_modes:
+            return None
+        preset_modes.append(PRESET_NONE)
+        return preset_modes
 
     @property
     def supported_features(self):
@@ -314,32 +311,40 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
         """If the toggleable device is currently active."""
         state = "on"
         if self._type == "io":
-            state = self.tahoma_device.active_states['core:OnOffState']
+            state = self.tahoma_device.active_states["core:OnOffState"]
         return state == "on"
 
     async def _async_heater_turn_on(self):
         """Turn heater toggleable device on."""
         if self._type == "io":
-            self.apply_action('setHeatingLevel', 'comfort')
+            self.apply_action("setHeatingLevel", "comfort")
         elif self._type == "thermostat":
             if self.target_temperature < 15:
-                self.apply_action('setDerogation', 'freezeMode', 'further_notice')
-                self.apply_action('setModeTemperature', 'freezeMode', self.target_temperature)
+                self.apply_action("setDerogation", "freezeMode", "further_notice")
+                self.apply_action(
+                    "setModeTemperature", "freezeMode", self.target_temperature
+                )
             else:
-                self.apply_action('setDerogation', self.target_temperature, 'further_notice')
+                self.apply_action(
+                    "setDerogation", self.target_temperature, "further_notice"
+                )
         self._current_hvac_mode = CURRENT_HVAC_HEAT
         self.update()
 
     async def _async_heater_turn_off(self):
         """Turn heater toggleable device off."""
         if self._type == "io":
-            self.apply_action('setHeatingLevel', 'off')
+            self.apply_action("setHeatingLevel", "off")
         elif self._type == "thermostat":
             if self.target_temperature < 15:
-                self.apply_action('setDerogation', 'freezeMode', 'further_notice')
-                self.apply_action('setModeTemperature', 'freezeMode', self.target_temperature)
+                self.apply_action("setDerogation", "freezeMode", "further_notice")
+                self.apply_action(
+                    "setModeTemperature", "freezeMode", self.target_temperature
+                )
             else:
-                self.apply_action('setDerogation', self.target_temperature, 'further_notice')
+                self.apply_action(
+                    "setDerogation", self.target_temperature, "further_notice"
+                )
         self._current_hvac_mode = CURRENT_HVAC_OFF
         self.update()
 
@@ -369,15 +374,55 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
         await self.async_update_ha_state()
         self.update()
 
-    # @property
-    # def device_state_attributes(self):
-    #     """Return the device state attributes."""
-    #     attr = {}
-    #     super_attr = super().device_state_attributes
-    #     if super_attr is not None:
-    #         attr.update(super_attr)
-    #     attr['availability'] = \
-    #         self.tahoma_device.active_states['core:AvailabilityState']
-    #     attr['heating_mode'] = \
-    #         self.tahoma_device.active_states['io:TargetHeatingLevelState']
-    #     return attr
+    async def async_set_preset_mode(self, preset_mode: str) -> None:
+        """Set new preset mode.
+
+        This method must be run in the event loop and returns a coroutine.
+        """
+        if preset_mode not in self.preset_modes:
+            _LOGGER.error(
+                "Preset " + preset_mode + " is not available for " + self._name
+            )
+            return
+        if preset_mode == PRESET_AWAY and not self._preset_mode == PRESET_AWAY:
+            self._preset_mode = PRESET_AWAY
+            self._saved_target_temp = self._target_temp
+            self._target_temp = self._away_temp
+            await self._async_control_heating()
+        elif preset_mode == PRESET_ECO and not self._preset_mode == PRESET_ECO:
+            self._preset_mode = PRESET_ECO
+            self._saved_target_temp = self._target_temp
+            self._target_temp = self._eco_temp
+            await self._async_control_heating()
+        elif preset_mode == PRESET_COMFORT and not self._preset_mode == PRESET_COMFORT:
+            self._preset_mode = PRESET_COMFORT
+            self._saved_target_temp = self._target_temp
+            self._target_temp = self._comfort_temp
+            await self._async_control_heating()
+        elif (
+            preset_mode == PRESET_ANTI_FREEZE
+            and not self._preset_mode == PRESET_ANTI_FREEZE
+        ):
+            self._preset_mode = PRESET_ANTI_FREEZE
+            self._saved_target_temp = self._target_temp
+            self._target_temp = self._anti_freeze_temp
+            await self._async_control_heating()
+        elif preset_mode == PRESET_NONE and not self._preset_mode == PRESET_NONE:
+            self._preset_mode = PRESET_NONE
+            self._target_temp = self._saved_target_temp
+            await self._async_control_heating()
+        await self.async_update_ha_state()
+
+    @property
+    def device_state_attributes(self):
+        """Return the device state attributes."""
+        attr = {}
+        super_attr = super().device_state_attributes
+        if super_attr is not None:
+            attr.update(super_attr)
+        if "core:BatteryLevelState" in self.tahoma_device.active_states:
+            attr[ATTR_BATTERY_LEVEL] = self.tahoma_device.active_states[
+                "core:BatteryLevelState"
+            ]
+        attr["preset_mode"] = self._preset_mode
+        return attr
