@@ -14,8 +14,9 @@ close_open_open_lenaic:
     timeout: '00:01:00'
     continue_on_timeout: 'false'
   - service: cover.set_cover_position
-    entity_id: cover.velux_lenaic
-    position: 100
+    data:
+      entity_id: cover.velux_lenaic
+      position: 100
     
 close_open_open_palier:
   alias: Ferme velux ferme volet ouvre velux palier
@@ -31,8 +32,9 @@ close_open_open_palier:
     timeout: '00:01:00'
     continue_on_timeout: 'false'
   - service: cover.set_cover_position
-    entity_id: cover.velux_palier
-    position: 100
+    data:
+      entity_id: cover.velux_palier
+      position: 100
     
 close_close_open_lenaic:
   alias: Ferme velux ferme volet ouvre velux Lenaic
@@ -48,8 +50,9 @@ close_close_open_lenaic:
     timeout: '00:01:00'
     continue_on_timeout: 'false'
   - service: cover.set_cover_position
-    entity_id: cover.velux_lenaic
-    position: 100
+    data:
+      entity_id: cover.velux_lenaic
+      position: 100
     
 close_close_open_palier:
   alias: Ferme velux ferme volet ouvre velux palier
@@ -65,8 +68,9 @@ close_close_open_palier:
     timeout: '00:01:00'
     continue_on_timeout: 'false'
   - service: cover.set_cover_position
-    entity_id: cover.velux_palier
-    position: 100
+    data:
+      entity_id: cover.velux_palier
+      position: 100
     
 #### Open and close the velux
 
@@ -78,8 +82,9 @@ open_velux_palier:
   - condition: template
     value_template: '{{ states.cover.velux_palier.attributes.current_position < 50}}'
   - service: cover.set_cover_position
-    entity_id: cover.velux_palier
-    position: 100
+    data:
+      entity_id: cover.velux_palier
+      position: 100
       
 close_velux_palier:
   alias: Ferme velux palier
@@ -111,8 +116,9 @@ open_both_palier:
     timeout: '00:01:00'
     continue_on_timeout: 'false'
   - service: cover.set_cover_position
-    entity_id: cover.velux_palier
-    position: 100
+    data:
+      entity_id: cover.velux_palier
+      position: 100
       
 close_both_palier:
   alias: Ferme le volet et le velux du palier
@@ -163,8 +169,9 @@ open_velux_lenaic:
   - condition: template
     value_template: '{{ states.cover.velux_lenaic.attributes.current_position < 50}}'
   - service: cover.set_cover_position
-    entity_id: cover.velux_lenaic
-    position: 100
+    data:
+      entity_id: cover.velux_lenaic
+      position: 100
       
 close_velux_lenaic:
   alias: Ferme velux lenaic
@@ -196,8 +203,9 @@ open_both_lenaic:
     timeout: '00:01:00'
     continue_on_timeout: 'false'
   - service: cover.set_cover_position
-    entity_id: cover.velux_lenaic
-    position: 100
+    data:
+      entity_id: cover.velux_lenaic
+      position: 100
       
 close_both_lenaic:
   alias: Ferme le volet et le velux de Lenaïc
