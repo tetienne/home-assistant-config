@@ -13,8 +13,9 @@ close_open_open_lenaic:
   - wait_template: "{{ is_state('cover.volet_lenaic','closed')  }}"
     timeout: '00:01:00'
     continue_on_timeout: 'false'
-  - service: cover.open_cover
+  - service: cover.set_cover_position
     entity_id: cover.velux_lenaic
+    position: 100
     
 close_open_open_palier:
   alias: Ferme velux ferme volet ouvre velux palier
@@ -29,8 +30,9 @@ close_open_open_palier:
   - wait_template: "{{ is_state('cover.volet_palier','closed')  }}"
     timeout: '00:01:00'
     continue_on_timeout: 'false'
-  - service: cover.open_cover
+  - service: cover.set_cover_position
     entity_id: cover.velux_palier
+    position: 100
     
 close_close_open_lenaic:
   alias: Ferme velux ferme volet ouvre velux Lenaic
@@ -45,8 +47,9 @@ close_close_open_lenaic:
   - wait_template: "{{ is_state('cover.volet_lenaic','closed')  }}"
     timeout: '00:01:00'
     continue_on_timeout: 'false'
-  - service: cover.open_cover
+  - service: cover.set_cover_position
     entity_id: cover.velux_lenaic
+    position: 100
     
 close_close_open_palier:
   alias: Ferme velux ferme volet ouvre velux palier
@@ -61,8 +64,9 @@ close_close_open_palier:
   - wait_template: "{{ is_state('cover.volet_palier','closed')  }}"
     timeout: '00:01:00'
     continue_on_timeout: 'false'
-  - service: cover.open_cover
+  - service: cover.set_cover_position
     entity_id: cover.velux_palier
+    position: 100
     
 #### Open and close the velux
 
@@ -71,11 +75,11 @@ close_close_open_palier:
 open_velux_palier:
   alias: Ouvre velux palier
   sequence:
-  - condition: state
+  - condition: template
+    value_template: '{{ states.cover.velux_palier.attributes.current_position < 50}}'
+  - service: cover.set_cover_position
     entity_id: cover.velux_palier
-    state: 'closed'
-  - service: cover.open_cover
-    entity_id: cover.velux_palier
+    position: 100
       
 close_velux_palier:
   alias: Ferme velux palier
@@ -87,7 +91,7 @@ close_velux_palier:
     entity_id: cover.velux_palier
 
 open_volet_palier:
-  alias: Ferme volet palier
+  alias: Ouvre volet palier
   sequence:
   - service: cover.open_cover
     entity_id: cover.volet_palier
@@ -106,8 +110,9 @@ open_both_palier:
   - wait_template: "{{ is_state('cover.volet_palier','open')  }}"
     timeout: '00:01:00'
     continue_on_timeout: 'false'
-  - service: cover.open_cover
+  - service: cover.set_cover_position
     entity_id: cover.velux_palier
+    position: 100
       
 close_both_palier:
   alias: Ferme le volet et le velux du palier
@@ -155,11 +160,11 @@ secure_close_volet_palier:
 open_velux_lenaic:
   alias: Ouvre velux Lenaïc
   sequence:
-  - condition: state
+  - condition: template
+    value_template: '{{ states.cover.velux_lenaic.attributes.current_position < 50}}'
+  - service: cover.set_cover_position
     entity_id: cover.velux_lenaic
-    state: 'closed'
-  - service: cover.open_cover
-    entity_id: cover.velux_lenaic
+    position: 100
       
 close_velux_lenaic:
   alias: Ferme velux lenaic
@@ -190,8 +195,9 @@ open_both_lenaic:
   - wait_template: "{{ is_state('cover.volet_lenaic','open')  }}"
     timeout: '00:01:00'
     continue_on_timeout: 'false'
-  - service: cover.open_cover
+  - service: cover.set_cover_position
     entity_id: cover.velux_lenaic
+    position: 100
       
 close_both_lenaic:
   alias: Ferme le volet et le velux de Lenaïc
