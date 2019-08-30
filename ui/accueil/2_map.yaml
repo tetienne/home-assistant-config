@@ -5,5 +5,5 @@ conditions:
 card:
   type: map
   entities:
-  - device_tracker.vincent_presence
-  - device_tracker.virginia_presence
+  - device_tracker.vincent_composite
+  - device_tracker.virginia_composite
