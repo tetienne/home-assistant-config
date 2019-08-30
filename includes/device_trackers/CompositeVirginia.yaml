@@ -1,5 +1,5 @@
 platform: composite
-name: Virginia
+name: Virginia composite
 time_as: local
 entity_id:
   - device_tracker.ariela_virginia

@@ -1,5 +1,5 @@
 platform: composite
-name: Vincent
+name: Vincent composite
 time_as: local
 entity_id:
   - device_tracker.ariela_vincent
