@@ -13,7 +13,7 @@
 - name: NARIES
   latitude: 46.195229
   longitude: 6.197931
-  radius: 20
+  radius: 30
   icon: mdi:leaf
 
 - name: Cirqule
