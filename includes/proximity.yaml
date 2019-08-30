@@ -1,10 +1,10 @@
 home1:
   devices:
-    - device_tracker.vincent
+    - device_tracker.vincent_presence
   tolerance: 10
   unit_of_measurement: m
 home2:
   devices:
-    - device_tracker.virginia
+    - device_tracker.virginia_presence
   tolerance: 10
   unit_of_measurement: m
