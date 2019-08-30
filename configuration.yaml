@@ -38,7 +38,6 @@ input_boolean:    !include_dir_named includes/input_booleans
 input_select:     !include_dir_named includes/input_selects
 panel_iframe:     !include_dir_named includes/panel_iframes
 
-googlehome:       !include includes/googlehome.yaml
 downloader:       !include includes/dowloader.yaml
 group:            !include includes/groups.yaml
 google:           !include includes/google.yaml
