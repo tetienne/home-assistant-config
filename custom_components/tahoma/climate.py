@@ -38,6 +38,11 @@ CONF_ECO_TEMP = "eco_temp"
 CONF_COMFORT_TEMP = "comfort_temp"
 CONF_ANTI_FREEZE_TEMP = "anti_freeze_temp"
 
+SUPPORT_AWAY_TEMP = 1
+SUPPORT_ECO_TEMP = 2
+SUPPORT_COMFORT_TEMP = 4
+SUPPORT_ANTI_FREEZE_TEMP = 8
+
 PRESET_ANTI_FREEZE = "Anti-freeze"
 
 SENSOR_SCHEMA = vol.Schema(
@@ -139,13 +144,19 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
         if away_temp or eco_temp or comfort_temp or anti_freeze_temp:
             self._support_flags = SUPPORT_FLAGS | SUPPORT_PRESET_MODE
             self._preset_mode = PRESET_NONE
-        self._somfy_modes = False
+        self._somfy_modes = 0
         if self._type == "thermostat":
-            if away_temp is None and eco_temp is None and comfort_temp is None and anti_freeze_temp is None:
-                self._somfy_modes = True
+            if away_temp is None:
+                self._somfy_modes = self._somfy_modes | SUPPORT_AWAY_TEMP
                 self._away_temp = self.tahoma_device.active_states["somfythermostat:AwayModeTargetTemperatureState"]
+            if eco_temp is None:
+                self._somfy_modes = self._somfy_modes | SUPPORT_ECO_TEMP
                 self._eco_temp = self.tahoma_device.active_states["somfythermostat:SleepingModeTargetTemperatureState"]
+            if comfort_temp is None:
+                self._somfy_modes = self._somfy_modes | SUPPORT_COMFORT_TEMP
                 self._comfort_temp = self.tahoma_device.active_states["somfythermostat:AtHomeTargetTemperatureState"]
+            if anti_freeze_temp is None:
+                self._somfy_modes = self._somfy_modes | SUPPORT_ANTI_FREEZE_TEMP
                 self._anti_freeze_temp = \
                     self.tahoma_device.active_states["somfythermostat:FreezeModeTargetTemperatureState"]
         self._away_temp = away_temp
@@ -183,10 +194,13 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
                 self._current_hvac_mode = CURRENT_HVAC_OFF
             else:
                 self._current_hvac_mode = CURRENT_HVAC_HEAT
-            if self._somfy_modes:
+            if self._somfy_modes | SUPPORT_AWAY_TEMP:
                 self._away_temp = self.tahoma_device.active_states["somfythermostat:AwayModeTargetTemperatureState"]
+            if self._somfy_modes | SUPPORT_ECO_TEMP:
                 self._eco_temp = self.tahoma_device.active_states["somfythermostat:SleepingModeTargetTemperatureState"]
+            if self._somfy_modes | SUPPORT_COMFORT_TEMP:
                 self._comfort_temp = self.tahoma_device.active_states["somfythermostat:AtHomeTargetTemperatureState"]
+            if self._somfy_modes | SUPPORT_ANTI_FREEZE_TEMP:
                 self._anti_freeze_temp = \
                     self.tahoma_device.active_states["somfythermostat:FreezeModeTargetTemperatureState"]
 
