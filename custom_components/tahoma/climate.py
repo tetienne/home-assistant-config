@@ -141,14 +141,15 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
         self._current_hvac_mode = CURRENT_HVAC_OFF
         self._hvac_list = [HVAC_MODE_HEAT, HVAC_MODE_OFF]
         self._preset_mode = None
-        if away_temp or eco_temp or comfort_temp or anti_freeze_temp:
-            self._support_flags = SUPPORT_FLAGS | SUPPORT_PRESET_MODE
-            self._preset_mode = PRESET_NONE
         self._somfy_modes = 0
+        self._away_temp = away_temp
+        self._eco_temp = eco_temp
+        self._comfort_temp = comfort_temp
+        self._anti_freeze_temp = anti_freeze_temp
         if self._type == "thermostat":
             if away_temp is None:
                 self._somfy_modes = self._somfy_modes | SUPPORT_AWAY_TEMP
-                self._away_temp = self.tahoma_device.active_states["somfythermostat:AwayModeTargetTemperatureState"]
+                self._away_temp = float(self.tahoma_device.active_states["somfythermostat:AwayModeTargetTemperatureState"])
             if eco_temp is None:
                 self._somfy_modes = self._somfy_modes | SUPPORT_ECO_TEMP
                 self._eco_temp = self.tahoma_device.active_states["somfythermostat:SleepingModeTargetTemperatureState"]
@@ -159,10 +160,9 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
                 self._somfy_modes = self._somfy_modes | SUPPORT_ANTI_FREEZE_TEMP
                 self._anti_freeze_temp = \
                     self.tahoma_device.active_states["somfythermostat:FreezeModeTargetTemperatureState"]
-        self._away_temp = away_temp
-        self._eco_temp = eco_temp
-        self._comfort_temp = comfort_temp
-        self._anti_freeze_temp = anti_freeze_temp
+        if away_temp or eco_temp or comfort_temp or anti_freeze_temp or self._somfy_modes:
+            self._support_flags = SUPPORT_FLAGS | SUPPORT_PRESET_MODE
+            self._preset_mode = PRESET_NONE
         self._target_temp = 21
         self._saved_target_temp = self._target_temp
         self._temp_lock = asyncio.Lock()
