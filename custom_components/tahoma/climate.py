@@ -38,6 +38,11 @@ CONF_ECO_TEMP = "eco_temp"
 CONF_COMFORT_TEMP = "comfort_temp"
 CONF_ANTI_FREEZE_TEMP = "anti_freeze_temp"
 
+SUPPORT_AWAY_TEMP = 1
+SUPPORT_ECO_TEMP = 2
+SUPPORT_COMFORT_TEMP = 4
+SUPPORT_ANTI_FREEZE_TEMP = 8
+
 PRESET_ANTI_FREEZE = "Anti-freeze"
 
 SENSOR_SCHEMA = vol.Schema(
@@ -100,14 +105,14 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
     """Representation of a Tahoma thermostat."""
 
     def __init__(
-        self,
-        tahoma_device,
-        controller,
-        sensor_entity_id,
-        away_temp,
-        eco_temp,
-        comfort_temp,
-        anti_freeze_temp,
+            self,
+            tahoma_device,
+            controller,
+            sensor_entity_id,
+            away_temp,
+            eco_temp,
+            comfort_temp,
+            anti_freeze_temp,
     ):
         """Initialize the device."""
         super().__init__(tahoma_device, controller)
@@ -118,13 +123,13 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
             else:
                 self._hvac_mode = HVAC_MODE_OFF
         if (
-            self.tahoma_device.type
-            == "somfythermostat:SomfyThermostatThermostatComponent"
+                self.tahoma_device.type
+                == "somfythermostat:SomfyThermostatThermostatComponent"
         ):
             self._type = "thermostat"
             if (
-                self.tahoma_device.active_states["core:DerogationActivationState"]
-                == "active"
+                    self.tahoma_device.active_states["core:DerogationActivationState"]
+                    == "active"
             ):
                 self._hvac_mode = HVAC_MODE_HEAT
             else:
@@ -139,6 +144,21 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
         if away_temp or eco_temp or comfort_temp or anti_freeze_temp:
             self._support_flags = SUPPORT_FLAGS | SUPPORT_PRESET_MODE
             self._preset_mode = PRESET_NONE
+        self._somfy_modes = 0
+        if self._type == "thermostat":
+            if away_temp is None:
+                self._somfy_modes = self._somfy_modes | SUPPORT_AWAY_TEMP
+                self._away_temp = self.tahoma_device.active_states["somfythermostat:AwayModeTargetTemperatureState"]
+            if eco_temp is None:
+                self._somfy_modes = self._somfy_modes | SUPPORT_ECO_TEMP
+                self._eco_temp = self.tahoma_device.active_states["somfythermostat:SleepingModeTargetTemperatureState"]
+            if comfort_temp is None:
+                self._somfy_modes = self._somfy_modes | SUPPORT_COMFORT_TEMP
+                self._comfort_temp = self.tahoma_device.active_states["somfythermostat:AtHomeTargetTemperatureState"]
+            if anti_freeze_temp is None:
+                self._somfy_modes = self._somfy_modes | SUPPORT_ANTI_FREEZE_TEMP
+                self._anti_freeze_temp = \
+                    self.tahoma_device.active_states["somfythermostat:FreezeModeTargetTemperatureState"]
         self._away_temp = away_temp
         self._eco_temp = eco_temp
         self._comfort_temp = comfort_temp
@@ -153,7 +173,6 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
     def update(self):
         """Update method."""
         from time import sleep
-
         sleep(1)
         self.controller.get_states([self.tahoma_device])
         sensor_state = self.hass.states.get(self.sensor_entity_id)
@@ -166,26 +185,24 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
             else:
                 self._current_hvac_mode = CURRENT_HVAC_HEAT
         if self._type == "thermostat":
-            if (
-                self.tahoma_device.active_states["somfythermostat:HeatingModeState"]
-                == "freezeMode"
-            ):
-                self._target_temp = float(
-                    self.tahoma_device.active_states[
-                        "somfythermostat:FreezeModeTargetTemperatureState"
-                    ]
-                )
+            if self.tahoma_device.active_states["somfythermostat:HeatingModeState"] == "freezeMode":
+                self._target_temp = self.tahoma_device.active_states["somfythermostat:FreezeModeTargetTemperatureState"]
             else:
-                self._target_temp = float(
-                    self.tahoma_device.active_states["core:TargetTemperatureState"]
-                )
-            state = self.tahoma_device.active_states[
-                "somfythermostat:DerogationHeatingModeState"
-            ]
+                self._target_temp = self.tahoma_device.active_states["core:TargetTemperatureState"]
+            state = self.tahoma_device.active_states["somfythermostat:DerogationHeatingModeState"]
             if state == "freezeMode":
                 self._current_hvac_mode = CURRENT_HVAC_OFF
             else:
                 self._current_hvac_mode = CURRENT_HVAC_HEAT
+            if self._somfy_modes | SUPPORT_AWAY_TEMP:
+                self._away_temp = self.tahoma_device.active_states["somfythermostat:AwayModeTargetTemperatureState"]
+            if self._somfy_modes | SUPPORT_ECO_TEMP:
+                self._eco_temp = self.tahoma_device.active_states["somfythermostat:SleepingModeTargetTemperatureState"]
+            if self._somfy_modes | SUPPORT_COMFORT_TEMP:
+                self._comfort_temp = self.tahoma_device.active_states["somfythermostat:AtHomeTargetTemperatureState"]
+            if self._somfy_modes | SUPPORT_ANTI_FREEZE_TEMP:
+                self._anti_freeze_temp = \
+                    self.tahoma_device.active_states["somfythermostat:FreezeModeTargetTemperatureState"]
 
     @property
     def hvac_action(self):
@@ -401,8 +418,8 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
             self._target_temp = self._comfort_temp
             await self._async_control_heating()
         elif (
-            preset_mode == PRESET_ANTI_FREEZE
-            and not self._preset_mode == PRESET_ANTI_FREEZE
+                preset_mode == PRESET_ANTI_FREEZE
+                and not self._preset_mode == PRESET_ANTI_FREEZE
         ):
             self._preset_mode = PRESET_ANTI_FREEZE
             self._saved_target_temp = self._target_temp
