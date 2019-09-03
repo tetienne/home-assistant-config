@@ -1,8 +1,7 @@
 alias: Ouvre le vélux du palier s'il fait assez frais dehors
 trigger:
   - platform: template
-    value_template: '{{ (states.sensor.tdeg_parents.state | float) > (states.sensor.netatmo_terrasse_temperature.state
-    | float) }}'
+    value_template: "{{ (states.sensor.tdeg_parents.state | float) > (states.sensor.netatmo_terrasse_temperature.state | float) }}"
 condition:
   - above: '22'
     condition: numeric_state

@@ -7,6 +7,8 @@ trigger:
     webhook_id: netatmo_webhook
   - platform: webhook
     webhook_id: netatmo_connect
+  - platform: webhook
+    webhook_id: 59c38c3cfc067f5c7e505f83a278c26e6a0e43c0091b3bde907a178e810ec064
 action:
   - service: notify.webhook
     data_template:

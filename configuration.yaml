@@ -22,7 +22,7 @@ map:
 person:
 stream:
 sun:
-
+    
 automation:       !include_dir_list includes/automations
 binary_sensor:    !include_dir_list includes/binary_sensors
 camera:           !include_dir_list includes/cameras
