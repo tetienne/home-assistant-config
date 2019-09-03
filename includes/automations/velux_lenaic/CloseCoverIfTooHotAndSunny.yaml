@@ -1,0 +1,13 @@
+alias: Ferme le volet chez Lenaïc s'il fait soleil
+trigger:
+  - platform: numeric_state
+    entity_id: sensor.netatmo_palier_temperature
+    above: '20'
+condition:
+  - state: sunny
+    condition: state
+    entity_id: weather.dark_sky
+action:
+  - service: script.turn_on
+    data:
+      entity_id: script.secure_close_volet_palier
