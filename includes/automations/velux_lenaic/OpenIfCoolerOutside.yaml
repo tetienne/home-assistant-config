@@ -11,10 +11,9 @@ condition:
     entity_id: sensor.netatmo_pluie_jardin_rain
   - condition: template
     value_template: "{{ not is_state('weather.ti_ar_kaerell','rainy') }}"
+  - condition: template
+    value_template: "{{ states.cover.velux_lenaic.attributes.current_position < 95 }}"
 action:
-  - service: notify.google_push
-    data:
-      message: "open velux lenaic"
   - service: script.turn_on
     data:
       entity_id: script.open_velux_lenaic
