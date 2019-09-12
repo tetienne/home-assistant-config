@@ -4,7 +4,7 @@ trigger:
     value_template: '{{ (states.sensor.tdeg_parents.state | float) > (states.sensor.netatmo_terrasse_temperature.state
     | float) }}'
 condition:
-  - below: '20'
+  - below: '21'
     condition: numeric_state
     entity_id: sensor.tdeg_parents
   - condition: state

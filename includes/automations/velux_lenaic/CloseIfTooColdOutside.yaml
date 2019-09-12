@@ -4,9 +4,9 @@ trigger:
     value_template: '{{ (states.sensor.sensative_strips_comfort_temperature.state
     | float) > (states.sensor.netatmo_terrasse_temperature.state | float) }}'
 condition:
-  - below: '20'
-    condition: numeric_state
-    entity_id: sensor.sensative_strips_comfort_temperature
+  - condition: template
+    value_template: "{{ (states.sensor.sensative_strips_comfort_temperature.state
+    | float) < 21 }}"
   - condition: state
     entity_id: cover.velux_lenaic
     state: open

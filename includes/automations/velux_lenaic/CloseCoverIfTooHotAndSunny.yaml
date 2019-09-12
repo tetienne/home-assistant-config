@@ -1,7 +1,7 @@
 alias: Ferme le volet chez Lenaïc s'il fait soleil
 trigger:
   - platform: numeric_state
-    entity_id: sensor.netatmo_palier_temperature
+    entity_id: sensor.sensative_strips_comfort_temperature
     above: '20'
 condition:
   - state: sunny
@@ -10,4 +10,4 @@ condition:
 action:
   - service: script.turn_on
     data:
-      entity_id: script.secure_close_volet_palier
+      entity_id: script.secure_close_volet_lenaic
