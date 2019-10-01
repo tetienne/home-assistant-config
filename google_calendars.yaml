@@ -54,3 +54,17 @@
     ignore_availability: true
     name: "Jours f\xE9ri\xE9s en France"
     track: true
+
+- cal_id: 4pgatk18laco363ec8hq8g1ahk@group.calendar.google.com
+  entities:
+  - device_id: lenaic
+    ignore_availability: true
+    name: "Lena\xEFc"
+    track: true
+
+- cal_id: addressbook#contacts@group.v.calendar.google.com
+  entities:
+  - device_id: contacts
+    ignore_availability: true
+    name: Contacts
+    track: true

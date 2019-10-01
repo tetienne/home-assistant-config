@@ -1,15 +1,10 @@
 alias: Ferme le vélux de Lenaïc s'il fait trop froid dehors
 trigger:
   - platform: template
-    value_template: '{{ (states.sensor.sensative_strips_comfort_temperature.state
-    | float) > (states.sensor.netatmo_terrasse_temperature.state | float) }}'
-condition:
-  - condition: template
-    value_template: "{{ (states.sensor.sensative_strips_comfort_temperature.state
-    | float) < 21 }}"
-  - condition: state
-    entity_id: cover.velux_lenaic
-    state: open
+    value_template: "{{ 
+        (states.sensor.sensative_strips_comfort_temperature.state | float) > (states.sensor.netatmo_terrasse_temperature.state | float) and 
+        (states.sensor.sensative_strips_comfort_temperature.state | float) < 21 and 
+        is_state('cover.velux_lenaic','open') }}"
 action:
   - service: script.turn_on
     data:

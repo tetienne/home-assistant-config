@@ -15,7 +15,7 @@ homeassistant:
         - 172.30.32.1
       allow_bypass_login: true
     - type: homeassistant
-
+ 
 cloud:
 default_config:
 map:

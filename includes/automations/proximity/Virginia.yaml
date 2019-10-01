@@ -1,0 +1,10 @@
+id: VirginiaEstSurLeRetour
+alias: Virginia est sur le retour
+trigger:
+  platform: state
+  to: towards
+  entity_id: proximity.home2
+action:
+- service: notify.google_push_pixel_2
+  data:
+    message: "Virginia est sur le retour"

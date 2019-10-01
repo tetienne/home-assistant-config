@@ -1,18 +1,12 @@
 alias: Ouvre le vélux de Lenaïc s'il fait assez frais dehors
 trigger:
   - platform: template
-    value_template: "{{ (states.sensor.sensative_strips_comfort_temperature.state | float) > (states.sensor.netatmo_terrasse_temperature.state | float) }}"
-condition:
-  - above: '22'
-    condition: numeric_state
-    entity_id: sensor.sensative_strips_comfort_temperature
-  - below: '0.1'
-    condition: numeric_state
-    entity_id: sensor.netatmo_pluie_jardin_rain
-  - condition: template
-    value_template: "{{ not is_state('weather.ti_ar_kaerell','rainy') }}"
-  - condition: template
-    value_template: "{{ states.cover.velux_lenaic.attributes.current_position < 95 }}"
+    value_template: "{{ 
+        (states.sensor.sensative_strips_comfort_temperature.state | float) > (states.sensor.netatmo_terrasse_temperature.state | float) and
+        (states.sensor.sensative_strips_comfort_temperature.state | float) > 22 and 
+        (states.sensor.netatmo_pluie_jardin_rain.state | float) < 0.1 and 
+        not is_state('weather.ti_ar_kaerell','rainy') and
+        states.cover.velux_lenaic.attributes.current_position < 95 }}"
 action:
   - service: script.turn_on
     data:
