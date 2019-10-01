@@ -1,9 +1,8 @@
 id: VirginiaEstSurLeRetour
 alias: Virginia est sur le retour
 trigger:
-  platform: state
-  to: towards
-  entity_id: proximity.home2
+  platform: template
+  value_template: '{{ states.proximity.home2.attributes.dir_of_travel == "towards" }}'
 action:
 - service: notify.google_push_pixel_2
   data:
