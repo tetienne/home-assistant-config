@@ -68,3 +68,10 @@
     ignore_availability: true
     name: Contacts
     track: true
+
+- cal_id: dudabrk0m3r3gu9hb2ss255glc@group.calendar.google.com
+  entities:
+  - device_id: lol_worlds
+    ignore_availability: true
+    name: Lol Worlds
+    track: true
