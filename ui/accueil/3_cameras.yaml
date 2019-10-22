@@ -8,11 +8,15 @@ cards:
   entity: camera.camsalon
   camera_view: live
   name: Salon live
-- type: entities
-  entities:
-  - entity: sensor.netatmo_type_terrasse
-    name: "Terrasse"
-  - entity: sensor.netatmo_type_salon
-    name: "Salon"
-  - entity: lock.ti_ar_kaerell
-    name: "Serrure"
+- type: horizontal-stack
+  cards:
+  - type: entity-button
+    entity: switch.terrasse
+  - type: entities
+    entities:
+    - entity: sensor.netatmo_type_terrasse
+      name: "Terrasse"
+    - entity: sensor.netatmo_type_salon
+      name: "Salon"
+    - entity: lock.ti_ar_kaerell
+      name: "Serrure"

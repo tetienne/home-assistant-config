@@ -1,7 +1,5 @@
 type: vertical-stack
 cards:
-- type: entity-button
-  entity: switch.terrasse
 - type: custom:mini-graph-card
   entities:
   - entity: sensor.netatmo_terrasse_temperature
