@@ -430,6 +430,7 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
             self._target_temp = self._saved_target_temp
             await self._async_control_heating()
         await self.async_update_ha_state()
+        self.update()
 
     @property
     def device_state_attributes(self):
