@@ -174,6 +174,10 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
         """Update method."""
         from time import sleep
         sleep(1)
+
+        # for k, v in self.tahoma_device.active_states.items():
+        #     print(k, v)
+
         self.controller.get_states([self.tahoma_device])
         sensor_state = self.hass.states.get(self.sensor_entity_id)
         if sensor_state and sensor_state.state != STATE_UNKNOWN:
@@ -185,15 +189,17 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
             else:
                 self._current_hvac_mode = CURRENT_HVAC_HEAT
         if self._type == "thermostat":
-            if self.tahoma_device.active_states["somfythermostat:HeatingModeState"] == "freezeMode":
-                self._target_temp = self.tahoma_device.active_states["somfythermostat:FreezeModeTargetTemperatureState"]
-            else:
-                self._target_temp = self.tahoma_device.active_states["core:TargetTemperatureState"]
+            # if self.tahoma_device.active_states["somfythermostat:HeatingModeState"] == "freezeMode":
+            #     self._target_temp = self.tahoma_device.active_states["somfythermostat:FreezeModeTargetTemperatureState"]
+            # else:
+            #     self._target_temp = self.tahoma_device.active_states["core:TargetTemperatureState"]
             state = self.tahoma_device.active_states["somfythermostat:DerogationHeatingModeState"]
             if state == "freezeMode":
                 self._current_hvac_mode = CURRENT_HVAC_OFF
+                self._target_temp = self.tahoma_device.active_states["somfythermostat:FreezeModeTargetTemperatureState"]
             else:
                 self._current_hvac_mode = CURRENT_HVAC_HEAT
+                self._target_temp = self.tahoma_device.active_states["core:DerogatedTargetTemperatureState"]
             if self._somfy_modes | SUPPORT_AWAY_TEMP:
                 self._away_temp = self.tahoma_device.active_states["somfythermostat:AwayModeTargetTemperatureState"]
             if self._somfy_modes | SUPPORT_ECO_TEMP:
