@@ -195,7 +195,7 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
                 self._target_temp = self.tahoma_device.active_states["somfythermostat:FreezeModeTargetTemperatureState"]
             else:
                 self._current_hvac_mode = CURRENT_HVAC_HEAT
-                # self._target_temp = self.tahoma_device.active_states["core:DerogatedTargetTemperatureState"]
+                self._target_temp = self.tahoma_device.active_states["core:DerogatedTargetTemperatureState"]
             if self._somfy_modes | SUPPORT_AWAY_TEMP:
                 self._away_temp = self.tahoma_device.active_states["somfythermostat:AwayModeTargetTemperatureState"]
             if self._somfy_modes | SUPPORT_ECO_TEMP:
@@ -311,20 +311,18 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
                     self._target_temp,
                 )
 
-            if not self._active or self._hvac_mode == HVAC_MODE_OFF:
+            if not self._active:
                 return
 
             too_cold = self._target_temp - self._cur_temp >= self._cold_tolerance
             too_hot = self._cur_temp - self._target_temp >= self._hot_tolerance
 
-            if self._is_device_active:
-                if too_hot:
-                    _LOGGER.info("Turning off heater %s", self.name)
-                    await self._async_heater_turn_off()
-            else:
-                if too_cold:
-                    _LOGGER.info("Turning on heater %s", self.name)
-                    await self._async_heater_turn_on()
+            if too_hot:
+                _LOGGER.info("Turning off heater %s", self.name)
+                await self._async_heater_turn_off()
+            if too_cold:
+                _LOGGER.info("Turning on heater %s", self.name)
+                await self._async_heater_turn_on()
 
     @property
     def _is_device_active(self):
@@ -349,6 +347,8 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
                     "setDerogation", self.target_temperature, "further_notice"
                 )
         self._current_hvac_mode = CURRENT_HVAC_HEAT
+        from time import sleep
+        sleep(7)
         self.update()
 
     async def _async_heater_turn_off(self):
@@ -366,6 +366,8 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
                     "setDerogation", self.target_temperature, "further_notice"
                 )
         self._current_hvac_mode = CURRENT_HVAC_OFF
+        from time import sleep
+        sleep(7)
         self.update()
 
     async def async_set_hvac_mode(self, hvac_mode):
@@ -390,6 +392,10 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
         if temperature is None:
             return
         self._target_temp = temperature
+        if self._type == "thermostat":
+            self.apply_action(
+                "setModeTemperature", "manualMode", self.target_temperature
+            )
         await self._async_control_heating()
         await self.async_update_ha_state()
         self.update()
