@@ -18,5 +18,7 @@ cards:
       name: "Terrasse"
     - entity: sensor.netatmo_type_salon
       name: "Salon"
-    - entity: lock.ti_ar_kaerell
-      name: "Serrure"
+- type: entities
+  entities:
+  - entity: lock.ti_ar_kaerell
+    name: "Serrure"
