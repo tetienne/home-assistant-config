@@ -1,4 +1,4 @@
-project_id: home-assistant-246207
+project_id: homeassistant-49a55
 api_key: !secret google-assistant-api-key
 exposed_domains:
 - cover

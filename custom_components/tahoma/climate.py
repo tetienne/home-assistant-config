@@ -169,6 +169,7 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
         self._active = False
         self._cold_tolerance = 0.3
         self._hot_tolerance = 0.3
+        self._update_caller = "none"
 
     def update(self):
         """Update method."""
@@ -190,6 +191,8 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
             # else:
             #     self._target_temp = self.tahoma_device.active_states["core:TargetTemperatureState"]
             state = self.tahoma_device.active_states["somfythermostat:DerogationHeatingModeState"]
+            _LOGGER.info("caller: %s, target: %s, saved: %s", self._update_caller, self._target_temp, self._saved_target_temp)
+            sleep(10)
             if state == "freezeMode":
                 self._current_hvac_mode = CURRENT_HVAC_OFF
                 self._target_temp = self.tahoma_device.active_states["somfythermostat:FreezeModeTargetTemperatureState"]
@@ -334,6 +337,7 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
 
     async def _async_heater_turn_on(self):
         """Turn heater toggleable device on."""
+        from time import sleep
         if self._type == "io":
             self.apply_action("setHeatingLevel", "comfort")
         elif self._type == "thermostat":
@@ -344,15 +348,21 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
                 )
             else:
                 self.apply_action(
+                    "setModeTemperature", "manualMode", self.target_temperature
+                )
+                self.apply_action(
                     "setDerogation", self.target_temperature, "further_notice"
                 )
+            sleep(30)
         self._current_hvac_mode = CURRENT_HVAC_HEAT
-        from time import sleep
         sleep(7)
+        await self.async_update_ha_state()
+        self._update_caller = "_async_heater_turn_on"
         self.update()
 
     async def _async_heater_turn_off(self):
         """Turn heater toggleable device off."""
+        from time import sleep
         if self._type == "io":
             self.apply_action("setHeatingLevel", "off")
         elif self._type == "thermostat":
@@ -363,11 +373,16 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
                 )
             else:
                 self.apply_action(
+                    "setModeTemperature", "manualMode", self.target_temperature
+                )
+                self.apply_action(
                     "setDerogation", self.target_temperature, "further_notice"
                 )
+            sleep(30)
         self._current_hvac_mode = CURRENT_HVAC_OFF
-        from time import sleep
         sleep(7)
+        await self.async_update_ha_state()
+        self._update_caller = "_async_heater_turn_off"
         self.update()
 
     async def async_set_hvac_mode(self, hvac_mode):
@@ -384,6 +399,7 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
             return
         # Ensure we update the current operation after changing the mode
         self.schedule_update_ha_state()
+        self._update_caller = "async_set_hvac_mode"
         self.update()
 
     async def async_set_temperature(self, **kwargs):
@@ -392,13 +408,12 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
         if temperature is None:
             return
         self._target_temp = temperature
-        if self._type == "thermostat":
-            self.apply_action(
-                "setModeTemperature", "manualMode", self.target_temperature
-            )
+        # if self._type == "thermostat":
+        #     self.apply_action(
+        #         "setModeTemperature", "manualMode", self.target_temperature
+        #     )
         await self._async_control_heating()
-        await self.async_update_ha_state()
-        self.update()
+        # self.update()
 
     async def async_set_preset_mode(self, preset_mode: str) -> None:
         """Set new preset mode.
@@ -438,6 +453,7 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
             self._target_temp = self._saved_target_temp
             await self._async_control_heating()
         await self.async_update_ha_state()
+        self._update_caller = "async_set_preset_mode"
         self.update()
 
     @property
