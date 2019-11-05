@@ -149,7 +149,8 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
         if self._type == "thermostat":
             if away_temp is None:
                 self._somfy_modes = self._somfy_modes | SUPPORT_AWAY_TEMP
-                self._away_temp = float(self.tahoma_device.active_states["somfythermostat:AwayModeTargetTemperatureState"])
+                self._away_temp = float(
+                    self.tahoma_device.active_states["somfythermostat:AwayModeTargetTemperatureState"])
             if eco_temp is None:
                 self._somfy_modes = self._somfy_modes | SUPPORT_ECO_TEMP
                 self._eco_temp = self.tahoma_device.active_states["somfythermostat:SleepingModeTargetTemperatureState"]
@@ -191,7 +192,8 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
             # else:
             #     self._target_temp = self.tahoma_device.active_states["core:TargetTemperatureState"]
             state = self.tahoma_device.active_states["somfythermostat:DerogationHeatingModeState"]
-            _LOGGER.info("caller: %s, target: %s, saved: %s", self._update_caller, self._target_temp, self._saved_target_temp)
+            _LOGGER.info("caller: %s, target: %s, saved: %s", self._update_caller, self._target_temp,
+                         self._saved_target_temp)
             sleep(10)
             if state == "freezeMode":
                 self._current_hvac_mode = CURRENT_HVAC_OFF
@@ -335,25 +337,24 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
             state = self.tahoma_device.active_states["core:OnOffState"]
         return state == "on"
 
+    def _apply_action(self, target_temperature):
+        if target_temperature < 16:
+            target_temperature = 16
+        if self.tahoma_device.active_states['core:DerogatedTargetTemperatureState'] != target_temperature:
+            from time import sleep
+            self.apply_action("refreshState")
+            self.apply_action("setModeTemperature", "manualMode", target_temperature)
+            self.apply_action("setDerogation", target_temperature, "further_notice")
+            self.apply_action("refreshState")
+            sleep(10)
+
     async def _async_heater_turn_on(self):
         """Turn heater toggleable device on."""
         from time import sleep
         if self._type == "io":
             self.apply_action("setHeatingLevel", "comfort")
         elif self._type == "thermostat":
-            if self.target_temperature < 15:
-                self.apply_action("setDerogation", "freezeMode", "further_notice")
-                self.apply_action(
-                    "setModeTemperature", "freezeMode", self.target_temperature
-                )
-            else:
-                self.apply_action(
-                    "setModeTemperature", "manualMode", self.target_temperature
-                )
-                self.apply_action(
-                    "setDerogation", self.target_temperature, "further_notice"
-                )
-            sleep(30)
+            self._apply_action(self.target_temperature)
         self._current_hvac_mode = CURRENT_HVAC_HEAT
         sleep(7)
         await self.async_update_ha_state()
@@ -366,19 +367,7 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
         if self._type == "io":
             self.apply_action("setHeatingLevel", "off")
         elif self._type == "thermostat":
-            if self.target_temperature < 15:
-                self.apply_action("setDerogation", "freezeMode", "further_notice")
-                self.apply_action(
-                    "setModeTemperature", "freezeMode", self.target_temperature
-                )
-            else:
-                self.apply_action(
-                    "setModeTemperature", "manualMode", self.target_temperature
-                )
-                self.apply_action(
-                    "setDerogation", self.target_temperature, "further_notice"
-                )
-            sleep(30)
+            self._apply_action(self.target_temperature)
         self._current_hvac_mode = CURRENT_HVAC_OFF
         sleep(7)
         await self.async_update_ha_state()
