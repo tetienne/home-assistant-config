@@ -1,4 +1,4 @@
-type: horizontal-stack
+type: vertical-stack
 cards:
 - type: custom:vertical-stack-in-card
   cards:
@@ -14,3 +14,7 @@ cards:
       name: Distance
     - entity: proximity.home2
       name: Distance
+- type: glance
+  entities:
+    - entity: sensor.home
+      name: Maison
