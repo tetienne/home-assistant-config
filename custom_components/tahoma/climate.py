@@ -191,7 +191,7 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
             # else:
             #     self._target_temp = self.tahoma_device.active_states["core:TargetTemperatureState"]
             state = self.tahoma_device.active_states["somfythermostat:DerogationHeatingModeState"]
-            _LOGGER.info("caller: %s, target: %s, saved: %s", self._update_caller, self._target_temp,
+            _LOGGER.debug("caller: %s, target: %s, saved: %s", self._update_caller, self._target_temp,
                          self._saved_target_temp)
             self._target_temp = self.tahoma_device.active_states["core:DerogatedTargetTemperatureState"]
             if self._somfy_modes | SUPPORT_AWAY_TEMP:
