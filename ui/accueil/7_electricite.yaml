@@ -2,7 +2,7 @@ type: vertical-stack
 cards:
 - type: custom:mini-graph-card
   hours_to_show: 672
-  points_per_hour: 0.04166666
+  points_per_hour: 0.043478
   entities:
   - entity: sensor.linky_yesterday
     name: Journalier
@@ -26,33 +26,6 @@ cards:
   - value: 15
     color: "#FF7B00"
   - value: 17.5
-    color: "#FF1500"
-- type: custom:mini-graph-card
-  hours_to_show: 96
-  points_per_hour: 1
-  entities:
-  - entity: sensor.linky_yesterday
-    name: Journalier
-  show:
-    graph: bar
-    points: hover
-    labels: true
-  color_thresholds:
-  - value: 0
-    color: "#00FAFF"
-  - value: 0.3571
-    color: "#00FFA1"
-  - value: 0.7143
-    color: "#00FF3B"
-  - value: 1.0714
-    color: "#26FF00"
-  - value: 1.4286
-    color: "#8CFF00"
-  - value: 1.7857
-    color: "#FFC300"
-  - value: 2.1429
-    color: "#FF7B00"
-  - value: 2.5
     color: "#FF1500"
 - type: horizontal-stack
   cards:
