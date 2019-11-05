@@ -6,6 +6,10 @@ cards:
   entities:
   - entity: sensor.linky_yesterday
     name: Journalier
+  show:
+    graph: bar
+    points: hover
+    labels: true
   color_thresholds:
   - value: 0
     color: "#00FAFF"
