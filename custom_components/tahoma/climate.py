@@ -175,7 +175,6 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
     def update(self):
         """Update method."""
         from time import sleep
-        sleep(1)
         self.controller.get_states([self.tahoma_device])
         sensor_state = self.hass.states.get(self.sensor_entity_id)
         if sensor_state and sensor_state.state != STATE_UNKNOWN:
@@ -194,13 +193,7 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
             state = self.tahoma_device.active_states["somfythermostat:DerogationHeatingModeState"]
             _LOGGER.info("caller: %s, target: %s, saved: %s", self._update_caller, self._target_temp,
                          self._saved_target_temp)
-            sleep(10)
-            if state == "freezeMode":
-                self._current_hvac_mode = CURRENT_HVAC_OFF
-                self._target_temp = self.tahoma_device.active_states["somfythermostat:FreezeModeTargetTemperatureState"]
-            else:
-                self._current_hvac_mode = CURRENT_HVAC_HEAT
-                self._target_temp = self.tahoma_device.active_states["core:DerogatedTargetTemperatureState"]
+            self._target_temp = self.tahoma_device.active_states["core:DerogatedTargetTemperatureState"]
             if self._somfy_modes | SUPPORT_AWAY_TEMP:
                 self._away_temp = self.tahoma_device.active_states["somfythermostat:AwayModeTargetTemperatureState"]
             if self._somfy_modes | SUPPORT_ECO_TEMP:
@@ -346,30 +339,26 @@ class TahomaThermostat(TahomaDevice, ClimateDevice):
             self.apply_action("setModeTemperature", "manualMode", target_temperature)
             self.apply_action("setDerogation", target_temperature, "further_notice")
             self.apply_action("refreshState")
-            sleep(10)
+            sleep(20)
 
     async def _async_heater_turn_on(self):
         """Turn heater toggleable device on."""
-        from time import sleep
         if self._type == "io":
             self.apply_action("setHeatingLevel", "comfort")
         elif self._type == "thermostat":
             self._apply_action(self.target_temperature)
         self._current_hvac_mode = CURRENT_HVAC_HEAT
-        sleep(7)
         await self.async_update_ha_state()
         self._update_caller = "_async_heater_turn_on"
         self.update()
 
     async def _async_heater_turn_off(self):
         """Turn heater toggleable device off."""
-        from time import sleep
         if self._type == "io":
             self.apply_action("setHeatingLevel", "off")
         elif self._type == "thermostat":
             self._apply_action(self.target_temperature)
         self._current_hvac_mode = CURRENT_HVAC_OFF
-        sleep(7)
         await self.async_update_ha_state()
         self._update_caller = "_async_heater_turn_off"
         self.update()
