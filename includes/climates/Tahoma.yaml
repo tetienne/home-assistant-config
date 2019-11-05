@@ -6,5 +6,5 @@ sensors:
   eco_temp: 19
   comfort_temp: 21
   anti_freeze_temp: 8
-#- name: "Radiateur Salon"
-#  entity_id: sensor.tdeg_salon
+- name: "Radiateur Salon"
+  entity_id: sensor.tdeg_salon
