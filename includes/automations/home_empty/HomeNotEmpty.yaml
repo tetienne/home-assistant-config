@@ -19,10 +19,10 @@ action:
       entity_id: climate.radiateur_parents
       temperature: 21
   - service: climate.set_temperature
-     data:
-       entity_id: climate.radiateur_bureau
-       temperature: 21
+    data:
+      entity_id: climate.radiateur_bureau
+      temperature: 21
   - service: climate.set_temperature
-     data:
-       entity_id: climate.radiateur_salon
-       temperature: 21
+    data:
+      entity_id: climate.radiateur_salon
+      temperature: 21
