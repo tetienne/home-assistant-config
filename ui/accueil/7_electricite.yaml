@@ -2,7 +2,7 @@ type: vertical-stack
 cards:
 - type: custom:mini-graph-card
   hours_to_show: 672
-  points_per_hour: 0.043478
+  points_per_hour: 0.041655
   entities:
   - entity: sensor.linky_yesterday
     name: Journalier
