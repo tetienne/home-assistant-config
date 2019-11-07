@@ -33,10 +33,10 @@
 - id: AugmentHeatingOnOccupiedHome
   alias: La maison n'est pas vide
   trigger:
-- platform: template
-  value_template: '
-     {{ (states.proximity.home1.state | float) < 2000 or
-        (states.proximity.home2.state | float) < 2000 }}'
+    - platform: template
+      value_template: '
+        {{ (states.proximity.home1.state | float) < 2000 or
+           (states.proximity.home2.state | float) < 2000 }}'
     for:
       minutes: 3
   action:
