@@ -4,6 +4,12 @@
   radius: 35
   icon: mdi:account-multiple
 
+- name: Home_large
+  latitude: 46.196896
+  longitude: 6.243225
+  radius: 1750
+  icon: mdi:account-multiple
+
 - name: StarQube
   latitude: 46.206298
   longitude: 6.141269
