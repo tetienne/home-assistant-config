@@ -1,4 +1,4 @@
-- id: 0_LockEmptyHome
+- id: 0LockEmptyHome
   alias: Verrouille la maison
   trigger:
     - platform: state
@@ -9,7 +9,7 @@
       data:
         entity_id: lock.ti_ar_kaerell
 
-- id: 0_ReduceHeatingForEmptyHome
+- id: 0ReduceHeatingForEmptyHome
   alias: Reduit le chauffage quand la maison est vide
   trigger:
     - platform: template
@@ -30,7 +30,7 @@
         entity_id: climate.radiateur_salon
         temperature: 18
 
-- id: 0_AugmentHeatingOnOccupiedHome
+- id: 0AugmentHeatingOnOccupiedHome
   alias: La maison n'est pas vide
   trigger:
     - platform: template
@@ -53,22 +53,19 @@
         entity_id: climate.radiateur_salon
         temperature: 21
 
-- id: 1_FermeVeluxLenaic
+- id: 1FermeVeluxLenaic
   alias: Ferme le velux de Lenaïc
   trigger:
-    # trop froid dehors
     - platform: template
       value_template: "{{
         (states.sensor.sensative_strips_comfort_temperature.state | float) < 19 and
         (states.sensor.netatmo_terrasse_temperature.state         | float) < 18 and
         is_state('cover.velux_lenaic','open') }}"
-    # trop chaud dehors
     - platform: template
       value_template: "{{
         (states.sensor.sensative_strips_comfort_temperature.state | float) > 21 and
         (states.sensor.netatmo_terrasse_temperature.state         | float) > 22 and
         is_state('cover.velux_lenaic','open') }}"
-    # pluie
     - platform: template
       value_template: "{{
         ((states.sensor.netatmo_pluie_jardin_rain.state | float) > 0.1 or
@@ -79,7 +76,7 @@
       data:
         entity_id: script.close_velux_lenaic
 
-- id: 1_OuvreVeluxLenaic
+- id: 1OuvreVeluxLenaic
   alias: Ouvre le vélux de Lenaïc s'il fait assez frais dehors
   trigger:
     - platform: template
@@ -94,7 +91,7 @@
       data:
         entity_id: script.open_velux_lenaic
 
-- id: 1_FermeVoletLenaic
+- id: 1FermeVoletLenaic
   alias: Ferme le volet de Lenaïc
   trigger:
     - platform: template
