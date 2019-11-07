@@ -37,8 +37,8 @@
       value_template: '
         {{ (states.proximity.home1.state | float) < 2000 or
            (states.proximity.home2.state | float) < 2000 }}'
-    for:
-      minutes: 3
+      for:
+        minutes: 3
   action:
     - service: climate.set_temperature
       data:
