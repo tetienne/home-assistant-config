@@ -1,0 +1,54 @@
+- id: LockEmptyHome
+  alias: Verrouille la maison
+  trigger:
+    - platform: state
+      entity_id: sensor.home
+      to: empty
+  action:
+    - service: lock.lock
+      data:
+        entity_id: lock.ti_ar_kaerell
+
+- id: ReduceHeatingForEmptyHome
+  alias: Reduit le chauffage quand la maison est vide
+  trigger:
+    - platform: template
+      value_template: '
+        {{ (states.proximity.home1.state | float) > 2000 and
+           (states.proximity.home2.state | float) > 2000 }}'
+  action:
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.radiateur_parents
+        temperature: 18
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.radiateur_bureau
+        temperature: 18
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.radiateur_salon
+        temperature: 18
+
+- id: AugmentHeatingOnOccupiedHome
+  alias: La maison n'est pas vide
+  trigger:
+- platform: template
+  value_template: '
+     {{ (states.proximity.home1.state | float) < 2000 or
+        (states.proximity.home2.state | float) < 2000 }}'
+    for:
+      minutes: 3
+  action:
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.radiateur_parents
+        temperature: 21
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.radiateur_bureau
+        temperature: 21
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.radiateur_salon
+        temperature: 21
