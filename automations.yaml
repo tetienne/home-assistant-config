@@ -100,3 +100,7 @@
         (states.sensor.sensative_strips_comfort_temperature.state | float) > 25 and
         is_state('weather.ti_ar_kaerell','sunny') and
         is_state('cover.velux_lenaic','open') }}"
+  action:
+    - service: script.turn_on
+      data:
+        entity_id: script.secure_close_volet_lenaic
