@@ -14,8 +14,8 @@
   trigger:
     - platform: template
       value_template: '
-        {{ (states.proximity.home1.state | float) > 2000 and
-           (states.proximity.home2.state | float) > 2000 }}'
+        {{ (states.proximity.home1.state | float) > 1250 and
+           (states.proximity.home2.state | float) > 1250 }}'
   action:
     - service: climate.set_temperature
       data:
@@ -35,8 +35,8 @@
   trigger:
     - platform: template
       value_template: '
-        {{ (states.proximity.home1.state | float) < 2000 or
-           (states.proximity.home2.state | float) < 2000 }}'
+        {{ (states.proximity.home1.state | float) < 1250 or
+           (states.proximity.home2.state | float) < 1250 }}'
       for:
         minutes: 3
   action:
