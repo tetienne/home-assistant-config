@@ -99,7 +99,59 @@
         (states.sensor.netatmo_terrasse_temperature.state         | float) > 26 and
         (states.sensor.sensative_strips_comfort_temperature.state | float) > 25 and
         is_state('weather.ti_ar_kaerell','sunny') and
-        is_state('cover.velux_lenaic','open') }}"
+        is_state('cover.volet_lenaic','open') }}"
+  action:
+    - service: script.turn_on
+      data:
+        entity_id: script.secure_close_volet_lenaic
+
+- id: FermeVeluxPalier
+  alias: 2.0 Ferme le velux du palier
+  trigger:
+    - platform: template
+      value_template: "{{
+        (states.sensor.netatmo_palier_temperature.state   | float) < 19 and
+        (states.sensor.netatmo_terrasse_temperature.state | float) < 18 and
+        is_state('cover.velux_palier','open') }}"
+    - platform: template
+      value_template: "{{
+        (states.sensor.netatmo_palier_temperature.state   | float) > 21 and
+        (states.sensor.netatmo_terrasse_temperature.state | float) > 22 and
+        is_state('cover.velux_palier','open') }}"
+    - platform: template
+      value_template: "{{
+        ((states.sensor.netatmo_pluie_jardin_rain.state | float) > 0.1 or
+          is_state('weather.ti_ar_kaerell','rainy')) and
+          is_state('cover.velux_palier','open') }}"
+  action:
+    - service: script.turn_on
+      data:
+        entity_id: script.close_velux_lenaic
+
+- id: OuvreVeluxPalier
+  alias: 2.1 Ouvre le vélux du palier s'il fait assez frais dehors
+  trigger:
+    - platform: template
+      value_template: "{{
+          (states.sensor.netatmo_terrasse_temperature.state       | float) < 21  and
+          (states.sensor.netatmo_palier_temperature.state         | float) > 22  and
+          (states.cover.velux_palier.attributes.current_position  | float) < 95  and
+          (states.sensor.netatmo_pluie_jardin_rain.state          | float) < 0.1 and
+          not is_state('weather.ti_ar_kaerell','rainy') }}"
+  action:
+    - service: script.turn_on
+      data:
+        entity_id: script.open_velux_lenaic
+
+- id: FermeVoletPalier
+  alias: 2.2 Ferme le volet du palier
+  trigger:
+    - platform: template
+      value_template: "{{
+        (states.sensor.netatmo_terrasse_temperature.state | float) > 26 and
+        (states.sensor.netatmo_palier_temperature.state   | float) > 25 and
+        is_state('weather.ti_ar_kaerell','sunny') and
+        is_state('cover.volet_palier','open') }}"
   action:
     - service: script.turn_on
       data:
