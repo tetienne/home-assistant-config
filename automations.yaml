@@ -1,5 +1,5 @@
-- id: 0LockEmptyHome
-  alias: Verrouille la maison
+- id: LockEmptyHome
+  alias: 0.0 Verrouille la maison
   trigger:
     - platform: state
       entity_id: sensor.home
@@ -9,8 +9,8 @@
       data:
         entity_id: lock.ti_ar_kaerell
 
-- id: 0ReduceHeatingForEmptyHome
-  alias: Reduit le chauffage quand la maison est vide
+- id: ReduceHeatingForEmptyHome
+  alias: 0.1 Reduit le chauffage quand la maison est vide
   trigger:
     - platform: template
       value_template: '
@@ -30,8 +30,8 @@
         entity_id: climate.radiateur_salon
         temperature: 18
 
-- id: 0AugmentHeatingOnOccupiedHome
-  alias: La maison n'est pas vide
+- id: AugmentHeatingOnOccupiedHome
+  alias: 0.2 Monte le chauffage quand la maison n'est pas vide
   trigger:
     - platform: template
       value_template: '
@@ -53,8 +53,8 @@
         entity_id: climate.radiateur_salon
         temperature: 21
 
-- id: 1FermeVeluxLenaic
-  alias: Ferme le velux de Lenaïc
+- id: FermeVeluxLenaic
+  alias: 1.0 Ferme le velux de Lenaïc
   trigger:
     - platform: template
       value_template: "{{
@@ -76,8 +76,8 @@
       data:
         entity_id: script.close_velux_lenaic
 
-- id: 1OuvreVeluxLenaic
-  alias: Ouvre le vélux de Lenaïc s'il fait assez frais dehors
+- id: OuvreVeluxLenaic
+  alias: 1.1 Ouvre le vélux de Lenaïc s'il fait assez frais dehors
   trigger:
     - platform: template
       value_template: "{{
@@ -91,8 +91,8 @@
       data:
         entity_id: script.open_velux_lenaic
 
-- id: 1FermeVoletLenaic
-  alias: Ferme le volet de Lenaïc
+- id: FermeVoletLenaic
+  alias: 1.2 Ferme le volet de Lenaïc
   trigger:
     - platform: template
       value_template: "{{
