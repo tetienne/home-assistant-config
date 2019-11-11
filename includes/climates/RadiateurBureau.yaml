@@ -4,6 +4,3 @@ heater: switch.qubino_goap_zmnhjd1_flush_dimmer_pilot_wire_switch
 target_sensor: sensor.sensative_strips_comfort_temperature_2
 target_temp: 20
 away_temp: 16
-eco_temp: 19
-comfort_temp: 20
-anti_freeze_temp: 8
