@@ -104,11 +104,6 @@
 - id: AugmentHeatingOnOccupiedHome
   alias: 0.2.2 Chambre Parents Monte le chauffage quand la maison n'est pas vide
   trigger:
-  - for:
-      minutes: 3
-    platform: template
-    value_template: ' {{ (states.proximity.home1.state | float) < 1250 or (states.proximity.home2.state
-      | float) < 1250 }}'
   - at: '17:30:00'
     platform: time
   - at: '06:00:00'
