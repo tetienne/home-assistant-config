@@ -18,12 +18,11 @@
     platform: time
   condition:
   - condition: template
-    value_template: '{{states.climate.radiateur_salon.attributes.preset_mode ==
-      "none"}}'
+    value_template: '{{states.climate.radiateur_salon.attributes.preset_mode == "none"}}'
   action:
   - data:
       entity_id: climate.radiateur_salon
-      temperature: 18
+      temperature: 17
     service: climate.set_temperature
 - id: ReduceHeatingForEmptyHome1
   alias: 0.1.1 Bureau Reduit le chauffage quand la maison est vide
@@ -35,8 +34,7 @@
     platform: time
   condition:
   - condition: template
-    value_template: '{{states.climate.radiateur_bureau.attributes.preset_mode ==
-      "none"}}'
+    value_template: '{{states.climate.radiateur_bureau.attributes.preset_mode == "none"}}'
   action:
   - data:
       entity_id: climate.radiateur_bureau
@@ -57,7 +55,7 @@
   action:
   - data:
       entity_id: climate.radiateur_parents
-      temperature: 18
+      temperature: 17
     service: climate.set_temperature
 - id: AugmentHeatingOnOccupiedHome0
   alias: 0.2.0 Salon Monte le chauffage quand la maison n'est pas vide
@@ -69,12 +67,11 @@
       | float) < 1250 }}'
   - at: '17:30:00'
     platform: time
-  - at: '06:00:00'
+  - at: 06:00:00
     platform: time
   condition:
   - condition: template
-    value_template: '{{states.climate.radiateur_salon.attributes.preset_mode ==
-      "none"}}'
+    value_template: '{{states.climate.radiateur_salon.attributes.preset_mode == "none"}}'
   action:
   - data:
       entity_id: climate.radiateur_salon
@@ -90,23 +87,22 @@
       | float) < 1250 }}'
   - at: '17:30:00'
     platform: time
-  - at: '06:00:00'
+  - at: 06:00:00
     platform: time
   condition:
   - condition: template
-    value_template: '{{states.climate.radiateur_bureau.attributes.preset_mode ==
-      "none"}}'
+    value_template: '{{states.climate.radiateur_bureau.attributes.preset_mode == "none"}}'
   action:
   - data:
       entity_id: climate.radiateur_bureau
-      temperature: 20
+      temperature: 19.5
     service: climate.set_temperature
 - id: AugmentHeatingOnOccupiedHome
   alias: 0.2.2 Chambre Parents Monte le chauffage quand la maison n'est pas vide
   trigger:
   - at: '17:30:00'
     platform: time
-  - at: '06:00:00'
+  - at: 06:00:00
     platform: time
   condition:
   - condition: template
@@ -157,10 +153,16 @@
       float) > 26 and (states.sensor.sensative_strips_comfort_temperature.state |
       float) > 25 and is_state(''weather.ti_ar_kaerell'',''sunny'') and is_state(''cover.volet_lenaic'',''open'')
       }}'
+  - event: sunset
+    offset: 00:30
+    platform: sun
+  - entity_id: sensor.home
+    platform: state
+    to: empty
   action:
-  - service: script.turn_on
-    data:
+  - data:
       entity_id: script.secure_close_volet_lenaic
+    service: script.turn_on
 - id: FermeVeluxPalier
   alias: 2.0 Ferme le velux du palier
   trigger:

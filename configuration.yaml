@@ -55,7 +55,7 @@ plex:             !include includes/plex.yaml
 proximity:        !include includes/proximity.yaml
 script:           !include includes/scripts.yaml
 shell_command:    !include includes/shell_command.yaml
-somfy:            !include includes/somfy.yaml
+#somfy:            !include includes/somfy.yaml
 switch:           !include includes/switches.yaml
 tahoma:           !include includes/tahoma.yaml
 tts:              !include includes/tts.yaml
