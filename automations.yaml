@@ -75,6 +75,9 @@
   action:
   - data:
       entity_id: climate.radiateur_salon
+    service: climate.turn_on
+  - data:
+      entity_id: climate.radiateur_salon
       temperature: 20
     service: climate.set_temperature
 - id: AugmentHeatingOnOccupiedHome
@@ -95,6 +98,9 @@
   action:
   - data:
       entity_id: climate.radiateur_bureau
+    service: climate.turn_on
+  - data:
+      entity_id: climate.radiateur_bureau
       temperature: 19.5
     service: climate.set_temperature
 - id: AugmentHeatingOnOccupiedHome
@@ -109,6 +115,9 @@
     value_template: '{{states.climate.radiateur_parents.attributes.preset_mode ==
       "none"}}'
   action:
+  - data:
+      entity_id: climate.radiateur_parents
+    service: climate.turn_on
   - data:
       entity_id: climate.radiateur_parents
       temperature: 20
