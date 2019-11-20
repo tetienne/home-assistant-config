@@ -2,15 +2,13 @@ virginia:
   name: Virginia Presence
   icon: mdi:pine-tree-box
   entities:
-  - device_tracker.ariela_virginia
   - device_tracker.virginia_home_2
   - device_tracker.192_168_0_33_64_a2_f9_be_d5_eb
 vincent:
   name: Vincent Presence
   icon: mdi:camera
   entities:
-  - device_tracker.ariela_vincent
-  - device_tracker.pixel2_home
+  - device_tracker.pixel4_home
   - device_tracker.192_168_0_33_e5_4c_49_c4_30_7c
     
 volets :
