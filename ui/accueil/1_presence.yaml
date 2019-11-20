@@ -18,3 +18,8 @@ cards:
       name: Distance
     - entity: proximity.home2
       name: Distance
+- type: custom:mini-graph-card
+  entities:
+  - entity: sensor.rpi_zero_pixel_4
+    name: "Pixel 4"
+  
