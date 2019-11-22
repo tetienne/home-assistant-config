@@ -22,4 +22,7 @@ cards:
   entities:
   - entity: sensor.rpi_zero_pixel_4
     name: "Pixel 4"
+    show_points: false
+  points_per_hour: 30
+  hours_to_show: 48
   
