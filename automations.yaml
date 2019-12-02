@@ -130,7 +130,7 @@
       temperature: 20
     service: climate.set_temperature
 - id: AugmentHeatingOnOccupiedHome
-  alias: 0.2.2 Bureau Monte le chauffage quand la maison n'est pas vide
+  alias: 0.2.3 Lenaic Monte le chauffage quand la maison n'est pas vide
   trigger:
   - for:
       minutes: 3
