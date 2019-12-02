@@ -5,10 +5,10 @@ cards:
   cards:
   - type: light
     entity: light.lux_lenaic_1
-    name: Lux 1
+    name: Lenaïc 1
   - type: light
     entity: light.lux_lenaic_2
-    name: Lux 2
+    name: Lenaïc 2
 - type: horizontal-stack
   cards:
   - type: entity-button
