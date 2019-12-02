@@ -128,7 +128,7 @@ views:
     link: /lovelace/rez
     heading: "Bureau"
     entities:
-      - entity: sensor.sensative_strips_comfort_temperature_2
+      - entity: sensor.tdeg_bureau
         name: Température
       - entity: sensor.chauffage_bureau
         name: Chauffage
@@ -142,7 +142,7 @@ views:
     link: /lovelace/etage
     heading: Chambre de Lenaïc
     entities:
-      - entity: sensor.sensative_strips_comfort_temperature
+      - entity: sensor.tdeg_lenaic
         name: Température
       - entity: switch.toggle_both_lenaic
         name: Les Deux

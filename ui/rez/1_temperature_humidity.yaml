@@ -67,5 +67,5 @@ cards:
     - value: 35
       color: "#FF1500"
     entities:
-    - entity: sensor.sensative_strips_comfort_temperature_2
+    - entity: sensor.tdeg_bureau
       name: "Bureau"
