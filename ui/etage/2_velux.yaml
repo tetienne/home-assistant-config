@@ -19,6 +19,14 @@ cards:
   cards:
   - type: horizontal-stack
     cards:
+    - type: light
+      entity: light.lux_lenaic_1
+      name: Lux 1
+    - type: light
+      entity: light.lux_lenaic_2
+      name: Lux 2
+  - type: horizontal-stack
+    cards:
     - type: entity-button
       name: Velux
       entity: switch.toggle_velux_lenaic

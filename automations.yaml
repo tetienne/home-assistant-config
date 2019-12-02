@@ -38,7 +38,7 @@
   action:
   - data:
       entity_id: climate.radiateur_bureau
-      temperature: 18
+      temperature: 17
     service: climate.set_temperature
 - id: ReduceHeatingForEmptyHome2
   alias: 0.1.2 Chambre Parents Reduit le chauffage quand la maison est vide
