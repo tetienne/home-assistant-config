@@ -8,3 +8,7 @@ cards:
       name: Volet
 - type: thermostat
   entity: climate.radiateur_bureau
+- type: entities
+  title: ""
+  entities:
+    - entity: input_select.qubino
