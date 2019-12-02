@@ -4,13 +4,13 @@ cards:
 - type: entities
   show_header_toggle: false
   entities:
-    - entity: cover.rolling_shutter_4
-      name: Volet
+  - entity: cover.rolling_shutter_4
+    name: Volet
 - type: custom:vertical-stack-in-card
-  card:
-    - type: thermostat
-      entity: climate.radiateur_bureau
-    - type: entities
-      title: ""
-      entities:
-        - entity: input_select.qubino
+  cards:
+  - type: thermostat
+    entity: climate.radiateur_bureau
+  - type: entities
+    title: "Mode"
+    entities:
+      - entity: input_select.qubino

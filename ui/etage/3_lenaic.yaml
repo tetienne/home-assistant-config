@@ -25,6 +25,6 @@ cards:
   - type: thermostat
     entity: climate.radiateur_lenaic
   - type: entities
-    title: ""
+    title: "Mode"
     entities:
       - entity: input_select.qubino_lenaic
