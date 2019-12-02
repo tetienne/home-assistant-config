@@ -1,4 +1,5 @@
 type: vertical-stack
+title: Climat
 cards:
 - type: horizontal-stack
   cards:
