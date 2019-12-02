@@ -32,9 +32,6 @@
       | float) > 1250 }}'
   - at: '23:00:00'
     platform: time
-  condition:
-  - condition: template
-    value_template: '{{states.climate.radiateur_bureau.attributes.preset_mode == "none"}}'
   action:
   - data:
       entity_id: climate.radiateur_bureau
@@ -55,6 +52,19 @@
   action:
   - data:
       entity_id: climate.radiateur_parents
+      temperature: 17
+    service: climate.set_temperature
+- id: ReduceHeatingForEmptyHome1
+  alias: 0.1.3 Lenaic Reduit le chauffage quand la maison est vide
+  trigger:
+  - platform: template
+    value_template: ' {{ (states.proximity.home1.state | float) > 1250 and (states.proximity.home2.state
+      | float) > 1250 }}'
+  - at: '23:00:00'
+    platform: time
+  action:
+  - data:
+      entity_id: climate.radiateur_lenaic
       temperature: 17
     service: climate.set_temperature
 - id: AugmentHeatingOnOccupiedHome0
@@ -92,9 +102,6 @@
     platform: time
   - at: 06:00:00
     platform: time
-  condition:
-  - condition: template
-    value_template: '{{states.climate.radiateur_bureau.attributes.preset_mode == "none"}}'
   action:
   - data:
       entity_id: climate.radiateur_bureau
@@ -121,6 +128,26 @@
   - data:
       entity_id: climate.radiateur_parents
       temperature: 20
+    service: climate.set_temperature
+- id: AugmentHeatingOnOccupiedHome
+  alias: 0.2.2 Bureau Monte le chauffage quand la maison n'est pas vide
+  trigger:
+  - for:
+      minutes: 3
+    platform: template
+    value_template: ' {{ (states.proximity.home1.state | float) < 1250 or (states.proximity.home2.state
+      | float) < 1250 }}'
+  - at: '17:30:00'
+    platform: time
+  - at: 06:00:00
+    platform: time
+  action:
+  - data:
+      entity_id: climate.radiateur_lenaic
+    service: climate.turn_on
+  - data:
+      entity_id: climate.radiateur_lenaic
+      temperature: 20.5
     service: climate.set_temperature
 - id: FermeVeluxLenaic
   alias: 1.0 Ferme le velux de Lenaïc
