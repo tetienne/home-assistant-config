@@ -69,14 +69,3 @@ cards:
     entities:
     - entity: sensor.sensative_strips_comfort_temperature_2
       name: "Bureau"
-- type: horizontal-stack
-  cards:
-  - type: gauge
-    name: "Humidité Salon"
-    entity: sensor.humidite_salon
-    min: 40
-    max: 70
-    severity:
-      green: 50
-      yellow: 60
-      red: 70

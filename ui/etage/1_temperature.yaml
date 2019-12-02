@@ -90,12 +90,23 @@ cards:
     entities:
     - entity: sensor.tdeg_parents
       name: "Parents"
-- type: gauge
-  name: "CO2 Palier"
-  entity: sensor.netatmo_salon_co2
-  min: 0
-  max: 2000
-  severity:
-    green: 0
-    yellow: 750
-    red: 1500
+- type: horizontal-stack
+  cards:
+  - type: gauge
+    name: "CO2 Palier"
+    entity: sensor.netatmo_salon_co2
+    min: 0
+    max: 2000
+    severity:
+      green: 0
+      yellow: 750
+      red: 1500
+  - type: gauge
+    name: "Humidité Salon"
+    entity: sensor.humidite_salon
+    min: 40
+    max: 70
+    severity:
+      green: 50
+      yellow: 60
+      red: 70
