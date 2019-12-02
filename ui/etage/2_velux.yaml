@@ -42,18 +42,3 @@ cards:
     title: ""
     entities:
       - entity: input_select.qubino_lenaic
-- type: vertical-stack
-  cards:
-  - type: custom:vertical-stack-in-card
-    title: Chambre Parentale
-    cards:
-    - type: horizontal-stack
-      cards:
-      - type: light
-        entity: light.lux_parents_1
-        name: Lux 1
-      - type: light
-        entity: light.lux_parents_2
-        name: Lux 2
-  - type: thermostat
-    entity: climate.radiateur_parents
