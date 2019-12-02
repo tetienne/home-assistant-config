@@ -3,10 +3,10 @@ title: Palier
 cards:
 - type: horizontal-stack
   cards:
-  - type: entity-button
+  - type: light
     name: Palier 1
     entity: light.lux_palier_1
-  - type: entity-button
+  - type: light
     name: Palier 2
     entity: light.lux_palier_2
 - type: horizontal-stack
