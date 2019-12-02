@@ -36,6 +36,8 @@ cards:
     - type: entity-button
       name: Les deux
       entity: switch.toggle_both_lenaic
+  - type: thermostat
+    entity: climate.radiateur_lenaic
 - type: vertical-stack
   cards:
   - type: custom:vertical-stack-in-card
