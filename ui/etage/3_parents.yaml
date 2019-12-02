@@ -1,7 +1,7 @@
 type: vertical-stack
+title: Chambre Parentale
 cards:
 - type: custom:vertical-stack-in-card
-  title: Chambre Parentale
   cards:
   - type: horizontal-stack
     cards:
