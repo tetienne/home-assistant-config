@@ -60,8 +60,6 @@
   - platform: template
     value_template: ' {{ (states.proximity.home1.state | float) > 1250 and (states.proximity.home2.state
       | float) > 1250 }}'
-  - at: '23:00:00'
-    platform: time
   action:
   - data:
       entity_id: climate.radiateur_lenaic
@@ -137,7 +135,7 @@
     platform: template
     value_template: ' {{ (states.proximity.home1.state | float) < 1250 or (states.proximity.home2.state
       | float) < 1250 }}'
-  - at: '17:30:00'
+  - at: '16:30:00'
     platform: time
   - at: 06:00:00
     platform: time
