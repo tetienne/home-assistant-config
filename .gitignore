@@ -61,3 +61,4 @@ secrets.yaml
 known_devices.yaml
 custom_components/hacs/__pycache__/
 www/.DS_Store
+/custom_components/tahoma/
