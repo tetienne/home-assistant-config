@@ -68,16 +68,29 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
         """Initialize the Somfy device."""
         super().__init__(device, api)
         self.climate = Thermostat(self.device, self.api)
+        self._current_temperature = self.climate.get_ambient_temperature()
+        self._current_humidity = self.climate.get_humidity()
 
     async def async_update(self):
         """Update the device with the latest data."""
         await super().async_update()
         self.climate = Thermostat(self.device, self.api)
+        self._current_temperature = self.climate.get_ambient_temperature()
+        self._current_humidity = self.climate.get_humidity()
 
     @property
     def temperature_unit(self) -> str:
         return TEMP_CELSIUS
 
+    @property
+    def current_temperature(self) -> Optional[float]:
+        """Return the current temperature."""
+        return self._current_temperature
+
+    @property
+    def current_humidity(self) -> Optional[int]:
+        """Return the current humidity."""
+        return int(self._current_humidity*100)
 
     @property
     def hvac_mode(self) -> str:

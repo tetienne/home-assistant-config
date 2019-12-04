@@ -10,15 +10,11 @@ cards:
   name: Salon live
 - type: horizontal-stack
   cards:
-  - type: entity-button
-    entity: switch.terrasse
   - type: entities
     entities:
     - entity: sensor.netatmo_type_terrasse
       name: "Terrasse"
+  - type: entities
+    entities:
     - entity: sensor.netatmo_type_salon
       name: "Salon"
-- type: entities
-  entities:
-  - entity: lock.ti_ar_kaerell
-    name: "Serrure"
