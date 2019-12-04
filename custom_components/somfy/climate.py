@@ -90,7 +90,7 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
     @property
     def current_humidity(self) -> Optional[int]:
         """Return the current humidity."""
-        return int(self._current_humidity*100)
+        return int(self._current_humidity)
 
     @property
     def hvac_mode(self) -> str:
