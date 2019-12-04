@@ -94,7 +94,7 @@ cards:
   cards:
   - type: gauge
     name: "Humidité Palier"
-    entity: sensor.humidite_salon
+    entity: sensor.netatmo_palier_humidity
     min: 40
     max: 70
     severity:
