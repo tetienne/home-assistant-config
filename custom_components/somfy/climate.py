@@ -23,10 +23,10 @@ from homeassistant.components.climate.const import (
     HVAC_MODE_AUTO,
     PRESET_AWAY,
     PRESET_ECO,
-    PRESET_COMFORT,
+    PRESET_HOME,
     PRESET_NONE,
     CURRENT_HVAC_HEAT,
-    CURRENT_HVAC_OFF,
+    CURRENT_HVAC_IDLE,
     SUPPORT_TARGET_TEMPERATURE,
     SUPPORT_PRESET_MODE,
 )
@@ -86,6 +86,10 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
         self._target_temperature = self.climate.get_target_temperature()
         self._away_temp = self.climate.get_away_temperature()
         self._at_home_temp = self.climate.get_at_home_temperature()
+        if self._current_temperature > self.target_temperature:
+            self._current_mode = CURRENT_HVAC_IDLE
+        else:
+            self._current_mode = CURRENT_HVAC_HEAT
 
     async def async_update(self):
         """Update the device with the latest data."""
@@ -94,6 +98,18 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
         self._current_temperature = self.climate.get_ambient_temperature()
         self._current_humidity = self.climate.get_humidity()
         self._battery_level = self.climate.get_battery()
+        if self._current_temperature > self.target_temperature:
+            self._current_mode = CURRENT_HVAC_IDLE
+        else:
+            self._current_mode = CURRENT_HVAC_HEAT
+
+    @property
+    def hvac_action(self):
+        """Return the current running hvac operation if supported.
+
+        Need to be one of CURRENT_HVAC_*.
+        """
+        return self._current_mode
 
     @property
     def temperature_unit(self) -> str:
@@ -129,7 +145,7 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
 
     @property
     def preset_modes(self) -> Optional[List[str]]:
-        return [PRESET_NONE, PRESET_AWAY, PRESET_COMFORT, PRESET_ANTI_FREEZE]
+        return [PRESET_NONE, PRESET_AWAY, PRESET_HOME, PRESET_ANTI_FREEZE]
 
     async def _async_set_target(self, temperature):
         self._target_temperature = temperature
@@ -173,8 +189,8 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
             self._preset_mode = PRESET_AWAY
             self._target_mode = "away"
             self._target_temperature = self._away_temp
-        elif preset_mode == PRESET_COMFORT:
-            self._preset_mode = PRESET_COMFORT
+        elif preset_mode == PRESET_HOME:
+            self._preset_mode = PRESET_HOME
             self._target_mode = "at_home"
             self._target_temperature = self._at_home_temp
         elif preset_mode == PRESET_ANTI_FREEZE:
