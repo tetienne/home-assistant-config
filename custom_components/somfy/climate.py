@@ -14,7 +14,8 @@ from homeassistant.components.climate import (
 )
 from homeassistant.const import (
     TEMP_CELSIUS,
-
+    ATTR_TEMPERATURE,
+    ATTR_BATTERY_LEVEL
 )
 from homeassistant.components.climate.const import (
     HVAC_MODE_HEAT,
@@ -23,6 +24,7 @@ from homeassistant.components.climate.const import (
     PRESET_AWAY,
     PRESET_ECO,
     PRESET_COMFORT,
+    PRESET_ANTI_FREEZE,
     PRESET_NONE,
     CURRENT_HVAC_HEAT,
     CURRENT_HVAC_OFF,
@@ -70,6 +72,13 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
         self.climate = Thermostat(self.device, self.api)
         self._current_temperature = self.climate.get_ambient_temperature()
         self._current_humidity = self.climate.get_humidity()
+        self._battery_level = self.climate.get_battery()
+        self._hvac_mode = self.climate.get_hvac_state()
+        self._target_mode = self.climate.get_target_mode()
+        self._preset_mode = PRESET_NONE
+        self._target_temperature = self.climate.get_target_temperature()
+        self._away_temp = self.climate.get_away_temperature()
+        self._at_home_temp = self.climate.get_at_home_temperature()
 
     async def async_update(self):
         """Update the device with the latest data."""
@@ -77,6 +86,12 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
         self.climate = Thermostat(self.device, self.api)
         self._current_temperature = self.climate.get_ambient_temperature()
         self._current_humidity = self.climate.get_humidity()
+        self._battery_level = self.climate.get_battery()
+        self._hvac_mode = self.climate.get_hvac_state()
+        self._target_mode = self.climate.get_target_mode()
+        self._target_temperature = self.climate.get_target_temperature()
+        self._away_temp = self.climate.get_away_temperature()
+        self._at_home_temp = self.climate.get_at_home_temperature()
 
     @property
     def temperature_unit(self) -> str:
@@ -88,6 +103,11 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
         return self._current_temperature
 
     @property
+    def target_temperature(self):
+        """Return the temperature we try to reach."""
+        return self._target_temperature
+
+    @property
     def current_humidity(self) -> Optional[int]:
         """Return the current humidity."""
         return int(self._current_humidity)
@@ -95,144 +115,69 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
     @property
     def hvac_mode(self) -> str:
         """Return current operation."""
-        return self.climate.get_hvac_state()
+        return self._hvac_mode
 
     @property
     def hvac_modes(self) -> List[str]:
-        return [HVAC_MODE_HEAT, HVAC_MODE_OFF, HVAC_MODE_AUTO]
-
-    @property
-    def target_temperature_high(self) -> Optional[float]:
-        pass
-
-    @property
-    def target_temperature_low(self) -> Optional[float]:
-        pass
+        return [HVAC_MODE_HEAT, HVAC_MODE_AUTO]
 
     @property
     def preset_mode(self) -> Optional[str]:
-        pass
+        return self._preset_mode
+
 
     @property
     def preset_modes(self) -> Optional[List[str]]:
-        pass
-
-    @property
-    def is_aux_heat(self) -> Optional[bool]:
-        pass
-
-    @property
-    def fan_mode(self) -> Optional[str]:
-        pass
-
-    @property
-    def fan_modes(self) -> Optional[List[str]]:
-        pass
-
-    @property
-    def swing_mode(self) -> Optional[str]:
-        pass
-
-    @property
-    def swing_modes(self) -> Optional[List[str]]:
-        pass
+        return [PRESET_NONE, PRESET_AWAY, PRESET_COMFORT, PRESET_ANTI_FREEZE]
 
     def set_temperature(self, **kwargs) -> None:
-        pass
-
-    def set_humidity(self, humidity: int) -> None:
-        pass
-
-    def set_fan_mode(self, fan_mode: str) -> None:
-        pass
+        temperature = kwargs.get(ATTR_TEMPERATURE)
+        if temperature is None:
+            return
+        self._target_temperature = temperature
+        self.climate.set_target(self._target_mode, temperature, 60, "further_notice")
 
     def set_hvac_mode(self, hvac_mode: str) -> None:
-        pass
-
-    def set_swing_mode(self, swing_mode: str) -> None:
-        pass
+        self._hvac_mode = hvac_mode
+        if hvac_mode == HVAC_MODE_HEAT:
+            self.climate.set_target(self._target_mode, self._target_temperature, 60, "further_notice")
+        elif hvac_mode == HVAC_MODE_AUTO:
+            self.climate.cancel_target()
+        else:
+            _LOGGER.error("Unrecognized hvac mode: %s", hvac_mode)
+            return
 
     def set_preset_mode(self, preset_mode: str) -> None:
-        pass
-
-    def turn_aux_heat_on(self) -> None:
-        pass
-
-    def turn_aux_heat_off(self) -> None:
-        pass
+        if preset_mode not in self.preset_modes:
+            _LOGGER.error(
+                "Preset " + preset_mode + " is not available for " + self._name
+            )
+            return
+        if preset_mode == PRESET_NONE:
+            self._preset_mode = PRESET_NONE
+            self._target_mode = "manual"
+        elif preset_mode == PRESET_AWAY:
+            self._preset_mode = PRESET_AWAY
+            self._target_mode = "away"
+            self._target_temperature = self._away_temp
+        elif preset_mode == PRESET_COMFORT:
+            self._preset_mode = PRESET_COMFORT
+            self._target_mode = "at_home"
+            self._target_temperature = self._at_home_temp
+        elif preset_mode == PRESET_ANTI_FREEZE:
+            self._preset_mode = PRESET_ANTI_FREEZE
+            self._target_mode = "manual"
+            self._target_temperature = 7
+        self.set_temperature(self._target_temperature)
 
     @property
     def supported_features(self) -> int:
         return SUPPORT_TARGET_TEMPERATURE | SUPPORT_PRESET_MODE
 
-# class SomfyCover(SomfyEntity, CoverDevice):
-#     """Representation of a Somfy cover device."""
-#
-#     def __init__(self, device, api):
-#         """Initialize the Somfy device."""
-#         super().__init__(device, api)
-#         self.cover = Blind(self.device, self.api)
-#
-#     async def async_update(self):
-#         """Update the device with the latest data."""
-#         await super().async_update()
-#         self.cover = Blind(self.device, self.api)
-#
-#     def close_cover(self, **kwargs):
-#         """Close the cover."""
-#         self.cover.close()
-#
-#     def open_cover(self, **kwargs):
-#         """Open the cover."""
-#         self.cover.open()
-#
-#     def stop_cover(self, **kwargs):
-#         """Stop the cover."""
-#         self.cover.stop()
-#
-#     def set_cover_position(self, **kwargs):
-#         """Move the cover shutter to a specific position."""
-#         self.cover.set_position(100 - kwargs[ATTR_POSITION])
-#
-#     @property
-#     def current_cover_position(self):
-#         """Return the current position of cover shutter."""
-#         position = None
-#         if self.has_capability("position"):
-#             position = 100 - self.cover.get_position()
-#         return position
-#
-#     @property
-#     def is_closed(self):
-#         """Return if the cover is closed."""
-#         is_closed = None
-#         if self.has_capability("position"):
-#             is_closed = self.cover.is_closed()
-#         return is_closed
-#
-#     @property
-#     def current_cover_tilt_position(self):
-#         """Return current position of cover tilt.
-#
-#         None is unknown, 0 is closed, 100 is fully open.
-#         """
-#         orientation = None
-#         if self.has_capability("rotation"):
-#             orientation = 100 - self.cover.orientation
-#         return orientation
-#
-#     def set_cover_tilt_position(self, **kwargs):
-#         """Move the cover tilt to a specific position."""
-#         self.cover.orientation = kwargs[ATTR_TILT_POSITION]
-#
-#     def open_cover_tilt(self, **kwargs):
-#         """Open the cover tilt."""
-#         self.cover.orientation = 100
-#
-#     def close_cover_tilt(self, **kwargs):
-#         """Close the cover tilt."""
-#         self.cover.orientation = 0
-#
-#     def stop_cover_tilt(self, **kwargs):
-#         """Stop the cover."""
-#         self.cover.stop()
+    @property
+    def device_state_attributes(self):
+        """Return the device state attributes."""
+        attr = {
+            ATTR_BATTERY_LEVEL: self._battery_level,
+        }
+        return attr
