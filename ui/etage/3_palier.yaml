@@ -9,14 +9,14 @@ cards:
   - type: light
     name: Palier 2
     entity: light.lux_palier_2
-- type: horizontal-stack
-  cards:
-  - type: entity-button
-    name: Velux
-    entity: switch.toggle_velux_palier
-  - type: entity-button
-    name: Volet
-    entity: switch.toggle_volet_palier
-  - type: entity-button
-    name: Les deux
-    entity: switch.toggle_both_palier
+#- type: horizontal-stack
+#  cards:
+#  - type: entity-button
+#    name: Velux
+#    entity: switch.toggle_velux_palier
+#  - type: entity-button
+#    name: Volet
+#    entity: switch.toggle_volet_palier
+#  - type: entity-button
+#    name: Les deux
+#    entity: switch.toggle_both_palier
