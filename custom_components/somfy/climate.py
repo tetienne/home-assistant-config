@@ -24,13 +24,14 @@ from homeassistant.components.climate.const import (
     PRESET_AWAY,
     PRESET_ECO,
     PRESET_COMFORT,
-    PRESET_ANTI_FREEZE,
     PRESET_NONE,
     CURRENT_HVAC_HEAT,
     CURRENT_HVAC_OFF,
     SUPPORT_TARGET_TEMPERATURE,
     SUPPORT_PRESET_MODE,
 )
+
+PRESET_ANTI_FREEZE = "Anti-freeze"
 
 from homeassistant.components.somfy import DOMAIN, SomfyEntity, DEVICES, API
 
