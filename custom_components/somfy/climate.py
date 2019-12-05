@@ -30,10 +30,12 @@ from homeassistant.components.climate.const import (
     SUPPORT_TARGET_TEMPERATURE,
     SUPPORT_PRESET_MODE,
 )
+from homeassistant.components.somfy import DOMAIN, SomfyEntity, DEVICES, API
+import logging
 
 PRESET_ANTI_FREEZE = "Anti-freeze"
+_LOGGER = logging.getLogger(__name__)
 
-from homeassistant.components.somfy import DOMAIN, SomfyEntity, DEVICES, API
 
 
 async def async_setup_entry(hass, config_entry, async_add_entities):
@@ -74,7 +76,11 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
         self._current_temperature = self.climate.get_ambient_temperature()
         self._current_humidity = self.climate.get_humidity()
         self._battery_level = self.climate.get_battery()
-        self._hvac_mode = self.climate.get_hvac_state()
+        self._regulation_state = self.climate.get_regulation_state()
+        if self._regulation_state == "Timetable":
+            self._hvac_mode = HVAC_MODE_AUTO
+        elif self._regulation_state == "Derogation":
+            self._hvac_mode = HVAC_MODE_HEAT
         self._target_mode = self.climate.get_target_mode()
         self._preset_mode = PRESET_NONE
         self._target_temperature = self.climate.get_target_temperature()
@@ -88,11 +94,6 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
         self._current_temperature = self.climate.get_ambient_temperature()
         self._current_humidity = self.climate.get_humidity()
         self._battery_level = self.climate.get_battery()
-        self._hvac_mode = self.climate.get_hvac_state()
-        self._target_mode = self.climate.get_target_mode()
-        self._target_temperature = self.climate.get_target_temperature()
-        self._away_temp = self.climate.get_away_temperature()
-        self._at_home_temp = self.climate.get_at_home_temperature()
 
     @property
     def temperature_unit(self) -> str:
@@ -104,14 +105,14 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
         return self._current_temperature
 
     @property
-    def target_temperature(self):
-        """Return the temperature we try to reach."""
-        return self._target_temperature
-
-    @property
     def current_humidity(self) -> Optional[int]:
         """Return the current humidity."""
         return int(self._current_humidity)
+
+    @property
+    def target_temperature(self):
+        """Return the temperature we try to reach."""
+        return self._target_temperature
 
     @property
     def hvac_mode(self) -> str:
@@ -126,34 +127,45 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
     def preset_mode(self) -> Optional[str]:
         return self._preset_mode
 
-
     @property
     def preset_modes(self) -> Optional[List[str]]:
         return [PRESET_NONE, PRESET_AWAY, PRESET_COMFORT, PRESET_ANTI_FREEZE]
 
-    def set_temperature(self, **kwargs) -> None:
+    async def _async_set_target(self, temperature):
+        self._target_temperature = temperature
+        self.climate.set_target(self._target_mode, self._target_temperature, 60, "further_notice")
+
+    async def async_set_temperature(self, **kwargs) -> None:
         temperature = kwargs.get(ATTR_TEMPERATURE)
         if temperature is None:
             return
-        self._target_temperature = temperature
-        self.climate.set_target(self._target_mode, temperature, 60, "further_notice")
+        self._regulation_state = "Derogation"
+        self._hvac_mode = HVAC_MODE_HEAT
+        self._preset_mode = PRESET_NONE
+        self._target_mode = "manual"
+        await self._async_set_target(temperature)
 
-    def set_hvac_mode(self, hvac_mode: str) -> None:
-        self._hvac_mode = hvac_mode
+    async def async_set_hvac_mode(self, hvac_mode: str) -> None:
+        self._preset_mode = PRESET_NONE
         if hvac_mode == HVAC_MODE_HEAT:
-            self.climate.set_target(self._target_mode, self._target_temperature, 60, "further_notice")
+            self._regulation_state = "Derogation"
+            self._hvac_mode = HVAC_MODE_HEAT
+            await self._async_set_target(self._target_temperature)
         elif hvac_mode == HVAC_MODE_AUTO:
+            self._regulation_state = "Timetable"
+            self._hvac_mode = HVAC_MODE_AUTO
             self.climate.cancel_target()
         else:
             _LOGGER.error("Unrecognized hvac mode: %s", hvac_mode)
             return
 
-    def set_preset_mode(self, preset_mode: str) -> None:
+    async def async_set_preset_mode(self, preset_mode: str) -> None:
         if preset_mode not in self.preset_modes:
             _LOGGER.error(
                 "Preset " + preset_mode + " is not available for " + self._name
             )
             return
+        self._hvac_mode = HVAC_MODE_HEAT
         if preset_mode == PRESET_NONE:
             self._preset_mode = PRESET_NONE
             self._target_mode = "manual"
@@ -169,7 +181,7 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
             self._preset_mode = PRESET_ANTI_FREEZE
             self._target_mode = "manual"
             self._target_temperature = 7
-        self.set_temperature(self._target_temperature)
+        await self._async_set_target(self._target_temperature)
 
     @property
     def supported_features(self) -> int:
