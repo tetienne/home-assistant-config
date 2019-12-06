@@ -101,6 +101,7 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
             self._preset_mode = PRESET_ANTI_FREEZE
         else:
             self._preset_mode = PRESET_NONE
+        self._target_temperature = self.climate.get_target_temperature()
         _LOGGER.warning("Update:\n"+self._regulation_state+"\n"+self._target_mode+"\n"+str(self._target_temperature))
 
     @property
