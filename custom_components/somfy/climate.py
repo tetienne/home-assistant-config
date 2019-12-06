@@ -160,10 +160,9 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
     def preset_modes(self) -> Optional[List[str]]:
         return [PRESET_NONE, PRESET_AWAY, PRESET_HOME, PRESET_ANTI_FREEZE, PRESET_SLEEP]
 
-    async def _async_set_target(self, temperature):
-        self._target_temperature = temperature
+    async def _async_set_target(self, mode, temperature):
         self.climate.set_target(
-            self._target_mode, self._target_temperature, 60, "further_notice"
+            mode, temperature, 60, "further_notice"
         )
 
     async def async_set_temperature(self, **kwargs) -> None:
