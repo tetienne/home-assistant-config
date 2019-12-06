@@ -116,6 +116,7 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
                 self._preset_mode = PRESET_HOME
             elif self._target_mode == "away":
                 self._preset_mode = PRESET_AWAY
+        _LOGGER.info("Update:\n"+self._regulation_state+"\n"+self._target_mode+"\n"+self._target_temperature)
 
     @property
     def hvac_action(self):
