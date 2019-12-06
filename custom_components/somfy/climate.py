@@ -162,7 +162,7 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
         self._regulation_state = "Derogation"
         self._hvac_mode = HVAC_MODE_HEAT
         self._preset_mode = PRESET_NONE
-        self._target_mode = "manual"
+        self._target_mode = "manuel"
         await self._async_set_target(temperature)
 
     async def async_set_hvac_mode(self, hvac_mode: str) -> None:
@@ -188,7 +188,7 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
         self._hvac_mode = HVAC_MODE_HEAT
         if preset_mode == PRESET_NONE:
             self._preset_mode = PRESET_NONE
-            self._target_mode = "manual"
+            self._target_mode = "manuel"
         elif preset_mode == PRESET_AWAY:
             self._preset_mode = PRESET_AWAY
             self._target_mode = "away"
@@ -199,7 +199,7 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
             self._target_temperature = self._at_home_temp
         elif preset_mode == PRESET_ANTI_FREEZE:
             self._preset_mode = PRESET_ANTI_FREEZE
-            self._target_mode = "manual"
+            self._target_mode = "manuel"
             self._target_temperature = 7
         await self._async_set_target(self._target_temperature)
 
