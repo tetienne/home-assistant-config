@@ -1,13 +1,3 @@
-- id: LockEmptyHome
-  alias: 0.0 Verrouille la maison
-  trigger:
-  - platform: state
-    entity_id: sensor.home
-    to: empty
-  action:
-  - service: lock.lock
-    data:
-      entity_id: lock.ti_ar_kaerell
 - id: ReduceHeatingForEmptyHome0
   alias: 0.1.0 Salon Reduit le chauffage quand la maison est vide
   trigger:
@@ -52,6 +42,7 @@
   action:
   - data:
       entity_id: climate.radiateur_parents
+      hvac_mode: heat
       temperature: 17
     service: climate.set_temperature
 - id: ReduceHeatingForEmptyHome1
@@ -125,6 +116,7 @@
     service: climate.turn_on
   - data:
       entity_id: climate.radiateur_parents
+      hvac_mode: heat
       temperature: 20
     service: climate.set_temperature
 - id: AugmentHeatingOnOccupiedHome
