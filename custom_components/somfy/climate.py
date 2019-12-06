@@ -105,7 +105,14 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
         else:
             self._preset_mode = PRESET_NONE
         self._target_temperature = self.climate.get_target_temperature()
-        _LOGGER.warning("Update:\n"+self._regulation_state+"\n"+self._target_mode+"\n"+str(self._target_temperature))
+        _LOGGER.warning(
+            "Update:\n"
+            + self._regulation_state
+            + "\n"
+            + self._target_mode
+            + "\n"
+            + str(self._target_temperature)
+        )
 
     @property
     def hvac_action(self):
@@ -189,23 +196,17 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
                 "Preset " + preset_mode + " is not available for " + self._name
             )
             return
+
+        mode = {
+            PRESET_NONE: {"mode": "manuel", "temperature": None},
+            PRESET_AWAY: {"mode": "away", "temperature": self.climate.get_away_temperature()},
+            PRESET_HOME: {"mode": "at_home", "temperature": self.climate.get_at_home_temperature()},
+            PRESET_ANTI_FREEZE: {"mode": "frost_protection", "temperature": self.climate.get_frost_protection_temperature()},
+            PRESET_SLEEP: {"mode": "sleep", "temperature": self.climate.get_night_temperature()},
+        }
         self._hvac_mode = HVAC_MODE_HEAT
-        self._preset_mode = preset_mode
-        if preset_mode == PRESET_NONE:
-            self._target_mode = "manuel"
-        elif preset_mode == PRESET_AWAY:
-            self._target_mode = "away"
-            self._target_temperature = self.climate.get_away_temperature()
-        elif preset_mode == PRESET_HOME:
-            self._target_mode = "at_home"
-            self._target_temperature = self.climate.get_at_home_temperature()
-        elif preset_mode == PRESET_ANTI_FREEZE:
-            self._target_mode = "frost_protection"
-            self._target_temperature = self.climate.get_frost_protection_temperature()
-        elif preset_mode == PRESET_SLEEP:
-            self._target_mode = "sleep"
-            self._target_temperature = self.climate.get_night_temperature()
-        await self._async_set_target(self._target_temperature)
+
+        await self._async_set_target(**mode[preset_mode])
 
     @property
     def supported_features(self) -> int:
