@@ -82,7 +82,12 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
         elif self._regulation_state == "Derogation":
             self._hvac_mode = HVAC_MODE_HEAT
         self._target_mode = self.climate.get_target_mode()
-        self._preset_mode = PRESET_NONE
+        if self._target_mode == "at_home":
+            self._preset_mode = PRESET_HOME
+        elif self._target_mode == "away":
+            self._preset_mode = PRESET_AWAY
+        else:
+            self._preset_mode = PRESET_NONE
         self._target_temperature = self.climate.get_target_temperature()
         self._away_temp = self.climate.get_away_temperature()
         self._at_home_temp = self.climate.get_at_home_temperature()
@@ -102,6 +107,13 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
             self._current_mode = CURRENT_HVAC_IDLE
         else:
             self._current_mode = CURRENT_HVAC_HEAT
+        if self._hvac_mode == HVAC_MODE_AUTO:
+            self._target_temperature = self.climate.get_target_temperature()
+            self._target_mode = self.climate.get_target_mode()
+            if self._target_mode == "at_home":
+                self._preset_mode = PRESET_HOME
+            elif self._target_mode == "away":
+                self._preset_mode = PRESET_AWAY
 
     @property
     def hvac_action(self):
