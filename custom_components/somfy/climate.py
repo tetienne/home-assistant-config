@@ -9,14 +9,8 @@ from typing import Optional, List
 from ..pymfy.api.devices.category import Category
 from ..pymfy.api.devices.thermostat import Thermostat
 
-from homeassistant.components.climate import (
-    ClimateDevice,
-)
-from homeassistant.const import (
-    TEMP_CELSIUS,
-    ATTR_TEMPERATURE,
-    ATTR_BATTERY_LEVEL
-)
+from homeassistant.components.climate import ClimateDevice
+from homeassistant.const import TEMP_CELSIUS, ATTR_TEMPERATURE, ATTR_BATTERY_LEVEL
 from homeassistant.components.climate.const import (
     HVAC_MODE_HEAT,
     HVAC_MODE_OFF,
@@ -37,15 +31,12 @@ PRESET_ANTI_FREEZE = "Anti-freeze"
 _LOGGER = logging.getLogger(__name__)
 
 
-
 async def async_setup_entry(hass, config_entry, async_add_entities):
     """Set up the Somfy climate platform."""
 
     def get_thermostats():
         """Retrieve thermostats."""
-        categories = {
-            Category.THERMOSTAT.value,
-        }
+        categories = {Category.THERMOSTAT.value}
 
         devices = hass.data[DOMAIN][DEVICES]
 
@@ -65,6 +56,7 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
     config. But even in that case it would have been ignored.
     """
     pass
+
 
 class SomfyClimate(SomfyEntity, ClimateDevice):
     """Representation of a Somfy smart thermostat"""
@@ -88,7 +80,6 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
         self._target_temperature = self.climate.get_target_temperature()
         self._away_temp = self.climate.get_away_temperature()
         self._at_home_temp = self.climate.get_at_home_temperature()
-
 
     async def async_update(self):
         """Update the device with the latest data."""
@@ -153,7 +144,9 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
 
     async def _async_set_target(self, temperature):
         self._target_temperature = temperature
-        self.climate.set_target(self._target_mode, self._target_temperature, 60, "further_notice")
+        self.climate.set_target(
+            self._target_mode, self._target_temperature, 60, "further_notice"
+        )
 
     async def async_set_temperature(self, **kwargs) -> None:
         temperature = kwargs.get(ATTR_TEMPERATURE)
@@ -210,7 +203,5 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
     @property
     def device_state_attributes(self):
         """Return the device state attributes."""
-        attr = {
-            ATTR_BATTERY_LEVEL: self.climate.get_battery(),
-        }
+        attr = {ATTR_BATTERY_LEVEL: self.climate.get_battery()}
         return attr
