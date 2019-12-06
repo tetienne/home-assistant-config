@@ -107,7 +107,9 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
             self._current_mode = CURRENT_HVAC_IDLE
         else:
             self._current_mode = CURRENT_HVAC_HEAT
-        if self._hvac_mode == HVAC_MODE_AUTO:
+        self._regulation_state = self.climate.get_regulation_state()
+        if self._regulation_state == "Timetable":
+            self._hvac_mode == HVAC_MODE_AUTO
             self._target_temperature = self.climate.get_target_temperature()
             self._target_mode = self.climate.get_target_mode()
             if self._target_mode == "at_home":
