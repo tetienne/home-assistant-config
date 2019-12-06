@@ -32,6 +32,7 @@
 !includes/cameras/**
 !includes/climates/**
 !custom_components/**
+!unused_customs/**
 !includes/device_trackers/**
 !includes/image_processings/**
 !includes/**
