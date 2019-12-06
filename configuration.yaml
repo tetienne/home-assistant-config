@@ -30,7 +30,7 @@ binary_sensor:    !include_dir_list includes/binary_sensors
 camera:           !include_dir_list includes/cameras
 climate:          !include_dir_list includes/climates
 device_tracker:   !include_dir_list includes/device_trackers
-image_processing: !include_dir_list includes/image_processings
+#image_processing: !include_dir_list includes/image_processings
 media_player:     !include_dir_list includes/media_players
 notify:           !include_dir_list includes/notifies
 remote:           !include_dir_list includes/remotes
