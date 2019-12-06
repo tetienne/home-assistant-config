@@ -1,3 +1,3 @@
 default: error
 logs:
-  homeassistant.components.automation: debug
+  homeassistant.components.climate: debug
