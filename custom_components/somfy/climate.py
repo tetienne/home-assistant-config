@@ -75,6 +75,8 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
             self._preset_mode = PRESET_HOME
         elif self._target_mode == "away":
             self._preset_mode = PRESET_AWAY
+        elif self._target_mode == "frost_protection":
+            self._preset_mode = PRESET_ANTI_FREEZE
         else:
             self._preset_mode = PRESET_NONE
         self._target_temperature = self.climate.get_target_temperature()
@@ -84,17 +86,21 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
     async def async_update(self):
         """Update the device with the latest data."""
         await super().async_update()
-        # self.api.get_device(self.device.id)
         self.climate = Thermostat(self.device, self.api)
         self._regulation_state = self.climate.get_regulation_state()
         if self._regulation_state == "Timetable":
             self._hvac_mode = HVAC_MODE_AUTO
-            self._target_temperature = self.climate.get_target_temperature()
-            self._target_mode = self.climate.get_target_mode()
-            if self._target_mode == "at_home":
-                self._preset_mode = PRESET_HOME
-            elif self._target_mode == "away":
-                self._preset_mode = PRESET_AWAY
+        elif self._regulation_state == "Derogation":
+            self._hvac_mode = HVAC_MODE_HEAT
+        self._target_mode = self.climate.get_target_mode()
+        if self._target_mode == "at_home":
+            self._preset_mode = PRESET_HOME
+        elif self._target_mode == "away":
+            self._preset_mode = PRESET_AWAY
+        elif self._target_mode == "frost_protection":
+            self._preset_mode = PRESET_ANTI_FREEZE
+        else:
+            self._preset_mode = PRESET_NONE
         _LOGGER.warning("Update:\n"+self._regulation_state+"\n"+self._target_mode+"\n"+str(self._target_temperature))
 
     @property
