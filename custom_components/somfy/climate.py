@@ -13,12 +13,11 @@ from homeassistant.components.climate import ClimateDevice
 from homeassistant.const import TEMP_CELSIUS, ATTR_TEMPERATURE, ATTR_BATTERY_LEVEL
 from homeassistant.components.climate.const import (
     HVAC_MODE_HEAT,
-    HVAC_MODE_OFF,
     HVAC_MODE_AUTO,
     PRESET_AWAY,
-    PRESET_ECO,
     PRESET_HOME,
     PRESET_NONE,
+    PRESET_SLEEP,
     CURRENT_HVAC_HEAT,
     CURRENT_HVAC_IDLE,
     SUPPORT_TARGET_TEMPERATURE,
@@ -75,6 +74,8 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
             self._preset_mode = PRESET_HOME
         elif self._target_mode == "away":
             self._preset_mode = PRESET_AWAY
+        elif self._target_mode == "sleep":
+            self._preset_mode = PRESET_SLEEP
         elif self._target_mode == "frost_protection":
             self._preset_mode = PRESET_ANTI_FREEZE
         else:
@@ -97,6 +98,8 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
             self._preset_mode = PRESET_HOME
         elif self._target_mode == "away":
             self._preset_mode = PRESET_AWAY
+        elif self._target_mode == "sleep":
+            self._preset_mode = PRESET_SLEEP
         elif self._target_mode == "frost_protection":
             self._preset_mode = PRESET_ANTI_FREEZE
         else:
@@ -148,7 +151,7 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
 
     @property
     def preset_modes(self) -> Optional[List[str]]:
-        return [PRESET_NONE, PRESET_AWAY, PRESET_HOME, PRESET_ANTI_FREEZE]
+        return [PRESET_NONE, PRESET_AWAY, PRESET_HOME, PRESET_ANTI_FREEZE, PRESET_SLEEP]
 
     async def _async_set_target(self, temperature):
         self._target_temperature = temperature
@@ -187,21 +190,21 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
             )
             return
         self._hvac_mode = HVAC_MODE_HEAT
+        self._preset_mode = preset_mode
         if preset_mode == PRESET_NONE:
-            self._preset_mode = PRESET_NONE
             self._target_mode = "manuel"
         elif preset_mode == PRESET_AWAY:
-            self._preset_mode = PRESET_AWAY
             self._target_mode = "away"
-            self._target_temperature = self._away_temp
+            self._target_temperature = self.climate.get_away_temperature()
         elif preset_mode == PRESET_HOME:
-            self._preset_mode = PRESET_HOME
             self._target_mode = "at_home"
-            self._target_temperature = self._at_home_temp
+            self._target_temperature = self.climate.get_at_home_temperature()
         elif preset_mode == PRESET_ANTI_FREEZE:
-            self._preset_mode = PRESET_ANTI_FREEZE
-            self._target_mode = "manuel"
-            self._target_temperature = 7
+            self._target_mode = "frost_protection"
+            self._target_temperature = self.climate.get_frost_protection_temperature()
+        elif preset_mode == PRESET_SLEEP:
+            self._target_mode = "sleep"
+            self._target_temperature = self.climate.get_night_temperature()
         await self._async_set_target(self._target_temperature)
 
     @property
