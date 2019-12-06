@@ -84,7 +84,7 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
     async def async_update(self):
         """Update the device with the latest data."""
         await super().async_update()
-        self.api.get_device(self.device.id)
+        # self.api.get_device(self.device.id)
         self.climate = Thermostat(self.device, self.api)
         self._regulation_state = self.climate.get_regulation_state()
         if self._regulation_state == "Timetable":
