@@ -73,9 +73,6 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
         """Initialize the Somfy device."""
         super().__init__(device, api)
         self.climate = Thermostat(self.device, self.api)
-        self._current_temperature = self.climate.get_ambient_temperature()
-        self._current_humidity = self.climate.get_humidity()
-        self._battery_level = self.climate.get_battery()
         self._regulation_state = self.climate.get_regulation_state()
         if self._regulation_state == "Timetable":
             self._hvac_mode = HVAC_MODE_AUTO
@@ -91,25 +88,15 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
         self._target_temperature = self.climate.get_target_temperature()
         self._away_temp = self.climate.get_away_temperature()
         self._at_home_temp = self.climate.get_at_home_temperature()
-        if self._current_temperature > self.target_temperature:
-            self._current_mode = CURRENT_HVAC_IDLE
-        else:
-            self._current_mode = CURRENT_HVAC_HEAT
+
 
     async def async_update(self):
         """Update the device with the latest data."""
         await super().async_update()
         self.climate = Thermostat(self.device, self.api)
-        self._current_temperature = self.climate.get_ambient_temperature()
-        self._current_humidity = self.climate.get_humidity()
-        self._battery_level = self.climate.get_battery()
-        if self._current_temperature > self.target_temperature:
-            self._current_mode = CURRENT_HVAC_IDLE
-        else:
-            self._current_mode = CURRENT_HVAC_HEAT
         self._regulation_state = self.climate.get_regulation_state()
         if self._regulation_state == "Timetable":
-            self._hvac_mode == HVAC_MODE_AUTO
+            self._hvac_mode = HVAC_MODE_AUTO
             self._target_temperature = self.climate.get_target_temperature()
             self._target_mode = self.climate.get_target_mode()
             if self._target_mode == "at_home":
@@ -124,7 +111,9 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
 
         Need to be one of CURRENT_HVAC_*.
         """
-        return self._current_mode
+        if self.current_temperature > self.target_temperature:
+            return CURRENT_HVAC_IDLE
+        return CURRENT_HVAC_HEAT
 
     @property
     def temperature_unit(self) -> str:
@@ -133,12 +122,12 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
     @property
     def current_temperature(self) -> Optional[float]:
         """Return the current temperature."""
-        return self._current_temperature
+        return self.climate.get_ambient_temperature()
 
     @property
     def current_humidity(self) -> Optional[int]:
         """Return the current humidity."""
-        return int(self._current_humidity)
+        return int(self.climate.get_humidity())
 
     @property
     def target_temperature(self):
@@ -222,6 +211,6 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
     def device_state_attributes(self):
         """Return the device state attributes."""
         attr = {
-            ATTR_BATTERY_LEVEL: self._battery_level,
+            ATTR_BATTERY_LEVEL: self.climate.get_battery(),
         }
         return attr
