@@ -75,6 +75,8 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
             self._preset_mode = PRESET_HOME
         elif self._target_mode == "away":
             self._preset_mode = PRESET_AWAY
+        elif self._target_mode == "frost_protection":
+            self._preset_mode = PRESET_ANTI_FREEZE
         else:
             self._preset_mode = PRESET_NONE
         self._target_temperature = self.climate.get_target_temperature()
@@ -83,18 +85,24 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
 
     async def async_update(self):
         """Update the device with the latest data."""
-        await super().async_update()
+        self.api.get_device(self.device.id)
         self.climate = Thermostat(self.device, self.api)
         self._regulation_state = self.climate.get_regulation_state()
+        self._target_temperature = self.climate.get_target_temperature()
+        self._target_mode = self.climate.get_target_mode()
+        if self._target_mode == "at_home":
+            self._preset_mode = PRESET_HOME
+        elif self._target_mode == "away":
+            self._preset_mode = PRESET_AWAY
+        elif self._target_mode == "frost_protection":
+            self._preset_mode = PRESET_ANTI_FREEZE
+        else:
+            self._preset_mode = PRESET_NONE
         if self._regulation_state == "Timetable":
             self._hvac_mode = HVAC_MODE_AUTO
-            self._target_temperature = self.climate.get_target_temperature()
-            self._target_mode = self.climate.get_target_mode()
-            if self._target_mode == "at_home":
-                self._preset_mode = PRESET_HOME
-            elif self._target_mode == "away":
-                self._preset_mode = PRESET_AWAY
-        _LOGGER.info("Update:\n"+self._regulation_state+"\n"+self._target_mode+"\n"+str(self._target_temperature))
+        else:
+            self._hvac_mode = HVAC_MODE_HEAT
+        _LOGGER.warning("Update: ("+self._regulation_state+", "+self._target_mode+", "+str(self._target_temperature)+")")
 
     @property
     def hvac_action(self):
@@ -144,6 +152,7 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
 
     async def _async_set_target(self, temperature):
         self._target_temperature = temperature
+        _LOGGER.warning("Set: ("+self._regulation_state+", "+self._target_mode+", "+str(self._target_temperature)+")")
         self.climate.set_target(
             self._target_mode, self._target_temperature, 60, "further_notice"
         )
