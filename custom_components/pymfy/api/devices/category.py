@@ -8,4 +8,4 @@ class Category(Enum):
     INTERIOR_BLIND = "interior_blind"
     EXTERIOR_BLIND = "exterior_blind"
     CAMERA = "camera"
-    THERMOSTAT = "hvac"
+    HVAC = "hvac"
