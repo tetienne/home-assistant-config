@@ -109,8 +109,17 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
         else:
             self._preset_mode = PRESET_NONE
         self._target_temperature = self.climate.get_target_temperature()
-        _LOGGER.warning("\nUpdate:\n\t"+self._regulation_state+"\n\t"+self._target_mode+"\n\t"+str(self._target_temperature))
-
+        _LOGGER.warning(
+            "\nUpdate:\n"
+            + "\t"
+            + self._regulation_state
+            + "\n"
+            + "\t"
+            + self._target_mode
+            + "\n"
+            + "\t"
+            + str(self._target_temperature)
+        )
     @property
     def hvac_action(self):
         """Return the current running hvac operation if supported.
@@ -157,12 +166,20 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
     def preset_modes(self) -> Optional[List[str]]:
         return [PRESET_NONE, PRESET_AWAY, PRESET_HOME, PRESET_ANTI_FREEZE, PRESET_SLEEP]
 
-    async def _async_set_target(self, target_mode, temperature):
-        self._target_mode = target_mode.value
-        self._target_temperature = temperature
-        _LOGGER.warning("\nSet target:\n\t"+self._regulation_state+"\n\t"+self._target_mode+"\n\t"+str(self._target_temperature))
+    async def _async_set_target(self, mode, temperature):
+        _LOGGER.warning(
+            "\nSet Target:\n"
+            + "\t"
+            + self._regulation_state
+            + "\n"
+            + "\t"
+            + mode
+            + "\n"
+            + "\t"
+            + str(temperature)
+        )
         self.climate.set_target(
-            target_mode, self._target_temperature, DurationType.FURTHER_NOTICE, 60
+            mode, temperature, DurationType.FURTHER_NOTICE, 60
         )
         time.sleep(20)
 
@@ -192,22 +209,18 @@ class SomfyClimate(SomfyEntity, ClimateDevice):
                 "Preset " + preset_mode + " is not available for " + self._name
             )
             return
+
+        mode = {
+            PRESET_NONE: {"mode": "manuel", "temperature": None},
+            PRESET_AWAY: {"mode": "away", "temperature": self.climate.get_away_temperature()},
+            PRESET_HOME: {"mode": "at_home", "temperature": self.climate.get_at_home_temperature()},
+            PRESET_ANTI_FREEZE: {"mode": "frost_protection",
+                                 "temperature": self.climate.get_frost_protection_temperature()},
+            PRESET_SLEEP: {"mode": "sleep", "temperature": self.climate.get_night_temperature()},
+        }
         self._hvac_mode = HVAC_MODE_HEAT
-        self._preset_mode = preset_mode
-        if preset_mode == PRESET_NONE:
-            await self._async_set_target(TargetMode.MANUEL, self._target_temperature)
-        elif preset_mode == PRESET_AWAY:
-            self._target_temperature = self.climate.get_away_temperature()
-            await self._async_set_target(TargetMode.AWAY, self._target_temperature)
-        elif preset_mode == PRESET_HOME:
-            self._target_temperature = self.climate.get_at_home_temperature()
-            await self._async_set_target(TargetMode.AT_HOME, self._target_temperature)
-        elif preset_mode == PRESET_ANTI_FREEZE:
-            self._target_temperature = self.climate.get_frost_protection_temperature()
-            await self._async_set_target(TargetMode.FROST_PROTECTION, self._target_temperature)
-        elif preset_mode == PRESET_SLEEP:
-            self._target_temperature = self.climate.get_night_temperature()
-            await self._async_set_target(TargetMode.SLEEP, self._target_temperature)
+
+        await self._async_set_target(**mode[preset_mode])
 
     @property
     def supported_features(self) -> int:
